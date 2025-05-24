@@ -1,0 +1,50 @@
+package com.usta.proyectointegrador.entities;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.Set;
+
+@Data
+@Entity
+@Table(name = "STARTUP")
+public class StartupEntity implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_startup")
+    private int id_startup;
+
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "nombre_startup", length = 200, nullable = false)
+    private String nombre_startup;
+
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "descripcion", length = 200, nullable = false)
+    private String descripción;
+
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "sector", length = 200, nullable = false)
+    private String sector;
+
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "logo", length = 200, nullable = false)
+    private String logo;
+
+    @NotNull
+    @JoinColumn(name = "id_convocatoria", referencedColumnName = "id_convocatoria")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    private ConvocatoriaEntity id_convocatoria;
+
+
+}
