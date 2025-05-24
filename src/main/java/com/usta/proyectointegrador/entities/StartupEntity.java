@@ -36,7 +36,7 @@ public class StartupEntity implements Serializable {
     private String sector;
 
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 1, max = 300)
     @Column(name = "logo", length = 200, nullable = false)
     private String logo;
 
