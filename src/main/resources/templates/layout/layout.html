@@ -1,12 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>[[$title]]</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link >
+<html lang="es">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <title>[[${title}]]</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link>
 </head>
+<header th:fragment="header">
+    <nav class="absolute top-0 left-0 right-0 flex justify-between items-center bg-white/20 py-4 px-20 w-screen h-[70px]
+   backdrop-blur-lg shadow-md">
+
+        <div class="flex flex-col items-center text-white">
+            <a th:href="@{/}"
+               class="text-2xl font-serif tracking-wide drop-shadow-md
+          transition-all hover:text-amber-400 hover:scale-105">Innova
+            </a>
+            <span class="text-lg font-serif text-gray-300 tracking-wide drop-shadow-sm">
+            Cloud
+       </span>
+        </div>
+        <ul class="flex gap-6 items-center font-medium ">
+
+            <li class="hover:text-white-900 hover:underline transition-all underline-offset-4">
+                <a th:href="@{/convocatorias}">Convocatorias</a>
+            </li>
+        </ul>
+    </nav>
+</header>
 <body>
 
 </body>
