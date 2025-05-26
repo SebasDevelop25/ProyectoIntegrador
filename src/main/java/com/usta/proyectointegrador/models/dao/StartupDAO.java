@@ -1,4 +1,7 @@
 package com.usta.proyectointegrador.models.dao;
 
-public interface StartupDAO {
+import com.usta.proyectointegrador.entities.StartupEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface StartupDAO extends JpaRepository<StartupEntity, Long> {
 }
