@@ -1,10 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>InnovaCloud</title>
+    <meta charset="UTF-8">
+    <meta name = "viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Hotel Westin Home</title>
+    <script src = "https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-stone-100 text-gray-900 h-screen w-screen flex justify-center items-center"
+      th:style="'background-image: url('+@{/images/lobby_hotel.jpg}+');background-size: cover;
+      background-position: center; backdrop-filter:blur(1px)'">
 
+<header th:replace="~{layout/layout :: header}"></header>
+
+<div class="flex flex-col items-center justify-center min-h-screen text center p-6">
+    <div class="bg-black bg-opacity-40 p-2 rounded-lg inline-block">
+        <h1 class="text-2xl md:text-4xl font-serif font-bold text-white tracking-widest">
+            Welcome to the Place <br> Where Luxury Meets
+        </h1>
+    </div>
+    <a th:href="@{/seleccionarRol}">
+        <button class="mt-6 bg-amber-600 text-white font-bold py-3 px-6 rounded-xl
+                   shadow-lg hover:bg-amber-700 transition-all">
+            More
+        </button>
+    </a>
+</div>
+
+<footer class="relative" th:replace="~{layout/layout :: footer}">
+
+</footer>
 </body>
+
 </html>
