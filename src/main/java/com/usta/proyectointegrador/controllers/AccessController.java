@@ -20,4 +20,3 @@ public class AccessController {
         return "/registro/registro";
     }
 
-}
