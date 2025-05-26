@@ -18,7 +18,7 @@ public class StartupEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_startup")
-    private int id_startup;
+    private Long id_startup;
 
     @NotNull
     @Size(min = 1, max = 200)
@@ -45,6 +45,8 @@ public class StartupEntity implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private ConvocatoriaEntity id_convocatoria;
+
+    /*--------------*/
 
 
 }

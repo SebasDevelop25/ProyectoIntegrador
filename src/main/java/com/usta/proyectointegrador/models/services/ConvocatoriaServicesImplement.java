@@ -30,7 +30,7 @@ public class ConvocatoriaServicesImplement implements ConvocatoriaServices {
 
     @Override
     public void save(ConvocatoriaEntity convocatoria) {
-
+        convocatorioDAO.save(convocatoria);
     }
 
     @Override
