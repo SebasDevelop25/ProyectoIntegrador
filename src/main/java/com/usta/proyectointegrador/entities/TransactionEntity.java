@@ -21,7 +21,7 @@ public class TransactionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_transaccion")
-    private Long idTransaction;
+    private Integer idTransaction;
 
     @Column(name = "monto", precision = 10, scale = 2)
     private BigDecimal amount;
