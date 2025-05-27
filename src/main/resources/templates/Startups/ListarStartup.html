@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{layout/layout :: head}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 text-gray-800 p-8">
 <header th:replace="~{layout/layout :: header}"></header>
@@ -16,25 +17,27 @@
 <table class="w-full table-auto border-collapse bg-white shadow-md">
     <thead>
     <tr class="bg-blue-500 text-white">
-        <th class="p-2 border">ID</th>
+        <th class="p-2 border">Logo</th>
+        <th class="p-2 border">ID startup</th>
         <th class="p-2 border">Nombre</th>
         <th class="p-2 border">Descripción</th>
         <th class="p-2 border">Sector</th>
-        <th class="p-2 border">Logo</th>
+        <th class="p-2 border">Acciones</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="Startup : ${Startups}" class="text-center hover:bg-blue-50">
-        <td th:text="${Startup.logo}" class="border p-2"></td>
-        <td th:text="${Startup.id_convocatoria}" class="border p-2"></td>
+        <td class="py-3 px-5">
+            <img th:src="${Startup.logo != null && !Startup.logo.isEmpty()} ? ${Startup.logo} : '@{/img/default-logo.png}'"/>
+        </td>
         <td th:text="${Startup.id_startup}" class="border p-2"></td>
         <td th:text="${Startup.nombre_startup}" class="border p-2"></td>
         <td th:text="${Startup.descripción}" class="border p-2"></td>
+        <td th:text="${Startup.sector}" class="border p-2"></td>
         <td class="border p-2">
             <a th:href="@{/editarStartup/{id}(id=${Startup.id_startup})}"
                class="text-yellow-600 hover:underline">Editar</a>
             |
-
             <form th:action="@{/eliminarStartup/{id}(id=${Startup.id_startup})}" method="post"
                   style="display:inline;" onsubmit="return confirm('¿Eliminar este Startup?');">
                 <button type="submit" class="text-red-600 hover:underline">Eliminar</button>

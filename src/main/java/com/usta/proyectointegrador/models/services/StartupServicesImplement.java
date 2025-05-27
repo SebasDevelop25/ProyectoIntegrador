@@ -1,5 +1,6 @@
 package com.usta.proyectointegrador.models.services;
 
+import com.usta.proyectointegrador.entities.ConvocatoriaEntity;
 import com.usta.proyectointegrador.entities.StartupEntity;
 import com.usta.proyectointegrador.models.dao.StartupDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,14 @@ public class StartupServicesImplement implements StartupServices {
     }
 
     @Override
-    public StartupEntity findById(Long id) {
-        return startupDAO.findById(id).orElse(null);
+    public StartupEntity findById(Integer id) {
+
+        return startupDAO.findById(id.longValue()).orElse(null);
     }
 
     @Override
-    public void deleteById(Long id) {
-        startupDAO.deleteById(id);
+    public void deleteById(Integer id) {
+        startupDAO.deleteById(id.longValue());
 
     }
 
@@ -38,4 +40,10 @@ public class StartupServicesImplement implements StartupServices {
     public StartupEntity actualizarStar(StartupEntity startup) {
         return startupDAO.save(startup);
     }
+
+    @Override
+    public List<StartupEntity> findByConvocatoria(ConvocatoriaEntity convocatoria) {
+        return startupDAO.findByConvocatoria(convocatoria);
+    }
+
 }

@@ -37,4 +37,6 @@ public class ConvocatoriaEntity  implements Serializable {
     private Date fechaFin;
 
 
+
+
 }

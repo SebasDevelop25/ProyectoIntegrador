@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}">
+</head>
+<body>
+<header th:replace="~{layout/layout :: header}"></header>
+
+<div class="max-w-md mx-auto mt-24 mb-12 bg-green/50 rounded/xl p-8 shadow-2xl">
+    <h1 class="text-center text-2xl font-bold text-gray-900 mb-4">Editar startup</h1>
+    <form th:action="@{/editarStartup/{id}(id=${startupEdit.id_startup})}" method="post" enctype="multipart/form-data"
+          th:object="${startupEdit}">
+        <div class="flex flex-col gap-4">
+            <label class="text-stone-900 font-bold">Nombre del Startup</label>
+            <input type="text" th:field="*{nombre_startup}"
+                   required class="p-2 rounded-md border border-gray-300"/>
+            <label class="text-stone-900 font-bold">Descripción</label>
+            <input type="text" th:field="*{descripción}"
+                   required class="p-2 rounded-md border border-gray-300">
+            <label class="text-stone-900 font-bold">Sector</label>
+            <input type="text" th:field="*{sector}"
+                   required class="p-2 rounded-md border border-gray-300">
+            <label class="text-stone-900 font-bold">Logo</label>
+            <input type="file" id="foto" name="foto" accept="image/*" class="hidden"
+                   onchange="updateFileName(this)"/>
+            <label for="foto" class="cursor-pointer bg-slate-600 text-white px-4 py-1 rounded hover:bg-slate-800">
+                Select File
+            </label>
+            <span id="file-name" class="text-sm text-gray-600 truncate max-w-xs"
+                  th:text="${startupEdit.logo != null ? startupEdit.logo : 'Ningún archivo Seleccionado'}">
+            </span>
+            <p id="error" class="text-red-600 text-sm mt-2"></p>
+            <!-- vista previa -->
+            <div class="flex justify-center mt-4">
+                <img id="preview"
+                     src="#" alt="Image Preview"
+                     class="w-48 h-48 object-cover rounded-xl border-4 border-stone-300 shadow-xl bg-white/70 "
+                     th:src="${startupEdit.logo != null ? startupEdit.logo : '/images/default-logo.png'}"/>
+            </div>
+
+            <input type="hidden" name="imagenAnterior" th:value="${startupEdit.logo}">
+            <label class="text-stone-900 font-bold">Convocatoria</label>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Convocatoria</label>
+                <select th:field="*{convocatoria}" required
+                        class="mt-1 block w-full p-2 border rounded-md bg-white text-gray-900">
+                    <option value="">-- Seleccione una convocatoria --</option>
+                    <option th:each="conv : ${convocatorias}"
+                            th:value="${conv}"
+                            th:text="${conv.titleConvocatoria}">
+                    </option>
+                </select>
+            </div>
+            <button type="submit"
+                    class="bg-orange-200 text-gray-900 py-3 px-4 rounded-md font-bold hover:opacity-70 transition-all">
+                Editar startup
+            </button>
+        </div>
+
+
+    </form>
+
+</div>
+
+</body>
+<script>
+    const inputFoto = document.getElementById("foto");
+    const preview = document.getElementById("preview");
+
+    inputFoto.addEventListener("change", e => {
+        const file = e.target.files[0];
+        if (!file || !file.type.startsWith("image/")) {
+            preview.src = "#";
+            preview.classList.add("hidden");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = ev => {
+            const img = new Image();
+            img.onload = () => {
+                // 1) crea canvas de 200×200
+                const SIZE = 200;
+                const canvas = document.createElement("canvas");
+                canvas.width = SIZE;
+                canvas.height = SIZE;
+                const ctx = canvas.getContext("2d");
+
+
+                const ratio = Math.min(SIZE / img.width, SIZE / img.height);
+                const w = img.width * ratio, h = img.height * ratio;
+                const x = (SIZE - w) / 2, y = (SIZE - h) / 2;
+                ctx.drawImage(img, x, y, w, h);
+
+
+                preview.src = canvas.toDataURL("image/png");
+                preview.classList.remove("hidden");
+
+                canvas.toBlob(blob => {
+                    const newFile = new File([blob], file.name, {type: "image/png"});
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(newFile);
+                    inputFoto.files = dataTransfer.files;
+                }, "image/png");
+            };
+            img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    function updateFileName(input) {
+        const label = document.getElementById('file-name');
+        if (input.files && input.files.length > 0) {
+            label.textContent = input.files[0].name;
+        } else {
+            label.textContent = "No files Selected";
+        }
+    }
+</script>
+</html>

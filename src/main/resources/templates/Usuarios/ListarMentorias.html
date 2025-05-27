@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800 p-8">
+<header th:replace="~{layout/layout :: header}"></header>
+
+<h1 class="text=3xl font-bold font-['Poppins'] uppercase text-yellow-100 mb-6">[[${title}]]</h1>
+
+<!-- Botón para crear nueva convocatoria -->
+<div class="mb-4 text-center">
+    <a th:href="@{${urlCreate}}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800">Nueva Mentoria</a>
+</div>
+
+<!-- Tabla de convocatorias -->
+<table class="w-full table-auto border-collapse bg-white shadow-md">
+    <thead>
+    <tr class="bg-blue-500 text-white">
+        <th class="p-2 border">Mentores</th>
+        <th class="p-2 border">Startup</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="m : ${mentorias}" class="text-center hover:bg-blue-50">
+        <td th:text="${m.nombreMentor}" class="border p-2"></td>
+        <td th:text="${m.nombreStartup}" class="border p-2"></td>
+    </tr>
+
+    </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

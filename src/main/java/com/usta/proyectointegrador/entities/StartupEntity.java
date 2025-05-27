@@ -18,7 +18,7 @@ public class StartupEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_startup")
-    private Long id_startup;
+    private Integer id_startup;
 
     @NotNull
     @Size(min = 1, max = 200)
@@ -26,8 +26,8 @@ public class StartupEntity implements Serializable {
     private String nombre_startup;
 
     @NotNull
-    @Size(min = 1, max = 200)
-    @Column(name = "descripcion", length = 200, nullable = false)
+    @Size(min = 1, max = 10000)
+    @Column(name = "descripcion", length = 10000, nullable = false)
     private String descripción;
 
     @NotNull
@@ -36,17 +36,20 @@ public class StartupEntity implements Serializable {
     private String sector;
 
     @NotNull
-    @Size(min = 1, max = 300)
-    @Column(name = "logo", length = 200, nullable = false)
+    @Size(min = 1, max = 10000)
+    @Column(name = "logo", length = 10000, nullable = false)
     private String logo;
 
-    @NotNull
-    @JoinColumn(name = "id_convocatoria", referencedColumnName = "id_convocatoria")
-    @ManyToOne(fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
-    private ConvocatoriaEntity id_convocatoria;
+//    @NotNull
+//    @JoinColumn(name = "id_convocatoria", referencedColumnName = "id_convocatoria")
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @OnDelete(action = OnDeleteAction.NO_ACTION)
+//    private ConvocatoriaEntity id_convocatoria;
 
     /*--------------*/
+    @ManyToOne
+    @JoinColumn(name = "id_convocatoria")
+    private ConvocatoriaEntity convocatoria;
 
 
 }
