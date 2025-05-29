@@ -14,7 +14,7 @@
     <div class="mb-4 mt-10 text-center">
         <a th:href="@{${urlCreate}}"
            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800">
-            Nuevo Startup
+            Nuevo usuario
         </a>
     </div>
 
@@ -22,30 +22,39 @@
     <table class="w-full table-auto border-collapse bg-white shadow-md">
         <thead>
         <tr class="bg-blue-500 text-white">
-            <th class="p-2 border">Logo</th>
-            <th class="p-2 border">ID startup</th>
+
+            <th class="p-2 border">Foto</th>
+            <th class="p-2 border">ID usuario</th>
             <th class="p-2 border">Nombre</th>
-            <th class="p-2 border">Descripción</th>
-            <th class="p-2 border">Sector</th>
+            <th class="p-2 border">Apellido</th>
+            <th class="p-2 border">Rol</th>
+            <th class="p-2 border">Clave</th>
+            <th class="p-2 border">Email</th>
+            <th class="p-2 border">Ciudad</th>
+            <th class="p-2 border">telefono</th>
             <th class="p-2 border">Acciones</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="Startup : ${Startups}" class="text-center hover:bg-blue-50">
+        <tr th:each="Usuarios : ${usuarios}" class="text-center hover:bg-blue-50">
             <td class="py-3 px-5">
-                <img th:src="${Startup.logo != null && !Startup.logo.isEmpty()} ? ${Startup.logo} : '@{/img/default-logo.png}'"
+                <img th:src="${Usuarios.foto != null && !Usuarios.foto.isEmpty()} ? ${Usuarios.foto} : '@{/img/default-logo.png}'"
                      class="w-24 h-24 object-contain mx-auto rounded-lg" />
-                <p class="mt-2 text-center text-lg font-semibold" th:text="${Startup.nombre_startup}"></p>
+                <p class="mt-2 text-center text-lg font-semibold" th:text="${Usuarios.nombre_usu}"></p>
             </td>
-            <td th:text="${Startup.id_startup}" class="border p-2"></td>
-            <td th:text="${Startup.nombre_startup}" class="border p-2"></td>
-            <td th:text="${Startup.descripción}" class="border p-2"></td>
-            <td th:text="${Startup.sector}" class="border p-2"></td>
+            <td th:text="${Usuarios.id_usuario}" class="border p-2"></td>
+            <td th:text="${Usuarios.nombre_usu}" class="border p-2"></td>
+            <td th:text="${Usuarios.apellido_usu}" class="border p-2"></td>
+            <td th:text="${Usuarios.idRol.rol}" class="border p-2"></td>
+            <td th:text="${Usuarios.clave}" class="border p-2"></td>
+            <td th:text="${Usuarios.email}" class="border p-2"></td>
+            <td th:text="${Usuarios.ciudad}" class="border p-2"></td>
+            <td th:text="${Usuarios.telefono}" class="border p-2"></td>
             <td class="border p-2">
-                <a th:href="@{/editarStartup/{id}(id=${Startup.id_startup})}"
+                <a th:href="@{/editarUsuario/{id}(id=${Usuarios.id_usuario})}"
                    class="text-yellow-600 hover:underline">Editar</a>
                 |
-                <form th:action="@{/eliminarStartup/{id}(id=${Startup.id_startup})}"
+                <form th:action="@{/eliminarUsuario/{id}(id=${Usuarios.id_usuario})}"
                       method="post" style="display:inline;"
                       onsubmit="return confirm('¿Eliminar este Startup?');">
                     <button type="submit" class="text-red-600 hover:underline">Eliminar</button>

@@ -10,9 +10,9 @@ public interface UsersServices {
 
     public void save(UsersEntity user);
 
-    public UsersEntity findById(Integer id);
+    public UsersEntity findById(Long id);
 
-    public void deleteById(Integer id);
+    public void deleteById(Long id);
 
     public UsersEntity actualizarUsu(UsersEntity user);
 

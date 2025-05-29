@@ -24,13 +24,13 @@ public class UsersServicesImplement implements UsersServices {
 
     @Override
     @Transactional
-    public UsersEntity findById(Integer id) {
+    public UsersEntity findById(Long id) {
         return usersDAO.findById(id.longValue()).orElse(null);
     }
 
     @Override
     @Transactional
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         usersDAO.deleteById(id.longValue());
 
     }

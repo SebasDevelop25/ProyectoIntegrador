@@ -7,24 +7,32 @@
 <div class="ml-64 p-8 bg-gray-100 text-gray-800 min-h-screen">
     <div th:replace="layout/layoutSamu :: header"></div>
     <div class="max-w-md mx-auto mt-24 mb-12 bg-green-50 rounded-xl p-8 shadow-2xl">
-        <h1 class="text-center text-2xl font-bold text-gray-900 mb-4">Crear nuevo startup</h1>
-        <form th:action="@{/crearStartup}" method="post" enctype="multipart/form-data"
-              th:object="${Startup}">
+        <h1 class="text-center text-2xl font-bold text-gray-900 mb-4">Editar usuario</h1>
+        <form th:action="@{/editarUsuario/{id}(id=${usuarioEdit.id_usuario})}" method="post" enctype="multipart/form-data"
+              th:object="${usuarioEdit}">
             <div class="flex flex-col gap-4">
-                <label class="text-stone-900 font-bold">Nombre del Startup</label>
-                <input type="text" th:field="*{nombre_startup}"
+                <label class="text-stone-900 font-bold">Nombre:</label>
+                <input type="text" th:field="*{nombre_usu}"
                        required class="p-2 rounded-md border border-gray-300"/>
 
-                <label class="text-stone-900 font-bold">Descripción</label>
-                <input type="text" th:field="*{descripción}"
+                <label class="text-stone-900 font-bold">Apellido:</label>
+                <input type="text" th:field="*{apellido_usu}"
                        required class="p-2 rounded-md border border-gray-300"/>
-
-                <label class="text-stone-900 font-bold">Sector</label>
-                <input type="text" th:field="*{sector}"
+                <label class="text-stone-900 font-bold">Contraseña:</label>
+                <input type="text" th:field="*{clave}"
                        required class="p-2 rounded-md border border-gray-300"/>
+                <label class="text-stone-900 font-bold">Email:</label>
+                <input type="text" th:field="*{email}"
+                       required class="p-2 rounded-md border border-gray-300"/>
+                <label class="text-stone-900 font-bold">Ciudad</label>
+                <input type="text" th:field="*{ciudad}"
+                       required class="p-2 rounded-md border border-gray-300"/>
+                <label class="text-stone-900 font-bold">Telefono:</label>
+                <input type="text" th:field="*{telefono}">
 
-                <label class="text-stone-900 font-bold">Logo</label>
-                <input type="file" id="foto" name="foto" accept="image/*" class="border-0"/>
+                <label class="text-stone-900 font-bold">Foto:</label>
+                <input type="file" id="archivofoto" name="archivofoto" accept="image/*" class="border-0"/>
+                <input type="hidden" name="imagenAnterior" th:value="${usuarioEdit.foto}" />
 
                 <!-- Vista previa -->
                 <div class="flex justify-center mt-4">
@@ -33,20 +41,21 @@
                         bg-white/70 hidden"/>
                 </div>
 
-                <label class="text-stone-900 font-bold">Convocatoria</label>
-                <select th:field="*{convocatoria}" required
-                        class="mt-1 block w-full p-2 border rounded-md bg-white text-gray-900">
-                    <option value="">-- Seleccione una convocatoria --</option>
-                    <option th:each="conv : ${convocatorias}"
-                            th:value="${conv.id_Convocatoria}"
-                            th:text="${conv.titleConvocatoria}">
+                <label class="text-stone-900 font-bold">Rol:</label>
+                <select th:field="*{idRol.idRol}"
+                        class="p-2 rounded-md border border-gray-300 bg-white text-gray-900"
+                        required>
+                    <option value="">-- Seleccione un rol --</option>
+                    <option th:each="rol : ${listaRoles}"
+                            th:value="${rol.idRol}"
+                            th:text="${rol.rol}">
                     </option>
                 </select>
 
                 <button type="submit"
                         class="bg-orange-200 text-gray-900 py-3 px-4 rounded-md font-bold
                          hover:opacity-70 transition-all">
-                    Crear startup
+                    Editar Usuario
                 </button>
             </div>
         </form>
@@ -54,7 +63,7 @@
 </div>
 
 <script>
-    const inputFoto = document.getElementById("foto");
+    const inputFoto = document.getElementById("archivofoto");
     const preview = document.getElementById("preview");
 
     inputFoto.addEventListener("change", e => {
