@@ -39,6 +39,7 @@ public class ConvocatoriaController {
 
     }
 
+
     @PostMapping(value = "/crearConvocatoria")
     public String guardarConvocatoria(@Valid ConvocatoriaEntity convocatoria, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
