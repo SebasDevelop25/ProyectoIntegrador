@@ -13,8 +13,9 @@ import javax.validation.constraints.Size;
 @Table(name = "USERS")
 public class UsersEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
-    private Integer id_usuario;
+    private Long id_usuario;
 
     @NotNull
     @Size(min = 20, max = 50)
@@ -36,14 +37,12 @@ public class UsersEntity {
     @Column(name = "clave", length = 100, nullable = false)
     private String clave;
 
-    @NotNull
     @Size(min = 1, max = 60)
-    @Column(name = "ciudad", length = 50, nullable = false)
+    @Column(name = "ciudad", length = 50)
     private String ciudad;
 
-    @NotNull
     @Size(min = 1, max = 15)
-    @Column(name = "telefono", length = 15, nullable = false)
+    @Column(name = "telefono", length = 15)
     private String telefono;
 
     @NotNull

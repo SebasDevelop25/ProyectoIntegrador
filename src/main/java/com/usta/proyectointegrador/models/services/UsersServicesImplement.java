@@ -1,5 +1,48 @@
 package com.usta.proyectointegrador.models.services;
 
-public class UsersServicesImplement {
+import com.usta.proyectointegrador.entities.UsersEntity;
+import com.usta.proyectointegrador.models.dao.UsersDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+@Service
+public class UsersServicesImplement implements UsersServices {
+
+    @Autowired
+    private UsersDAO usuarioDAO;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UsersEntity> findAll() {
+        return usuarioDAO.findAll();
+    }
+
+    @Override
+    @Transactional
+    public void save(UsersEntity usuario) {
+        usuarioDAO.save(usuario);
+    }
+
+    @Override
+    public UsersEntity findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(Long id) {
+
+    }
+
+    @Override
+    public UsersEntity actualizarUsuario(UsersEntity usuario) {
+        return null;
+    }
+
+    @Override
+    public UsersEntity findByEmail(String email) {
+        return null;
+    }
 }
