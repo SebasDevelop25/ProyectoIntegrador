@@ -38,6 +38,7 @@ public class StartupServicesImplement implements StartupServices {
 
     @Override
     public StartupEntity actualizarStar(StartupEntity startup) {
+
         return startupDAO.save(startup);
     }
 

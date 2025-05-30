@@ -62,7 +62,6 @@ public class StartupController {
         } else {
             redirectAttributes.addFlashAttribute("message", "Startup no encontrada");
         }
-        redirectAttributes.addFlashAttribute("message", "Startup creada");
         return "redirect:/convocatorias" ;
     }
 
@@ -87,6 +86,14 @@ public class StartupController {
             redirectAttributes.addFlashAttribute("Startup", startup);
             return "redirect:/createStartup";
         }
+
+        if (foto == null || foto.isEmpty()) {
+            System.err.println("No llegó ninguna foto en el request!");
+        } else {
+            System.out.println("Foto recibida: " + foto.getOriginalFilename()
+                    + " tamaño=" + foto.getSize());
+        }
+
 
         String urlImagen = guardarImagen(foto, imagenAnterior);
         if (urlImagen == null || urlImagen.isBlank()) {
@@ -127,7 +134,7 @@ public class StartupController {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost("https://api.imgbb.com/1/upload");
             MultipartEntityBuilder builder = MultipartEntityBuilder.create()
-                    .addTextBody("key", "TU_API_KEY", ContentType.TEXT_PLAIN)
+                    .addTextBody("key", "15f42e68a3bfe142ea2ea90674d71376", ContentType.TEXT_PLAIN)
                     .addBinaryBody("image", new ByteArrayInputStream(imageBytes),
                             ContentType.DEFAULT_BINARY, imagen.getOriginalFilename());
             httpPost.setEntity(builder.build());
@@ -168,6 +175,7 @@ public class StartupController {
     @PostMapping(value = "/editarStartup/{id}")
     public String editStartup(@ModelAttribute("startupEdit") StartupEntity startup,
                               @PathVariable("id") Integer idStartup,
+                              @RequestParam("convocatoriaId") Integer convocatoriaId,
                               RedirectAttributes redirectAttributes,
                               @RequestParam(value = "foto") MultipartFile foto,
                               @RequestParam(value = "imagenAnterior") String imagenAnterior,
@@ -177,18 +185,17 @@ public class StartupController {
         startupAux.setNombre_startup(startup.getNombre_startup());
         startupAux.setSector(startup.getSector());
         startupAux.setDescripción(startup.getDescripción());
-        startupAux.setConvocatoria(startup.getConvocatoria());
+
+        ConvocatoriaEntity conv = convocatoriaServices.findById(convocatoriaId.longValue());
+        startupAux.setConvocatoria(conv);
 
         String urlImagen = guardarImagen(foto, imagenAnterior);
-        startupAux.setLogo(urlImagen);
-        if (urlImagen == null || urlImagen.isBlank()) {
-            startupAux.setLogo(imagenAnterior);
-        } else {
-            startupAux.setLogo(urlImagen);
-        }
+        startupAux.setLogo((urlImagen == null || urlImagen.isBlank())
+                ? imagenAnterior
+                : urlImagen);
 
 
-        startupServices.actualizarStar(startup);
+        startupServices.actualizarStar(startupAux);
         redirectAttributes.addFlashAttribute("message", "Startup editada");
         return "redirect:/convocatorias";
 

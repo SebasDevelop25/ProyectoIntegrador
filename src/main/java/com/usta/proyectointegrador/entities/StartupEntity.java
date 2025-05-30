@@ -36,11 +36,28 @@ public class StartupEntity implements Serializable {
     private String sector;
 
     @NotNull
-    @Size(min = 1, max = 10000)
-    @Column(name = "logo", length = 10000, nullable = false)
+    @Size(min = 1, max = 1000000)
+    @Column(name = "logo", length = 1000000, nullable = false)
     private String logo;
 
-//    @NotNull
+
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setSector(String sector) {
+        this.sector = sector;
+    }
+    public String getSector() {
+        return sector;
+    }
+
+    //    @NotNull
 //    @JoinColumn(name = "id_convocatoria", referencedColumnName = "id_convocatoria")
 //    @ManyToOne(fetch = FetchType.EAGER)
 //    @OnDelete(action = OnDeleteAction.NO_ACTION)
@@ -50,6 +67,5 @@ public class StartupEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_convocatoria")
     private ConvocatoriaEntity convocatoria;
-
 
 }

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>[[${title}]]</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="flex min-h-screen bg-gray-100 text-gray-800">
+
+<!-- SIDEBAR -->
+<aside th:fragment="sidebar"
+       class="w-64 bg-purple-900 shadow-lg fixed inset-y-0 left-0 flex flex-col">
+    <div class="h-16 flex items-center px-6 bg-purple-800">
+        <a th:href="@{/}" class="text-2xl font-extrabold text-purple-100 tracking-wide">InnovaCloud</a>
+    </div>
+    <nav class="flex-1 px-4 py-6 space-y-3">
+        <a th:href="@{/convocatorias}"
+           class="flex items-center gap-2 px-4 py-2 text-purple-100 rounded-md hover:bg-purple-700 transition">
+            <!-- Heroicon: Document -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9 12h6m2 8H7a2 2 0 01-2-2V6a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"/>
+            </svg>
+            Convocatorias
+        </a>
+        <a th:href="@{/mentorias}"
+           class="flex items-center gap-2 px-4 py-2 text-purple-100 rounded-md hover:bg-purple-700 transition">
+            <!-- Heroicon: Chat -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.85L3 20l1.85-5A8.98 8.98 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            Mentorías
+        </a>
+        <a th:href="@{/usuarios}"
+           class="flex items-center gap-2 px-4 py-2 text-purple-100 rounded-md hover:bg-purple-700 transition">
+            <!-- Heroicon: Chat -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.85L3 20l1.85-5A8.98 8.98 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            Usuarios
+        </a>
+
+
+
+    </nav>
+</aside>
+
+<!-- CONTENIDO PRINCIPAL -->
+<div class="flex-1 ml-64 flex flex-col bg-gray-50">
+
+    <!-- HEADER -->
+    <header th:fragment="header"
+            class="h-16 bg-white shadow-md flex items-center px-6 rounded-b-xl z-10">
+
+    <span class="text-xl font-semibold text-purple-800">[[${title}]]</span>
+
+        <div class="flex items-center gap-4">
+            <!-- Icono de perfil -->
+            <a href="#" class="text-gray-600 hover:text-purple-700" title="Perfil">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M5.121 17.804A9 9 0 0112 15a9 9 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+            </a>
+            <!-- Botón cerrar sesión -->
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="flex items-center gap-1 text-gray-600 hover:text-red-600" title="Cerrar sesión">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-9V5m0 14a9 9 0 100-18 9 9 0 000 18z"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main th:fragment="content" class="flex-1 mt-16 p-6 overflow-auto">
+    <!-- El contenido de cada vista se inyecta aquí -->
+    </main>
+
+</div>
+</body>
+</html>
+
+

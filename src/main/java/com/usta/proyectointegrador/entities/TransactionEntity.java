@@ -7,7 +7,9 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -15,13 +17,11 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "TRANSACTION")
-public class TransactionEntity {
-    private static final long serialVersionUID = 1L;
-
+public class TransactionEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_transaccion")
-    private Integer idTransaction;
+    private Long idTransaction;
 
     @Column(name = "monto", precision = 10, scale = 2)
     private BigDecimal amount;
@@ -29,7 +29,7 @@ public class TransactionEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_transaccion")
-    private Date transactionDate;
+    private LocalDate transactionDate;
 
     @NotNull
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")

@@ -11,12 +11,11 @@ import java.io.Serializable;
 @Entity
 @Table(name = "ROLS")
 public class RolEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Rol")
-    private int idRol;
+    private Long idRol;
 
     @NotNull
     @Size(min = 1, max = 40)

@@ -1,0 +1,23 @@
+[33m12fcf70[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/SamuelRama[m[33m)[m HEAD@{0}: pull --rebase origin SamuelRama (start): checkout 12fcf70573540e03373cc5dfa9bd25bbf90843bd
+[33mc2f79c0[m[33m ([m[1;32mSamuelRama[m[33m)[m HEAD@{1}: commit: Miau
+[33m0389ca2[m HEAD@{2}: commit: CRUD de convocatorias,usuarios,mentorias y htmls (frontend admin)
+[33m6200e27[m HEAD@{3}: checkout: moving from main to SamuelRama
+[33ma18d85e[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{4}: merge origin/main: Fast-forward
+[33mf184e25[m HEAD@{5}: checkout: moving from SamuelRama to main
+[33m6200e27[m HEAD@{6}: commit: Crud de startups (Fallo en los logos), Listar de Mentorias y html
+[33m4cfaa21[m HEAD@{7}: checkout: moving from main to SamuelRama
+[33mf184e25[m HEAD@{8}: merge origin/main: Fast-forward
+[33m3dd2217[m[33m ([m[1;31morigin/SebasRama[m[33m)[m HEAD@{9}: checkout: moving from SamuelRama to main
+[33m4cfaa21[m HEAD@{10}: commit: Crud convocatorias y cositas de Stars
+[33m2edca77[m HEAD@{11}: checkout: moving from main to SamuelRama
+[33m3dd2217[m[33m ([m[1;31morigin/SebasRama[m[33m)[m HEAD@{12}: merge origin/main: Fast-forward
+[33mc96cc2c[m HEAD@{13}: checkout: moving from SamuelRama to main
+[33m2edca77[m HEAD@{14}: commit: Cositas Convocatoria, listar, y guardar lo hace pero no lista ;(
+[33mb76277a[m HEAD@{15}: checkout: moving from main to SamuelRama
+[33mc96cc2c[m HEAD@{16}: merge origin/main: Fast-forward
+[33m253c98c[m HEAD@{17}: checkout: moving from SamuelRama to main
+[33mb76277a[m HEAD@{18}: commit: testeo
+[33m253c98c[m HEAD@{19}: checkout: moving from main to SamuelRama
+[33m253c98c[m HEAD@{20}: checkout: moving from SamuelRama to main
+[33m253c98c[m HEAD@{21}: checkout: moving from main to SamuelRama
+[33m253c98c[m HEAD@{22}: clone: from https://github.com/SebasDevelop25/ProyectoIntegrador.git

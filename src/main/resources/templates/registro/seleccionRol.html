@@ -25,7 +25,7 @@
 <body class="bg-stone-100 text-gray-900 min-h-screen grid grid-cols-1 md:grid-cols-3">
 
 <!-- CARD TEMPLATE -->
-<div th:onclick="'location.href=\'registro/registro?rol=INVERSOR\''"
+<div th:onclick="|location.href='/registro?rol=1'|"
      class="relative group inversor-bg cursor-pointer transition-all duration-300 shadow-md">
 
   <!-- Overlay -->
@@ -41,7 +41,7 @@
 
 
 <div class="relative group emprendedor-bg cursor-pointer transition-all duration-300 shadow-md"
-     th:onclick="'location.href=\'registro/registro?rol=EMPRENDEDOR\''">
+     th:onclick="|location.href='/registro?rol=2'|">
   <div class="absolute inset-0 bg-black/40 group-hover:bg-black/70 transition-all duration-500 ease-in-out"></div>
   <div class="relative flex items-center justify-center h-full">
     <h2 class="text-2xl font-semibold text-white bg-black/40 px-4 py-2 rounded-xl backdrop-blur-sm">
@@ -51,7 +51,7 @@
 </div>
 
 <div class="relative group mentor-bg cursor-pointer transition-all duration-300 shadow-md"
-     th:onclick="'location.href=\'registro/registro?rol=MENTOR\''">
+     th:onclick="|location.href='/registro?rol=3'|">
   <div class="absolute inset-0 bg-black/40 group-hover:bg-black/70 transition-all duration-500 ease-in-out"></div>
   <div class="relative flex items-center justify-center h-full">
     <h2 class="text-2xl font-semibold text-white bg-black/40 px-4 py-2 rounded-xl backdrop-blur-sm">

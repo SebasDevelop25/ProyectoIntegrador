@@ -1,9 +1,10 @@
 package com.usta.proyectointegrador.models.services;
+
 import com.usta.proyectointegrador.entities.UsersEntity;
 import com.usta.proyectointegrador.models.dao.UsersDAO;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,38 +12,43 @@ import java.util.List;
 public class UsersServicesImplement implements UsersServices {
 
     @Autowired
-    UsersDAO usersDAO;
+    private UsersDAO usuarioDAO;
 
     @Override
+    @Transactional(readOnly = true)
     public List<UsersEntity> findAll() {
-        return (List<UsersEntity>) usersDAO.findAll();
-    }
-    @Override
-    public void save(UsersEntity user) {
-        usersDAO.save(user);
+        return usuarioDAO.findAll();
     }
 
     @Override
     @Transactional
-    public UsersEntity findById(Integer id) {
-        return usersDAO.findById(id.longValue()).orElse(null);
+    public void save(UsersEntity usuario) {
+        usuarioDAO.save(usuario);
     }
 
     @Override
-    @Transactional
-    public void deleteById(Integer id) {
-        usersDAO.deleteById(id.longValue());
+    public UsersEntity findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(Long id) {
 
     }
 
     @Override
-    public UsersEntity actualizarUsu(UsersEntity user) {
-        return usersDAO.save(user);
+    public UsersEntity actualizarUsuario(UsersEntity usuario) {
+        return null;
     }
 
     @Override
-    @Transactional
+    public UsersEntity findByEmail(String email) {
+        return null;
+    }
+
+    @Override
+    @jakarta.transaction.Transactional
     public List<UsersEntity> findByRol(Long id) {
-        return usersDAO.findByRol();
+        return usuarioDAO.findByRol();
     }
 }
