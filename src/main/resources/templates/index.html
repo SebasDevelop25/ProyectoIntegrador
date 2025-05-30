@@ -1,32 +1,462 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="www.thymeleaf.org">
+<html lang="es" xmlns:th="www.tymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name = "viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Hotel Westin Home</title>
-    <script src = "https://cdn.tailwindcss.com"></script>
+    <title>Innova Cloud</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-stone-100 text-gray-900 h-screen w-screen flex justify-center items-center"
-      th:style="'background-image: url('+@{/images/lobby_hotel.jpg}+');background-size: cover;
-      background-position: center; backdrop-filter:blur(1px)'">
+
+
+<body class="bg-stone-100 text-gray-900 h-screen  "
+      th:style="'background-image: url('+@{/images/lobby_hotel.jpeg}+');background-size: cover;
+      background-position: center; backdrop-filter:blur(1px)' ">
 
 <header th:replace="~{layout/layout :: header}"></header>
 
-<div class="flex flex-col items-center justify-center min-h-screen text center p-6">
-    <div class="bg-black bg-opacity-40 p-2 rounded-lg inline-block">
-        <h1 class="text-2xl md:text-4xl font-serif font-bold text-white tracking-widest">
-            Welcome to the Place <br> Where Luxury Meets
-        </h1>
+<!-- Sección Carrusel -->
+<section class="text-center bg-gradient-to-b from-[#16446A] via-[#16446A] to-[#f4f4f4]">
+
+    <h1 class="text-4xl md:text-6xl font-bold font-serif text-slate-700 mb-6">Innova Cloud</h1>
+
+    <div class="mt-6 w-full">
+        <div class="swiper mySwiper w-full">
+
+            <div class="swiper-wrapper">
+
+                <!-- Carrusel Slide 1 -->
+                <div class="swiper-slide w-full relative h-[600px] overflow-hidden">
+                    <img src="/images/carusel4.png" alt="hotel"
+                         class="absolute top-0 left-0 w-full h-full object-cover blur-md scale-110 z-0">
+                    <img src="/images/carusel4.png" alt="hotel"
+                         class="relative w-full h-full object-contain z-10">
+                </div>
+
+                <!-- Carrusel Slide 2 -->
+                <div class="swiper-slide w-full relative h-[600px] overflow-hidden">
+                    <img src="/images/carrusel5.png" alt="hotel"
+                         class="absolute top-0 left-0 w-full h-full object-cover blur-md scale-110 z-0">
+                    <img src="/images/carrusel5.png" alt="hotel"
+                         class="relative w-full h-full object-contain z-10">
+                </div>
+
+                <!-- Carrusel Slide 3 -->
+                <div class="swiper-slide w-full relative h-[600px] overflow-hidden">
+                    <img src="/images/carrusel1.png" alt="hotel"
+                         class="absolute top-0 left-0 w-full h-full object-cover blur-md scale-110 z-0">
+                    <img src="/images/carrusel1.png" alt="hotel"
+                         class="relative w-full h-full object-contain z-10">
+                </div>
+
+                <!-- Carrusel Slide 4 -->
+                <div class="swiper-slide w-full relative h-[600px] overflow-hidden">
+                    <img src="/images/carrusel2.png" alt="hotel"
+                         class="absolute top-0 left-0 w-full h-full object-cover blur-md scale-110 z-0">
+                    <img src="/images/carrusel2.png" alt="hotel"
+                         class="relative w-full h-full object-contain z-10">
+                </div>
+
+                <!-- Carrusel Slide 5 -->
+                <div class="swiper-slide w-full relative h-[600px] overflow-hidden">
+                    <img src="/images/carrusel6.png" alt="hotel"
+                         class="absolute top-0 left-0 w-full h-full object-cover blur-md scale-110 z-0">
+                    <img src="/images/carrusel6.png" alt="hotel"
+                         class="relative w-full h-full object-contain z-10">
+                </div>
+
+            </div>
+
+
+            <div class="swiper-button-prev text-white hover:text-purple-500 transition-all"></div>
+            <div class="swiper-button-next text-white hover:text-purple-500 transition-all"></div>
+            <div class="swiper-pagination mt-4 flex justify-center"></div>
+        </div>
     </div>
-    <a th:href="@{/startupsAsignadas}">
-        <button class="mt-6 bg-amber-600 text-white font-bold py-3 px-6 rounded-xl
-                   shadow-lg hover:bg-amber-700 transition-all">
-            More
-        </button>
-    </a>
-</div>
 
-</footer>
+</section>
+
+<section class="pt-16 pb-0 px-10 bg-gradient-to-b from-[#16446A] via-[#16446A] to-[#f4f4f4]">
+    <div class="flex flex-col items-center space-y-4 mb-6">
+        <hr class="w-80 border-t-4 border-white">
+        <p class="text-6xl font-bold text-white font-serif mt-4">Clientes</p>
+        <hr class="w-40 border-t-4 border-white">
+    </div>
+
+    <p class="text-white text-3xl max-w-3xl mx-auto mb-6 font-bold">
+        Estos son solo algunos de nuestros clientes satisfechos, ¿Qué esperas para aparecer aquí?
+    </p>
+
+    <div class="swiper logoSwiper max-w-5xl mx-auto">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="/images/Build.png" class="h-30 w-auto mx-auto" alt="Logo 1">
+            </div>
+            <div class="swiper-slide">
+                <img src="/images/DakfeTecnologia-removebg-preview.png" class="h-30 w-auto mx-auto" alt="Logo 2">
+            </div>
+            <div class="swiper-slide">
+                <img src="/images/nexus.png" class="h-30 w-auto mx-auto" alt="Logo 3">
+            </div>
+            <div class="swiper-slide">
+                <img src="/images/Company.png" class="h-30 w-auto mx-auto" alt="Logo 4">
+            </div>
+            <div class="swiper-slide">
+                <img src="/images/logo.jpg" class="h-30 w-auto mx-auto" alt="Logo 5">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-[#f4f4f4]">
+    <p class="text-6xl font-bold my-20 mx-20 hover:text-purple-500">Así Somos</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mx-20 mb-20">
+
+        <!-- Bloque 1 -->
+        <div class="rounded-2xl border border-gray-300 hover:border-purple-500 transition-all duration-500 p-6 hover:scale-105 shadow-md hover:shadow-xl bg-white">
+            <div class="flex items-start gap-6">
+                <img src="/images/mision.png" alt="Logo 1"
+                     class="w-32 h-auto transition-transform duration-500 transform hover:scale-105 hover:shadow-xl filter hover:brightness-110 hover:hue-rotate-[110deg] cursor-pointer">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2 hover:text-purple-500">Misión</h3>
+                    <p class="text-justify">
+                        Ofrecer una solución tecnológica eficiente y accesible que permita a startups centralizar sus repositorios, facilitar el acceso a la información clave, promover la transparencia y conectar con inversionistas, mentores y aliados estratégicos que potencien su desarrollo.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bloque 2 -->
+        <div class="rounded-2xl border border-gray-300 hover:border-purple-500 transition-all duration-500 p-6 hover:scale-105 shadow-md hover:shadow-xl bg-white">
+            <div class="flex items-start gap-6">
+                <img src="/images/vision.png" alt="Logo 2"
+                     class="w-32 h-auto self-center transition-transform duration-500 transform hover:scale-105 hover:shadow-xl filter hover:brightness-110 hover:hue-rotate-[50deg] cursor-pointer">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2 hover:text-purple-500">Visión</h3>
+                    <p class="text-justify">
+                        Ser la plataforma líder y el ecosistema centralizado que potencie el crecimiento exponencial de startups a nivel global, democratizando el acceso a la información estratégica, conectando talento con oportunidad y catalizando inversiones que transformen ideas innovadoras en empresas de alto impacto.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Bloque 3 -->
+        <div class="rounded-2xl border border-gray-300 hover:border-purple-500 transition-all duration-500 p-6 hover:scale-105 shadow-md hover:shadow-xl bg-white">
+            <div class="flex items-start gap-6">
+                <img src="/images/filosofia.png" alt="Logo 3"
+                     class="w-32 h-auto self-center transition-transform duration-500 transform hover:scale-105 hover:shadow-xl filter hover:brightness-110 hover:hue-rotate-[50deg] cursor-pointer">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2 hover:text-purple-500">Filosofía</h3>
+                    <p class="text-justify">
+                        Empoderar a los emprendedores democratizando el acceso a información clave y fomentando la transparencia. Creemos en la conexión estratégica y la colaboración para un impacto positivo, impulsando la innovación continua en todo el ecosistema startup.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Bloque 4 -->
+        <div class="rounded-2xl border border-gray-300 hover:border-purple-500 transition-all duration-500 p-6 hover:scale-105 shadow-md hover:shadow-xl bg-white">
+            <div class="flex items-start gap-6">
+                <img src="/images/valores.png" alt="Logo 4"
+                     class="w-32 h-auto self-center transition-transform duration-500 transform hover:scale-105 hover:shadow-xl filter hover:brightness-110 hover:hue-rotate-[50deg] cursor-pointer">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2 hover:text-purple-500">Valores</h3>
+                    <p class="text-justify">
+                        Nuestros valores son la base de todo lo que hacemos: Transparencia para generar confianza; Innovación para crecer y adaptarnos; Colaboración para construir un ecosistema fuerte; Accesibilidad para empoderar a todos los emprendedores; y Impacto para impulsar cambios positivos y significativos.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+
+
+<!-- Sección Servicios -->
+<section class="bg-gradient-to-b from-[#f4f4f4] to-[#16446A]">
+    <div class="max-w-7xl mx-auto px-6">
+        <p class="text-6xl font-bold my-20 ml-0 hover:text-purple-500 text-left">Servicios</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+
+            <div class="flex flex-col items-center w-full m-10">
+
+                <div class="group relative flex flex-col justify-end items-center bg-[#B6CBBD] w-full h-[400px] p-10 border-2 border-purple-300 rounded-2xl transition-all duration-500 hover:scale-105 hover:border-purple-600 shadow-md hover:shadow-xl overflow-hidden">
+                    <img src="/images/Convocatoria.png"
+                         alt="Convocatorias"
+                         class="absolute inset-0 w-full h-full object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-300">
+                    <img src="/images/Calendario.png"
+                         alt="Convocatorias Hover"
+                         class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                </div>
+
+
+                <h2 class="font-bold text-2xl text-gray-900 mt-4 hover:text-purple-500">Convocatorias</h2>
+            </div>
+
+
+
+
+            <!-- Servicio 2 - STARTUPS -->
+            <div class="flex flex-col items-center w-full m-10">
+                <div class="group relative flex flex-col justify-end items-center bg-[#B6CBBD] w-full h-[400px] p-10 border-2 border-purple-300 rounded-2xl transition-all duration-500 hover:scale-105 hover:border-purple-600 shadow-md hover:shadow-xl overflow-hidden">
+                    <img src="/images/starttupsinicio.png"
+                         alt="Startups"
+                         class="absolute inset-0 w-full h-full object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-300">
+                    <img src="/images/personasStratups.png"
+                         alt="Startups Hover"
+                         class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                </div>
+                <h2 class="font-bold text-2xl text-gray-900 mt-4 hover:text-purple-500">Startups</h2>
+            </div>
+
+            <!-- Servicio 3 - INVERSIONES -->
+            <div class="flex flex-col items-center w-full m-10">
+                <div class="group relative flex flex-col justify-end items-center bg-[#B6CBBD] w-full h-[400px] p-10 border-2 border-purple-300 rounded-2xl transition-all duration-500 hover:scale-105 hover:border-purple-600 shadow-md hover:shadow-xl overflow-hidden">
+                    <img src="/images/inver.png"
+                         alt="Inversiones"
+                         class="absolute inset-0 w-full h-full object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-300">
+                    <img src="/images/dinero.png"
+                         alt="Inversiones Hover"
+                         class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                </div>
+                <h2 class="font-bold text-2xl text-gray-900 mt-4 hover:text-purple-500">Inversiones</h2>
+            </div>
+
+
+        </div>
+
+    </div>
+</section>
+
+
+
+
+
+<!-- Nosotros -->
+<section>
+    <div class="flex flex-col items-center space-y-4 mb-6 bg-gradient-to-b from-[#16446A] to-[#6B21A8] py-6">
+        <hr class="w-40 border-t-4 border-white">
+        <p class="text-6xl font-bold text-white font-serif mt-4">Nuestro Equipo</p>
+        <hr class="w-80 border-t-4 border-white">
+
+
+        <div class="bg-gradient-to-b from-[#16446A] to-[#6B21A8] text-center text-white flex items-center justify-center min-h-screen">
+
+            <div class="grid grid-cols-2 gap-12">
+
+                <!-- Usuario 1 -->
+                <div class="text-center">
+                    <img src="/images/Ruiz.png" alt="Sebastian Ruiz" class="w-40 h-40 rounded-full mx-auto shadow-lg mb-4">
+                    <div class="bg-[#0a0a0a] px-4 py-1 rounded-full inline-block text-blue-400 font-semibold mb-2">
+                        @Programador <span class="text-blue-500">✔</span>
+                    </div>
+                    <h1 class="text-2xl font-bold mb-6">Sebastian Ruiz</h1>
+                    <ul class="flex justify-center gap-6 text-black">
+                        <li>
+                            <a href="https://facebook.com" target="_blank" rel="noopener" class="hover:text-gray-700 transition-colors">
+                                <!-- SVG Facebook -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M22.675 0h-21.35C.6 0 0 .6 0 1.325v21.351C0 23.4.6 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.894-4.788 4.659-4.788 1.325 0 2.466.099 2.797.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.726 0 1.325-.6 1.325-1.324V1.325C24 .6 23.4 0 22.675 0z"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-gray-700 transition-colors">
+                                <!-- SVG Instagram -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                                    <path d="M16 11.37a4 4 0 1 1-4.73-4.73 4 4 0 0 1 4.73 4.73z"/>
+                                    <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://wa.me/1234567890" target="_blank" rel="noopener" class="hover:text-gray-700 transition-colors">
+                                <!-- SVG WhatsApp -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M20.52 3.48A11.905 11.905 0 0 0 3.478 20.52L2 22l1.478-1.478a11.906 11.906 0 0 0 17.043-17.042zm-9.215 16.14a9.036 9.036 0 0 1-4.89-1.4l-.35-.22-3.13.83.84-3.05-.23-.36a9.066 9.066 0 1 1 7.75 4.1zM15.01 13.4c-.26-.13-1.52-.75-1.75-.83-.23-.08-.4-.13-.57.13-.17.26-.67.83-.82 1-.15.17-.3.19-.56.06-.26-.13-1.1-.4-2.1-1.3-.78-.7-1.3-1.57-1.44-1.83-.15-.26-.02-.4.11-.53.11-.11.26-.3.39-.45.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45-.06-.13-.57-1.37-.78-1.87-.2-.5-.41-.43-.57-.43-.15 0-.33-.02-.5-.02-.17 0-.45.06-.68.32-.23.26-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.13.17 1.74 2.65 4.22 3.72.59.25 1.05.4 1.41.51.59.18 1.13.15 1.56.09.48-.07 1.52-.62 1.74-1.22.22-.6.22-1.12.15-1.23-.07-.12-.26-.19-.54-.32z"/>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Puedes copiar el bloque <ul> tal como está y pegarlo debajo del <h1> de cada usuario 2, 3 y 4 -->
+
+                <!-- Usuario 2 -->
+                <div class="text-center">
+                    <img src="/images/JuanPablo.png" alt="Juan Pablo Barrera" class="w-40 h-40 rounded-full mx-auto shadow-lg mb-4">
+                    <div class="bg-[#0a0a0a] px-4 py-1 rounded-full inline-block text-blue-400 font-semibold mb-2">
+                        @Diseñador <span class="text-blue-500">✔</span>
+                    </div>
+                    <h1 class="text-2xl font-bold mb-6">Juan Pablo</h1>
+                    <ul class="flex justify-center gap-6 text-black">
+                        <li>
+                            <a href="https://facebook.com" target="_blank" rel="noopener" class="hover:text-gray-700 transition-colors">
+                                <!-- SVG Facebook -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M22.675 0h-21.35C.6 0 0 .6 0 1.325v21.351C0 23.4.6 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.894-4.788 4.659-4.788 1.325 0 2.466.099 2.797.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.726 0 1.325-.6 1.325-1.324V1.325C24 .6 23.4 0 22.675 0z"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-gray-700 transition-colors">
+                                <!-- SVG Instagram -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                                    <path d="M16 11.37a4 4 0 1 1-4.73-4.73 4 4 0 0 1 4.73 4.73z"/>
+                                    <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://wa.me/1234567890" target="_blank" rel="noopener" class="hover:text-gray-700 transition-colors">
+                                <!-- SVG WhatsApp -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M20.52 3.48A11.905 11.905 0 0 0 3.478 20.52L2 22l1.478-1.478a11.906 11.906 0 0 0 17.043-17.042zm-9.215 16.14a9.036 9.036 0 0 1-4.89-1.4l-.35-.22-3.13.83.84-3.05-.23-.36a9.066 9.066 0 1 1 7.75 4.1zM15.01 13.4c-.26-.13-1.52-.75-1.75-.83-.23-.08-.4-.13-.57.13-.17.26-.67.83-.82 1-.15.17-.3.19-.56.06-.26-.13-1.1-.4-2.1-1.3-.78-.7-1.3-1.57-1.44-1.83-.15-.26-.02-.4.11-.53.11-.11.26-.3.39-.45.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45-.06-.13-.57-1.37-.78-1.87-.2-.5-.41-.43-.57-.43-.15 0-.33-.02-.5-.02-.17 0-.45.06-.68.32-.23.26-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.13.17 1.74 2.65 4.22 3.72.59.25 1.05.4 1.41.51.59.18 1.13.15 1.56.09.48-.07 1.52-.62 1.74-1.22.22-.6.22-1.12.15-1.23-.07-.12-.26-.19-.54-.32z"/>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Usuario 3 -->
+                <div class="text-center">
+                    <img src="/images/SamuelVega.png" alt="Samuel Vega" class="w-40 h-40 rounded-full mx-auto shadow-lg mb-4">
+                    <div class="bg-[#0a0a0a] px-4 py-1 rounded-full inline-block text-blue-400 font-semibold mb-2">
+                        @Base de Datos <span class="text-blue-500">✔</span>
+                    </div>
+                    <h1 class="text-2xl font-bold mb-6">Samuel Vega</h1>
+                    <ul class="flex justify-center gap-6 text-black">
+                        <li>
+                            <a href="https://facebook.com" target="_blank" rel="noopener" class="hover:text-gray-700 transition-colors">
+                                <!-- SVG Facebook -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M22.675 0h-21.35C.6 0 0 .6 0 1.325v21.351C0 23.4.6 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.894-4.788 4.659-4.788 1.325 0 2.466.099 2.797.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.726 0 1.325-.6 1.325-1.324V1.325C24 .6 23.4 0 22.675 0z"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-gray-700 transition-colors">
+                                <!-- SVG Instagram -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                                    <path d="M16 11.37a4 4 0 1 1-4.73-4.73 4 4 0 0 1 4.73 4.73z"/>
+                                    <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://wa.me/1234567890" target="_blank" rel="noopener" class="hover:text-gray-700 transition-colors">
+                                <!-- SVG WhatsApp -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M20.52 3.48A11.905 11.905 0 0 0 3.478 20.52L2 22l1.478-1.478a11.906 11.906 0 0 0 17.043-17.042zm-9.215 16.14a9.036 9.036 0 0 1-4.89-1.4l-.35-.22-3.13.83.84-3.05-.23-.36a9.066 9.066 0 1 1 7.75 4.1zM15.01 13.4c-.26-.13-1.52-.75-1.75-.83-.23-.08-.4-.13-.57.13-.17.26-.67.83-.82 1-.15.17-.3.19-.56.06-.26-.13-1.1-.4-2.1-1.3-.78-.7-1.3-1.57-1.44-1.83-.15-.26-.02-.4.11-.53.11-.11.26-.3.39-.45.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45-.06-.13-.57-1.37-.78-1.87-.2-.5-.41-.43-.57-.43-.15 0-.33-.02-.5-.02-.17 0-.45.06-.68.32-.23.26-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.13.17 1.74 2.65 4.22 3.72.59.25 1.05.4 1.41.51.59.18 1.13.15 1.56.09.48-.07 1.52-.62 1.74-1.22.22-.6.22-1.12.15-1.23-.07-.12-.26-.19-.54-.32z"/>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Usuario 4 -->
+                <div class="text-center">
+                    <img src="/images/Michael.png" alt="Michael Gomez" class="w-40 h-40 rounded-full mx-auto shadow-lg mb-4">
+                    <div class="bg-[#0a0a0a] px-4 py-1 rounded-full inline-block text-blue-400 font-semibold mb-2">
+                        @Marketing <span class="text-blue-500">✔</span>
+                    </div>
+                    <h1 class="text-2xl font-bold mb-6">Michael Gomez</h1>
+                    <ul class="flex justify-center gap-6 text-black">
+                        <li>
+                            <a href="https://facebook.com" target="_blank" rel="noopener" class="hover:text-gray-700 transition-colors">
+                                <!-- SVG Facebook -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M22.675 0h-21.35C.6 0 0 .6 0 1.325v21.351C0 23.4.6 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.894-4.788 4.659-4.788 1.325 0 2.466.099 2.797.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.726 0 1.325-.6 1.325-1.324V1.325C24 .6 23.4 0 22.675 0z"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-gray-700 transition-colors">
+                                <!-- SVG Instagram -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                                    <path d="M16 11.37a4 4 0 1 1-4.73-4.73 4 4 0 0 1 4.73 4.73z"/>
+                                    <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://wa.me/1234567890" target="_blank" rel="noopener" class="hover:text-gray-700 transition-colors">
+                                <!-- SVG WhatsApp -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M20.52 3.48A11.905 11.905 0 0 0 3.478 20.52L2 22l1.478-1.478a11.906 11.906 0 0 0 17.043-17.042zm-9.215 16.14a9.036 9.036 0 0 1-4.89-1.4l-.35-.22-3.13.83.84-3.05-.23-.36a9.066 9.066 0 1 1 7.75 4.1zM15.01 13.4c-.26-.13-1.52-.75-1.75-.83-.23-.08-.4-.13-.57.13-.17.26-.67.83-.82 1-.15.17-.3.19-.56.06-.26-.13-1.1-.4-2.1-1.3-.78-.7-1.3-1.57-1.44-1.83-.15-.26-.02-.4.11-.53.11-.11.26-.3.39-.45.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45-.06-.13-.57-1.37-.78-1.87-.2-.5-.41-.43-.57-.43-.15 0-.33-.02-.5-.02-.17 0-.45.06-.68.32-.23.26-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.13.17 1.74 2.65 4.22 3.72.59.25 1.05.4 1.41.51.59.18 1.13.15 1.56.09.48-.07 1.52-.62 1.74-1.22.22-.6.22-1.12.15-1.23-.07-.12-.26-.19-.54-.32z"/>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<!--Funcionalidad Carrusel-->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    const swiper1 = new Swiper('.mySwiper', {
+        loop: true,
+        spaceBetween: 30,
+        autoplay: {
+            delay: 4000, // Cambia de imagen cada 5 segundos
+            disableOnInteraction: false // Sigue el autoplay aunque el usuario interactúe
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+    });
+
+    const swiper2 = new Swiper('.logoSwiper', {
+        slidesPerView: 4,
+        spaceBetween: 30,
+        loop: true,
+        autoplay: {
+            delay: 0,
+            disableOnInteraction: false,
+        },
+        speed: 3000,
+        grabCursor: false,
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<footer th:replace="~{layout/layout :: footer}"></footer>
+<script>
+    const swiper = new Swiper('.logoSwiper', {
+        slidesPerView: 4,
+        spaceBetween: 30,
+        loop: true,
+        autoplay: {
+            delay: 0, // sin pausa
+            disableOnInteraction: false,
+        },
+        speed: 3000, // velocidad continua
+        grabCursor: false,
+    });
+</script>
 </body>
-
 </html>
