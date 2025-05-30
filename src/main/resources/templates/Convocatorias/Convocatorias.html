@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layoutSamu :: head"></head>
+<body>
+<div th:replace="layout/layoutSamu :: sidebar"></div>
+
+<div class="ml-64 p-8 bg-gray-100 min-h-screen text-gray-800">
+
+    <header th:replace="layout/layoutSamu :: header"></header>
+
+
+    <div class="mb-4 mt-10 text-center">
+        <a th:href="@{${urlCreate}}"
+           class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800">
+            Nueva Convocatoria
+        </a>
+    </div>
+
+    <table class="w-full table-auto border-collapse bg-white shadow-md">
+        <thead>
+        <tr class="bg-blue-500 text-white">
+            <th class="p-2 border">ID</th>
+            <th class="p-2 border">Título</th>
+            <th class="p-2 border">Inicio</th>
+            <th class="p-2 border">Fin</th>
+            <th class="p-2 border">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="convocatoria : ${convocatorias}"
+            class="text-center hover:bg-blue-50">
+            <td th:text="${convocatoria.id_Convocatoria}" class="border p-2"></td>
+            <td th:text="${convocatoria.titleConvocatoria}" class="border p-2"></td>
+            <td th:text="${#dates.format(convocatoria.fechaInicio, 'yyyy-MM-dd')}"
+                class="border p-2"></td>
+            <td th:text="${#dates.format(convocatoria.fechaFin,   'yyyy-MM-dd')}"
+                class="border p-2"></td>
+            <td class="border p-2 space-x-2">
+                <a th:href="@{/editarConvocatoria/{id}(id=${convocatoria.id_Convocatoria})}"
+                   class="text-yellow-600 hover:underline">Editar</a>
+                |
+                <a th:href="@{/Startups/{id}(id=${convocatoria.id_Convocatoria})}"
+                   class="text-yellow-600 hover:underline">Gestionar Startups</a>
+                |
+                <form th:action="@{/eliminarConvo/{id}(id=${convocatoria.id_Convocatoria})}"
+                      method="post" class="inline"
+                      onsubmit="return confirm('¿Eliminar esta convocatoria?');">
+                    <button type="submit" class="text-red-600 hover:underline">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

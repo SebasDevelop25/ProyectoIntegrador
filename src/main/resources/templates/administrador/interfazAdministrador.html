@@ -1,10 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Innova Cloud - Inicio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1526403227685-99b926c1dc1b');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
 </head>
-<body>
+<body class="text-gray-800 min-h-screen">
+
+<header th:replace="~{layout/layoutSamu :: header}"></header>
+<aside th:replace="~{layout/layoutSamu :: sidebar}"></aside>
+
+<main class="ml-64 p-12 bg-white bg-opacity-80 min-h-screen">
+    <div class="text-center mb-10">
+        <h1 class="text-4xl font-bold text-purple-800">Bienvenido Administrador</h1>
+        <p class="text-gray-600 mt-2">Gestiona las startups, mentorías y usuarios desde un solo lugar.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a th:href="@{/convocatorias}" class="bg-purple-200 hover:bg-purple-300 p-6 rounded-xl shadow-lg text-center transition-all">
+            <div class="text-purple-800 text-3xl mb-2">
+                <i data-lucide="briefcase"></i>
+            </div>
+            <h2 class="text-xl font-semibold">Startups</h2>
+            <p class="text-gray-600">Visualiza y administra las startups registradas.</p>
+        </a>
+
+        <a th:href="@{/mentorias}" class="bg-purple-200 hover:bg-purple-300 p-6 rounded-xl shadow-lg text-center transition-all">
+            <div class="text-purple-800 text-3xl mb-2">
+                <i data-lucide="book-open"></i>
+            </div>
+            <h2 class="text-xl font-semibold">Mentorías</h2>
+            <p class="text-gray-600">Consulta y asigna nuevas mentorías.</p>
+        </a>
+
+        <a th:href="@{/usuarios}" class="bg-purple-200 hover:bg-purple-300 p-6 rounded-xl shadow-lg text-center transition-all">
+            <div class="text-purple-800 text-3xl mb-2">
+                <i data-lucide="users"></i>
+            </div>
+            <h2 class="text-xl font-semibold">Usuarios</h2>
+            <p class="text-gray-600">Administra los perfiles de usuario del sistema.</p>
+        </a>
+    </div>
+</main>
+
+<script type="module">
+    import lucide from 'https://cdn.skypack.dev/lucide';
+    document.addEventListener('DOMContentLoaded', function () {
+        lucide.createIcons();
+    });
+</script>
 
 </body>
 </html>

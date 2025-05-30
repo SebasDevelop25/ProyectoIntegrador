@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layoutSamu :: head">
+    <meta charset="UTF-8">
+    <title>[[${title}]]</title>
+</head>
+<body>
+<!-- Sidebar fijo -->
+<div th:replace="layout/layoutSamu :: sidebar"></div>
+
+<div class="ml-64 p-8 bg-gray-100 min-h-screen text-gray-800">
+
+    <div th:replace="layout/layoutSamu :: header"></div>
+
+    <div class="max-w-md mx-auto mt-12 mb-12 bg-white rounded-xl p-8 shadow-lg">
+        <h1 class="text-center text-2xl font-bold text-gray-900 mb-4">
+            Editar mentoría
+        </h1>
+        <form th:action="@{/editarMentoria/{id}(id=${mentoriaFormEdit.idMentoria})}"
+              method="post" th:object="${mentoriaFormEdit}">
+
+            <div class="flex flex-col gap-2 mb-4">
+                <label for="mentorId" class="text-stone-900 font-bold">Mentor:</label>
+                <select id="mentorId" th:field="*{idMentoria}" required
+                        class="mt-1 block w-full p-2 border rounded-md bg-white">
+                    <option value="">-- selecciona un mentor --</option>
+                    <option th:each="u : ${mentores}"
+                            th:value="${u.id_usuario}"
+                            th:text="${u.nombre_usu} + ' ' + ${u.apellido_usu}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="flex flex-col gap-2 mb-6">
+                <label for="startupId" class="text-stone-900 font-bold">Startup:</label>
+                <select id="startupId" th:field="*{startupId}" required
+                        class="mt-1 block w-full p-2 border rounded-md bg-white">
+                    <option value="">-- selecciona una startup --</option>
+                    <option th:each="s : ${startups}"
+                            th:value="${s.id_startup}"
+                            th:text="${s.nombre_startup}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <button type="submit"
+                        class="bg-orange-500 text-white py-2 px-4 rounded-md font-bold hover:bg-orange-600 transition">
+                    Editar Mentoría
+                </button>
+                <a th:href="@{/mentorias}" class="text-blue-600 hover:underline">
+                    ← Volver al listado
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

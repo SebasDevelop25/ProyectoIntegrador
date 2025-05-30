@@ -45,4 +45,10 @@ public class UsersServicesImplement implements UsersServices {
     public UsersEntity findByEmail(String email) {
         return null;
     }
+
+    @Override
+    @jakarta.transaction.Transactional
+    public List<UsersEntity> findByRol(Long id) {
+        return usuarioDAO.findByRol();
+    }
 }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layoutSamu :: head"></head>
+<body>
+<div th:replace="layout/layoutSamu :: sidebar"></div>
+
+<div class="ml-64 p-8 bg-gray-100 min-h-screen">
+    <div th:replace="layout/layoutSamu :: header"></div>
+
+    <div class="max-w-md mx-auto mt-12 mb-12 bg-white rounded-xl p-8 shadow-lg">
+        <h1 class="text-center text-2xl font-bold text-gray-900 mb-4">
+            Crear nueva convocatoria
+        </h1>
+        <form th:action="@{/editarConvocatoria/{id}(id=${convocatoriaEdit.id_Convocatoria})}"
+              method="post" enctype="multipart/form-data"
+              th:object="${convocatoriaEdit}">
+            <input type="hidden" th:field="*{id_Convocatoria}" />
+            <div class="flex flex-col gap-4">
+                <label class="text-stone-900 font-bold">Título de la convocatoria</label>
+                <input type="text" th:field="*{titleConvocatoria}"
+                       required class="p-2 rounded-md border border-gray-300"/>
+
+                <label class="text-stone-900 font-bold">Fecha de Inicio</label>
+                <input type="date" th:field="*{fechaInicio}"
+                       required class="p-2 rounded-md border border-gray-300"/>
+
+                <label class="text-stone-900 font-bold">Fecha de Fin</label>
+                <input type="date" th:field="*{fechaFin}"
+                       required class="p-2 rounded-md border border-gray-300"/>
+
+                <button type="submit"
+                        class="mt-6 bg-orange-500 text-white py-3 px-4 rounded-md font-bold
+                           hover:bg-orange-600 transition">
+                    Guardar Convocatoria
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

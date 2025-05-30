@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layoutSamu :: head">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="layout/layoutSamu :: sidebar"></div>
+
+<div class="ml-64 p-8 bg-gray-100 text-gray-800 min-h-screen">
+
+    <div th:replace="layout/layoutSamu :: header"></div>
+
+
+    <div class="mb-4 mt-10 text-center">
+        <a th:href="@{${urlCreate}}"
+           class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800 transition">
+            Asignar Mentoría
+        </a>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full bg-white shadow rounded-lg overflow-hidden">
+            <thead class="bg-blue-500 text-white">
+            <tr>
+                <th class="p-3 border">Mentor</th>
+                <th class="p-3 border">Startup asignada</th>
+                <th class="p-3 border">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="m : ${mentorias}" class="hover:bg-gray-50">
+                <td class="p-2 text-center" th:text="${m.nombreMentor}"></td>
+                <td class="p-2 text-center" th:text="${m.nombreStartup}"></td>
+                <td class="p-2 text-center space-x-2">
+                    <a th:href="@{/editarMentoria/{id}(id=${m.idTransaccion})}"
+                       class="text-yellow-600 hover:underline">Editar</a>
+                    |
+                    <form th:action="@{/eliminarMentoria/{id}(id=${m.idTransaccion})}"
+                          method="post" class="inline"
+                          onsubmit="return confirm('¿Eliminar esta mentoría?');">
+                        <button type="submit" class="text-red-600 hover:underline">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

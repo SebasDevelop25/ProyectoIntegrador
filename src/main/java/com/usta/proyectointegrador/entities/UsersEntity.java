@@ -7,11 +7,12 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "USERS")
-public class UsersEntity {
+public class UsersEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
@@ -44,6 +45,18 @@ public class UsersEntity {
     @Size(min = 1, max = 15)
     @Column(name = "telefono", length = 15)
     private String telefono;
+
+    @NotNull
+    @Size(min = 1, max = 1000000)
+    @Column(name = "foto", length = 1000000, nullable=false)
+    private String foto;
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+    public String getFoto() {
+        return foto;
+    }
 
     @NotNull
     @JoinColumn(name = "id_Rol", referencedColumnName = "id_Rol")

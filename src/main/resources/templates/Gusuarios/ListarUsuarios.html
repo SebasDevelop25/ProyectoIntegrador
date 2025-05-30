@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layoutSamu :: head">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="layout/layoutSamu :: sidebar"></div>
+
+<div class="ml-64 p-8 bg-gray-100 text-gray-800">
+
+    <header th:replace="layout/layoutSamu :: header"></header>
+
+
+    <div class="mb-4 mt-10 text-center">
+        <a th:href="@{${urlCreate}}"
+           class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800">
+            Nuevo usuario
+        </a>
+    </div>
+
+    <!-- Tabla de convocatorias -->
+    <table class="w-full table-auto border-collapse bg-white shadow-md">
+        <thead>
+        <tr class="bg-blue-500 text-white">
+
+            <th class="p-2 border">Foto</th>
+            <th class="p-2 border">ID usuario</th>
+            <th class="p-2 border">Nombre</th>
+            <th class="p-2 border">Apellido</th>
+            <th class="p-2 border">Rol</th>
+            <th class="p-2 border">Clave</th>
+            <th class="p-2 border">Email</th>
+            <th class="p-2 border">Ciudad</th>
+            <th class="p-2 border">telefono</th>
+            <th class="p-2 border">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="Usuarios : ${usuarios}" class="text-center hover:bg-blue-50">
+            <td class="py-3 px-5">
+                <img th:src="${Usuarios.foto != null && !Usuarios.foto.isEmpty()} ? ${Usuarios.foto} : '@{/img/default-logo.png}'"
+                     class="w-24 h-24 object-contain mx-auto rounded-lg" />
+                <p class="mt-2 text-center text-lg font-semibold" th:text="${Usuarios.nombre_usu}"></p>
+            </td>
+            <td th:text="${Usuarios.id_usuario}" class="border p-2"></td>
+            <td th:text="${Usuarios.nombre_usu}" class="border p-2"></td>
+            <td th:text="${Usuarios.apellido_usu}" class="border p-2"></td>
+            <td th:text="${Usuarios.idRol.rol}" class="border p-2"></td>
+            <td th:text="${Usuarios.clave}" class="border p-2"></td>
+            <td th:text="${Usuarios.email}" class="border p-2"></td>
+            <td th:text="${Usuarios.ciudad}" class="border p-2"></td>
+            <td th:text="${Usuarios.telefono}" class="border p-2"></td>
+            <td class="border p-2">
+                <a th:href="@{/editarUsuario/{id}(id=${Usuarios.id_usuario})}"
+                   class="text-yellow-600 hover:underline">Editar</a>
+                |
+                <form th:action="@{/eliminarUsuario/{id}(id=${Usuarios.id_usuario})}"
+                      method="post" style="display:inline;"
+                      onsubmit="return confirm('¿Eliminar este Startup?');">
+                    <button type="submit" class="text-red-600 hover:underline">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -14,12 +14,10 @@ import java.util.Date;
 @Table(name = "CONVOCATORIAS")
 public class ConvocatoriaEntity  implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_convocatoria")
-    private Integer id_Convocatoria;
+    private Long id_Convocatoria;
 
     @NotNull
     @Size(min = 1, max = 40)
@@ -37,5 +35,8 @@ public class ConvocatoriaEntity  implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_fin")
     private Date fechaFin;
+
+
+
 
 }

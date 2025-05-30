@@ -18,4 +18,7 @@ public interface UsersServices {
     public UsersEntity actualizarUsuario(UsersEntity usuario);
 
     public UsersEntity findByEmail(String email);
+
+    public List<UsersEntity> findByRol(Long id);
+
 }
