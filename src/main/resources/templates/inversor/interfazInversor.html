@@ -1,10 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Innova Cloud</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-white text-gray-900 flex flex-col min-h-screen w-screen">
+
+<!-- Header -->
+<header th:replace="~{layout/layout :: header}"></header>
+
+
+<!-- Carrusel -->
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+<section class="pt-16 pb-0 px-10 bg-gradient-to-b from-[#16446A] via-[#16446A] to-[#f4f4f4]">
+    <div class="flex flex-col items-center space-y-10 mb-6">
+        <hr class="w-80 border-t-4 border-white">
+        <p class="text-6xl font-bold text-white font-serif mt-4">Bienvenido Inversor</p>
+        <hr class="w-40 border-t-4 border-white">
+    </div>
+
+    <p class="text-white text-3xl max-w-3xl mx-auto mb-6 font-bold">
+        Estas son las Startups registradas, visualiza y gestiona las tuyas!
+    </p>
+
+    <div class="swiper logoSwiper max-w-5xl mx-auto">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="/images/Build.png" class="h-30 w-auto mx-auto" alt="Logo 1">
+            </div>
+            <div class="swiper-slide">
+                <img src="/images/DakfeTecnologia-removebg-preview.png" class="h-30 w-auto mx-auto" alt="Logo 2">
+            </div>
+            <div class="swiper-slide">
+                <img src="/images/nexus.png" class="h-30 w-auto mx-auto" alt="Logo 3">
+            </div>
+            <div class="swiper-slide">
+                <img src="/images/Company.png" class="h-30 w-auto mx-auto" alt="Logo 4">
+            </div>
+            <div class="swiper-slide">
+                <img src="/images/logo.jpg" class="h-30 w-auto mx-auto" alt="Logo 5">
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-center mt-8 mb-10">
+        <a th:href="@{/startups}"
+           class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-xl transition duration-300 transform hover:scale-105 hover:text-purple-600 hover:border-2 hover:border-purple-600">
+            Ver mis Startups
+        </a>
+    </div>
+
+
+
+</section>
+
+
+<section class="bg-gradient-to-b from-[#f4f4f4] to-[#16446A] min-h-screen flex flex-col items-center justify-center px-4">
+    <p class="text-6xl font-bold mb-20 text-center hover:text-purple-500">Inversiones</p>
+
+    <div class="flex justify-center">
+        <div class="flex flex-col items-center w-[600px] m-10">
+            <div class="group relative flex flex-col justify-end items-center bg-[#B6CBBD] w-full h-[500px] p-10 border-2 border-purple-300 rounded-2xl transition-all duration-500 hover:scale-105 hover:border-purple-600 shadow-md hover:shadow-xl overflow-hidden">
+                <img src="/images/inver.png"
+                     alt="Startups"
+                     class="absolute inset-0 w-full h-full object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-300">
+                <img src="/images/dinero.png"
+                     alt="Startups Hover"
+                     class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            </div>
+            <div class="flex justify-center mt-8 mb-10">
+                <a th:href="@{/inversiones}"
+                   class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-xl transition duration-300 transform hover:scale-105 hover:text-purple-600 hover:border-2 hover:border-purple-600">
+                    Inversiones
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+    const swiper1 = new Swiper('.mySwiper', {
+        loop: true,
+        spaceBetween: 30,
+        autoplay: {
+            delay: 4000, // Cambia de imagen cada 5 segundos
+            disableOnInteraction: false // Sigue el autoplay aunque el usuario interactúe
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+    });
+
+    const swiper2 = new Swiper('.logoSwiper', {
+        slidesPerView: 4,
+        spaceBetween: 30,
+        loop: true,
+        autoplay: {
+            delay: 0,
+            disableOnInteraction: false,
+        },
+        speed: 3000,
+        grabCursor: false,
+    });
+</script>
+<!-- Footer -->
+<footer th:replace="~{layout/layout :: footer}"></footer>
+
 
 </body>
 </html>

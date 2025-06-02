@@ -27,6 +27,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -200,6 +201,47 @@ public class StartupController {
         return "redirect:/convocatorias";
 
     }
+
+    @GetMapping(value = "/startups")
+    public String ListarStartups(Model model) {
+        model.addAttribute("title", "Startups");
+        model.addAttribute("urlCreate", "/VerStartups");
+        List<StartupEntity> lista = startupServices.findAll();
+        lista.sort(Comparator.comparing(StartupEntity::getId_startup));
+        model.addAttribute("startups", lista);
+        return "Startups/VerStartups";
+    }
+
+    @GetMapping(value = "/infoStartups")
+    public String VisualizarStartups(Model model) {
+        model.addAttribute("title", "Startups");
+        model.addAttribute("urlCreate", "/informacionStartups");
+        List<StartupEntity> lista = startupServices.findAll();
+        lista.sort(Comparator.comparing(StartupEntity::getId_startup));
+        model.addAttribute("startups", lista);
+        return "Startups/informacionStartups";
+    }
+
+    @GetMapping(value = "/invertirStartup")
+    public String InvertirStartups(Model model) {
+        model.addAttribute("title", "Startups");
+        model.addAttribute("urlCreate", "/invertirStartups");
+        List<StartupEntity> lista = startupServices.findAll();
+        lista.sort(Comparator.comparing(StartupEntity::getId_startup));
+        model.addAttribute("startups", lista);
+        return "Startups/invertirStartups";
+    }
+
+    @GetMapping(value = "/inversiones")
+    public String Inversiones(Model model) {
+        model.addAttribute("title", "Inversiones");
+        model.addAttribute("urlCreate", "/inversionesInversor");
+        List<StartupEntity> lista = startupServices.findAll();
+        lista.sort(Comparator.comparing(StartupEntity::getId_startup));
+        model.addAttribute("startups", lista);
+        return "inversor/inversionesInversor";
+    }
+
 }
 
 

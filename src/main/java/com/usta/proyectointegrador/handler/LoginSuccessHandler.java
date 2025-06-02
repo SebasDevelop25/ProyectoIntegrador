@@ -30,7 +30,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
                 response.sendRedirect("/user/home");
                 return;
             } else if (role.getAuthority().equals("ROLE_INVERSOR")) {
-                response.sendRedirect("/client/home");
+                response.sendRedirect("/interfazInversor");
                 return;
             } else if (role.getAuthority().equals("ROLE_MENTOR")) {
                 response.sendRedirect("/indexMentor");
