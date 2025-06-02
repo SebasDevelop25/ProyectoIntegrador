@@ -2,6 +2,8 @@ package com.usta.proyectointegrador.controllers;
 
 import com.usta.proyectointegrador.entities.*;
 import com.usta.proyectointegrador.models.services.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -30,26 +32,16 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import com.usta.proyectointegrador.entities.RolEntity;
 import com.usta.proyectointegrador.entities.UsersEntity;
 import com.usta.proyectointegrador.models.services.RolServices;
 import com.usta.proyectointegrador.models.services.UsersServices;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.validation.Valid;
 
 @Controller
 public class UsersController {
@@ -76,11 +68,16 @@ public class UsersController {
         for (UsersEntity mentor : mentores) {
             List<TransactionEntity> txs = transactionServices.findByUsuarioIdUsuario(mentor.getId_usuario());
             for (TransactionEntity tx : txs) {
-                // Cada transacción es una mentoría: mentor + startup
                 String nombreMentor = mentor.getNombre_usu() + " " + mentor.getApellido_usu();
                 String nombreStartup = tx.getStartup().getNombre_startup();
-                mentorias.add(new MentoriaDTO(tx.getIdTransaction(), nombreMentor, nombreStartup));
+
+                // Asegúrate de que estas relaciones existen correctamente en StartupEntity
+                String nombreEmprendedor = tx.getNombreUsu().getNombre_usu(); // O getNombre(), depende del modelo
+                String nombreConvocatoria = tx.getStartup().getConvocatoria().getTitleConvocatoria();
+
+                mentorias.add(new MentoriaDTO(tx.getIdTransaction(), tx.getStartup().getId_startup(),nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria, tx.getIdTransaction()));
             }
+
         }
 
         model.addAttribute("title", "Listado de Mentorías");
@@ -399,12 +396,43 @@ public class UsersController {
     /*-------------------------------------------------------------------------------------------*/
 
     @GetMapping("/indexMentor")
-    public String mostrarInterfazMentor() {
+    public String mostrarInterfazMentor(HttpSession session, Model model) {
+        UsersEntity mentor = (UsersEntity) session.getAttribute("mentorActual");
+        if(mentor != null){
+            System.out.println("Mentor: " + mentor.getNombre_usu());
+            model.addAttribute("nombreMentor", mentor.getNombre_usu());
+        }else {
+            System.out.println("No hay mentor en sesión");
+        }
         return "/mentor/indexMentor";
     }
 
     @GetMapping("/startupsAsignadas")
-    public String mostrarStarupsAsignadas() {
+    public String mostrarStarupsAsignadas(HttpServletRequest request , Model model) {
+        // 1) Buscamos todos los usuarios con rol mentor
+        UsersEntity mentor = (UsersEntity) request.getSession().getAttribute("mentorActual");
+        if (mentor == null) {
+            // Si no hay mentor en sesión, redirige al login o lanza error
+            return "redirect:/login";
+        }
+
+        List<MentoriaDTO> mentorias = new ArrayList<>();
+
+
+            List<TransactionEntity> txs = transactionServices.findByUsuarioIdUsuario(mentor.getId_usuario());
+            for (TransactionEntity tx : txs) {
+                String nombreMentor = mentor.getNombre_usu() + " " + mentor.getApellido_usu();
+                String nombreStartup = tx.getStartup().getNombre_startup();
+
+                // Asegúrate de que estas relaciones existen correctamente en StartupEntity
+                String nombreEmprendedor = tx.getNombreUsu().getNombre_usu(); // O getNombre(), depende del modelo
+                String nombreConvocatoria = tx.getStartup().getConvocatoria().getTitleConvocatoria();
+
+                mentorias.add(new MentoriaDTO(tx.getIdTransaction(), tx.getStartup().getId_startup(),nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria, tx.getIdTransaction()));
+            }
+
+        model.addAttribute("title", "Listado de Mentorías");
+        model.addAttribute("mentorias", mentorias);
         return "/mentor/startupsAsignadas";
     }
 

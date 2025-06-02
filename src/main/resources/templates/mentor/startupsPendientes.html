@@ -12,15 +12,15 @@
 
 <main class="mt-24 flex-grow flex flex-col items-center">
 <!-- Título -->
-<h1 class="text-lg font-semibold mb-12 mt-8">Startups asignadas</h1>
+<h1 class="text-lg font-semibold mb-12 mt-8">Startups pendientes</h1>
 
 <!-- Tarjetas -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-    <div th:each="m : ${mentorias}" class="border border-orange-200 shadow-md p-4 rounded-md bg-white w-72"
-         th:onclick="'window.location.href=\'/informacionStartup/' + ${m.idStartup} + '\';'">
-        <p><strong>Nombre:</strong> <span class="ml-2" th:text="${m.nombreStartup}">Nombre</span></p>
-        <p><strong>Emprendedor:</strong> <span class="ml-2" th:text="${m.nombreEmprendedor}">Emprendedor</span></p>
-        <p><strong>Convocatoria relacionada:</strong> <span class="ml-2" th:text="${m.nombreConvocatoria}">Convocatoria</span></p>
+    <div th:each="p : ${startupsPendientes}" class="border border-orange-200 shadow-md p-4 rounded-md bg-white w-72"
+         th:onclick="|window.location.href='/informacionStartup/${p.idStartup}'|">
+        <p><strong>Nombre:</strong> <span class="ml-2" th:text="${p.nombreStartup}">Nombre</span></p>
+        <p><strong>Emprendedor:</strong> <span class="ml-2" th:text="${p.nombreEmprendedor}">Emprendedor</span></p>
+        <p><strong>Convocatoria relacionada:</strong> <span class="ml-2" th:text="${p.nombreConvocatoria}">Convocatoria</span></p>
     </div>
 </div>
 

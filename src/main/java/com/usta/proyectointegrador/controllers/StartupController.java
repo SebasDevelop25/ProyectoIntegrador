@@ -1,9 +1,13 @@
 package com.usta.proyectointegrador.controllers;
 
-import com.usta.proyectointegrador.entities.ConvocatoriaEntity;
-import com.usta.proyectointegrador.entities.StartupEntity;
+import com.usta.proyectointegrador.entities.*;
+import com.usta.proyectointegrador.models.dao.StartupDAO;
 import com.usta.proyectointegrador.models.services.ConvocatoriaServices;
+import com.usta.proyectointegrador.models.services.SeguimientoService;
 import com.usta.proyectointegrador.models.services.StartupServices;
+import com.usta.proyectointegrador.models.services.TransactionServices;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -27,6 +31,11 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -36,6 +45,14 @@ public class StartupController {
 
     @Autowired
     ConvocatoriaServices convocatoriaServices;
+
+    @Autowired
+    SeguimientoService seguimientoService;
+    @Autowired
+    private StartupDAO startupDAO;
+
+    @Autowired
+    private TransactionServices transactionServices;
 
     @GetMapping(value = "/Startups/{id}")
     public String ListarStar(@PathVariable("id") Long id, Model model) {
@@ -200,6 +217,110 @@ public class StartupController {
         return "redirect:/convocatorias";
 
     }
+
+    /*----------- Mentor ------------------*/
+    @GetMapping("/informacionStartup/{id}")
+    public String mostrarInformacionStartup(@PathVariable Integer id, Model model) {
+        StartupEntity startup = startupServices.findById(id);
+        if (startup == null) {
+            return "redirect:/startupsAsignadas";
+        }
+        model.addAttribute("startup", startup);
+        return "/mentor/informacionStartup";
+    }
+
+    @GetMapping("seguimiento/{id}")
+    public String seguimiento(@PathVariable Integer id, Model model) {
+        StartupEntity startup = startupServices.findById(id);
+        if (startup == null) {
+            return "redirect:/startupsAsignadas";
+        }
+
+        model.addAttribute("startup", startup); // ✅ necesario
+        model.addAttribute("seguimiento", new SeguimientoEntity());
+
+        return "/mentor/seguimiento";
+    }
+
+    @PostMapping("/seguimiento/{id}")
+    public String saveSeguimiento(@PathVariable("id") Long id,
+                                  @ModelAttribute SeguimientoEntity seguimiento,
+                                  HttpSession session) {
+        UsersEntity mentor = (UsersEntity) session.getAttribute("mentorActual");
+        seguimiento.setStartup(startupServices.findById(id.intValue()));
+        seguimiento.setFechaSeguimiento(LocalDate.now());
+        seguimiento.setMentor(mentor);
+        System.out.println("Comentario: " + seguimiento.getComentario());
+        System.out.println("Startup: " + seguimiento.getStartup());
+        System.out.println("Mentor: " + seguimiento.getMentor());
+        System.out.println("Fecha: " + seguimiento.getFechaSeguimiento());
+        seguimientoService.save(seguimiento);
+        return "redirect:/informacionStartup/" + id;
+
+    }
+
+    @GetMapping("/seguimientos/pendientes")
+    public String verSeguimientosPendientes(HttpServletRequest request, Model model) {
+        UsersEntity mentor = (UsersEntity) request.getSession().getAttribute("mentorActual");
+        if (mentor == null) {
+            return "redirect:/login";
+        }
+
+        List<StartupEntity> pendientes = startupDAO.findStartupsSinSeguimientoPorMentor(mentor.getId_usuario());
+        System.out.println("Cantidad de startups sin seguimiento: " + pendientes.size());
+
+        List<MentoriaDTO> pendientesDTO = new ArrayList<>();
+
+        for (StartupEntity startup : pendientes) {
+
+            System.out.println("Revisando startup: " + startup.getNombre_startup());
+
+            List<TransactionEntity> transacciones = transactionServices.findByIdStartup(startup.getId_startup());
+            System.out.println("Transacciones encontradas: " + (transacciones != null ? transacciones.size() : "null"));
+
+            if (transacciones != null && !transacciones.isEmpty()) {
+                TransactionEntity tx = transacciones.get(0); // suponiendo que tomas la primera
+
+                String nombreMentor = mentor.getNombre_usu() + " " + mentor.getApellido_usu();
+                String nombreStartup = startup.getNombre_startup();
+                String nombreEmprendedor = tx.getNombreUsu().getNombre_usu() + " " + tx.getNombreUsu().getApellido_usu();
+                String nombreConvocatoria = startup.getConvocatoria().getTitleConvocatoria();
+
+                pendientesDTO.add(new MentoriaDTO(tx.getIdTransaction(), startup.getId_startup(), nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria, tx.getIdTransaction()));
+            }
+        }
+
+        model.addAttribute("startupsPendientes", pendientesDTO);
+        return "/mentor/startupsPendientes";
+    }
+
+    @GetMapping("/seguimientos/finalizados")
+    public String verSeguimientosFinalizados(HttpServletRequest request, Model model) {
+        UsersEntity mentor = (UsersEntity) request.getSession().getAttribute("mentorActual");
+
+        if (mentor == null) {
+            return "redirect:/login";
+        }
+
+        List<MentoriaDTO2> mentoriasFinalizadas = new ArrayList<>();
+        List<SeguimientoEntity> seguimiento =  seguimientoService.findByUsuario(mentor.getId_usuario());
+        for (SeguimientoEntity seguimientoEntity : seguimiento) {
+            SeguimientoEntity sg = seguimiento.get(0);
+
+            String nombreMentor = mentor.getNombre_usu() + " " + mentor.getApellido_usu();
+            String nombreStartup = seguimientoEntity.getStartup().getNombre_startup();
+            String comentario = seguimientoEntity.getComentario();
+            LocalDate fecha = seguimientoEntity.getFechaSeguimiento();
+
+            mentoriasFinalizadas.add(new MentoriaDTO2(seguimientoEntity.getIdSeguimiento(), sg.getStartup().getId_startup(), nombreMentor, nombreStartup,fecha, comentario));
+        }
+
+        model.addAttribute("title", "Seguimientos finalizados");
+        model.addAttribute("seguimientosFinalizados", mentoriasFinalizadas);
+
+        return "/mentor/historialSeguimiento";
+    }
+
 }
 
 

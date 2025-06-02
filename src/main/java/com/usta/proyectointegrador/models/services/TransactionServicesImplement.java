@@ -24,6 +24,11 @@ public class TransactionServicesImplement implements TransactionServices {
     }
 
     @Override
+    public List<TransactionEntity> findByIdStartup(Integer idStartup) {
+        return transactionDAO.findByStartupId(idStartup.longValue());
+    }
+
+    @Override
     @Transactional
     public void save(TransactionEntity transaction) {
         transactionDAO.save(transaction);

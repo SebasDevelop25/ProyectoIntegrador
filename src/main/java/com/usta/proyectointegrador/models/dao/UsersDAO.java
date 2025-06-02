@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface UsersDAO extends JpaRepository<UsersEntity, Long> {
 
+    @Query("SELECT u FROM UsersEntity u WHERE u.email =:email")
     UsersEntity findByEmail(String email);
 
     @Query("SELECT u FROM UsersEntity u WHERE u.idRol.idRol = 3")
