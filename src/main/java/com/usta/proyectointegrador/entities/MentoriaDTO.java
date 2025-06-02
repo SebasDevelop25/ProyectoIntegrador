@@ -1,5 +1,8 @@
 package com.usta.proyectointegrador.entities;
 
+import lombok.Data;
+
+@Data
 public class MentoriaDTO {
 
     private Long idTransaccion;
@@ -10,7 +13,7 @@ public class MentoriaDTO {
     private String nombreConvocatoria;
 
     public MentoriaDTO(Long idTransaccion, Integer idStartup ,String nombreMentor, String nombreStartup,
-                       String nombreEmprendedor, String nombreConvocatoria, Long idSeguimiento) {
+                       String nombreEmprendedor, String nombreConvocatoria) {
         this.idTransaccion = idTransaccion;
         this.idStartup = idStartup;
         this.nombreMentor = nombreMentor;

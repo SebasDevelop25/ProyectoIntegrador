@@ -5,103 +5,103 @@
 <!-- Sidebar fijo -->
 <div th:replace="layout/layoutSamu :: sidebar"></div>
 <div class="ml-64 p-8 bg-gray-100 text-gray-800 min-h-screen">
-  <div th:replace="layout/layoutSamu :: header"></div>
-  <div class="max-w-md mx-auto mt-24 mb-12 bg-green-50 rounded-xl p-8 shadow-2xl">
-    <h1 class="text-center text-2xl font-bold text-gray-900 mb-4">Crear nuevo usuario</h1>
-    <form th:action="@{/crearUsuario}" method="post" enctype="multipart/form-data"
-          th:object="${usuario}">
-      <div class="flex flex-col gap-4">
-        <label class="text-stone-900 font-bold">Nombre:</label>
-        <input type="text" th:field="*{nombre_usu}"
-               required class="p-2 rounded-md border border-gray-300"/>
+    <div th:replace="layout/layoutSamu :: header"></div>
+    <div class="max-w-md mx-auto mt-24 mb-12 bg-purple-200 rounded-xl p-8 shadow-2xl">
+        <h1 class="text-center text-2xl font-bold text-gray-900 mb-4">Crear nuevo usuario</h1>
+        <form th:action="@{/crearUsuario}" method="post" enctype="multipart/form-data"
+              th:object="${usuario}">
+            <div class="flex flex-col gap-4">
+                <label class="text-stone-900 font-bold">Nombre:</label>
+                <input type="text" th:field="*{nombre_usu}"
+                       required class="p-2 rounded-md border border-gray-300"/>
 
-        <label class="text-stone-900 font-bold">Apellido:</label>
-        <input type="text" th:field="*{apellido_usu}"
-               required class="p-2 rounded-md border border-gray-300"/>
-        <label class="text-stone-900 font-bold">Contraseña:</label>
-        <input type="text" th:field="*{clave}"
-               required class="p-2 rounded-md border border-gray-300"/>
-        <label class="text-stone-900 font-bold">Email:</label>
-        <input type="text" th:field="*{email}"
-               required class="p-2 rounded-md border border-gray-300"/>
-        <label class="text-stone-900 font-bold">Ciudad</label>
-        <input type="text" th:field="*{ciudad}"
-               required class="p-2 rounded-md border border-gray-300"/>
-        <label class="text-stone-900 font-bold">Telefono:</label>
-        <input type="text" th:field="*{telefono}">
+                <label class="text-stone-900 font-bold">Apellido:</label>
+                <input type="text" th:field="*{apellido_usu}"
+                       required class="p-2 rounded-md border border-gray-300"/>
+                <label class="text-stone-900 font-bold">Contraseña:</label>
+                <input type="text" th:field="*{clave}"
+                       required class="p-2 rounded-md border border-gray-300"/>
+                <label class="text-stone-900 font-bold">Email:</label>
+                <input type="text" th:field="*{email}"
+                       required class="p-2 rounded-md border border-gray-300"/>
+                <label class="text-stone-900 font-bold">Ciudad</label>
+                <input type="text" th:field="*{ciudad}"
+                       required class="p-2 rounded-md border border-gray-300"/>
+                <label class="text-stone-900 font-bold">Telefono:</label>
+                <input type="text" th:field="*{telefono}">
 
-        <label class="text-stone-900 font-bold">Foto:</label>
-        <input type="file" id="archivofoto" name="archivofoto" accept="image/*" class="border-0"/>
+                <label class="text-stone-900 font-bold">Foto:</label>
+                <input type="file" id="archivofoto" name="archivofoto" accept="image/*" class="border-0"/>
 
-        <!-- Vista previa -->
-        <div class="flex justify-center mt-4">
-          <img id="preview"
-               class="w-48 h-48 object-cover rounded-xl border-4 border-stone-300 shadow-xl
+                <!-- Vista previa -->
+                <div class="flex justify-center mt-4">
+                    <img id="preview"
+                         class="w-48 h-48 object-cover rounded-xl border-4 border-stone-300 shadow-xl
                         bg-white/70 hidden"/>
-        </div>
+                </div>
 
-        <label class="text-stone-900 font-bold">Rol:</label>
-        <select th:field="*{idRol.idRol}"
-                class="p-2 rounded-md border border-gray-300 bg-white text-gray-900"
-                required>
-          <option value="">-- Seleccione un rol --</option>
-          <option th:each="rol : ${roles}"
-                  th:value="${rol.idRol}"
-                  th:text="${rol.rol}">
-          </option>
-        </select>
+                <label class="text-stone-900 font-bold">Rol:</label>
+                <select th:field="*{idRol.idRol}"
+                        class="p-2 rounded-md border border-gray-300 bg-white text-gray-900"
+                        required>
+                    <option value="">-- Seleccione un rol --</option>
+                    <option th:each="rol : ${roles}"
+                            th:value="${rol.idRol}"
+                            th:text="${rol.rol}">
+                    </option>
+                </select>
 
-        <button type="submit"
-                class="bg-orange-200 text-gray-900 py-3 px-4 rounded-md font-bold
-                         hover:opacity-70 transition-all">
-          Crear Usuario
-        </button>
-      </div>
-    </form>
-  </div>
+                <button type="submit"
+                        class="bg-blue-400 text-gray-900 py-3 px-4 rounded-md font-bold
+                         hover:bg-blue-300 transition-all">
+                    Crear Usuario
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script>
-  const inputFoto = document.getElementById("archivofoto");
-  const preview = document.getElementById("preview");
+    const inputFoto = document.getElementById("archivofoto");
+    const preview = document.getElementById("preview");
 
-  inputFoto.addEventListener("change", e => {
-    const file = e.target.files[0];
-    if (!file || !file.type.startsWith("image/")) {
-      preview.src = "#";
-      preview.classList.add("hidden");
-      return;
-    }
+    inputFoto.addEventListener("change", e => {
+        const file = e.target.files[0];
+        if (!file || !file.type.startsWith("image/")) {
+            preview.src = "#";
+            preview.classList.add("hidden");
+            return;
+        }
 
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const img = new Image();
-      img.onload = () => {
-        const SIZE = 200;
-        const canvas = document.createElement("canvas");
-        canvas.width = SIZE;
-        canvas.height = SIZE;
-        const ctx = canvas.getContext("2d");
+        const reader = new FileReader();
+        reader.onload = ev => {
+            const img = new Image();
+            img.onload = () => {
+                const SIZE = 200;
+                const canvas = document.createElement("canvas");
+                canvas.width = SIZE;
+                canvas.height = SIZE;
+                const ctx = canvas.getContext("2d");
 
-        const ratio = Math.min(SIZE / img.width, SIZE / img.height);
-        const w = img.width * ratio, h = img.height * ratio;
-        const x = (SIZE - w) / 2, y = (SIZE - h) / 2;
-        ctx.drawImage(img, x, y, w, h);
+                const ratio = Math.min(SIZE / img.width, SIZE / img.height);
+                const w = img.width * ratio, h = img.height * ratio;
+                const x = (SIZE - w) / 2, y = (SIZE - h) / 2;
+                ctx.drawImage(img, x, y, w, h);
 
-        preview.src = canvas.toDataURL("image/png");
-        preview.classList.remove("hidden");
+                preview.src = canvas.toDataURL("image/png");
+                preview.classList.remove("hidden");
 
-        canvas.toBlob(blob => {
-          const newFile = new File([blob], file.name, {type: "image/png"});
-          const dataTransfer = new DataTransfer();
-          dataTransfer.items.add(newFile);
-          inputFoto.files = dataTransfer.files;
-        }, "image/png");
-      };
-      img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
+                canvas.toBlob(blob => {
+                    const newFile = new File([blob], file.name, {type: "image/png"});
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(newFile);
+                    inputFoto.files = dataTransfer.files;
+                }, "image/png");
+            };
+            img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
 </script>
 </body>
 </html>

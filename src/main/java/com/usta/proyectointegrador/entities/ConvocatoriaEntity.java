@@ -7,7 +7,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -25,6 +27,11 @@ public class ConvocatoriaEntity  implements Serializable {
     private String titleConvocatoria;
 
     @NotNull
+    @Size(min = 1, max = 10000)
+    @Column(name = "descripcion", length = 10000)
+    private String Descripcion;
+
+    @NotNull
     @DateTimeFormat(pattern = "yyy-MM-dd")
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_inicio")
@@ -35,6 +42,10 @@ public class ConvocatoriaEntity  implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_fin")
     private Date fechaFin;
+
+    @ManyToMany
+    private List<StartupEntity> startups = new ArrayList<>();
+
 
 
 

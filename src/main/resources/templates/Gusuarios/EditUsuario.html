@@ -6,9 +6,10 @@
 <div th:replace="layout/layoutSamu :: sidebar"></div>
 <div class="ml-64 p-8 bg-gray-100 text-gray-800 min-h-screen">
     <div th:replace="layout/layoutSamu :: header"></div>
-    <div class="max-w-md mx-auto mt-24 mb-12 bg-green-50 rounded-xl p-8 shadow-2xl">
+    <div class="max-w-md mx-auto mt-24 mb-12 bg-purple-200 rounded-xl p-8 shadow-2xl">
         <h1 class="text-center text-2xl font-bold text-gray-900 mb-4">Editar usuario</h1>
-        <form th:action="@{/editarUsuario/{id}(id=${usuarioEdit.id_usuario})}" method="post" enctype="multipart/form-data"
+        <form th:action="@{/editarUsuario/{id}(id=${usuarioEdit.idUsuario})}" method="post"
+              enctype="multipart/form-data"
               th:object="${usuarioEdit}">
             <div class="flex flex-col gap-4">
                 <label class="text-stone-900 font-bold">Nombre:</label>
@@ -32,7 +33,7 @@
 
                 <label class="text-stone-900 font-bold">Foto:</label>
                 <input type="file" id="archivofoto" name="archivofoto" accept="image/*" class="border-0"/>
-                <input type="hidden" name="imagenAnterior" th:value="${usuarioEdit.foto}" />
+                <input type="hidden" name="imagenAnterior" th:value="${usuarioEdit.foto}"/>
 
                 <!-- Vista previa -->
                 <div class="flex justify-center mt-4">
@@ -53,8 +54,8 @@
                 </select>
 
                 <button type="submit"
-                        class="bg-orange-200 text-gray-900 py-3 px-4 rounded-md font-bold
-                         hover:opacity-70 transition-all">
+                        class="bg-blue-400 text-gray-900 py-3 px-4 rounded-md font-bold
+                         hover:bg-blue-300 transition-all">
                     Editar Usuario
                 </button>
             </div>

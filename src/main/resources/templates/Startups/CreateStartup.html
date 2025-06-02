@@ -6,7 +6,7 @@
 <div th:replace="layout/layoutSamu :: sidebar"></div>
 <div class="ml-64 p-8 bg-gray-100 text-gray-800 min-h-screen">
     <div th:replace="layout/layoutSamu :: header"></div>
-    <div class="max-w-md mx-auto mt-24 mb-12 bg-green-50 rounded-xl p-8 shadow-2xl">
+    <div class="max-w-md mx-auto mt-24 mb-12 bg-purple-200 rounded-xl p-8 shadow-2xl">
         <h1 class="text-center text-2xl font-bold text-gray-900 mb-4">Crear nuevo startup</h1>
         <form th:action="@{/crearStartup}" method="post" enctype="multipart/form-data"
               th:object="${Startup}">
@@ -44,8 +44,8 @@
                 </select>
 
                 <button type="submit"
-                        class="bg-orange-200 text-gray-900 py-3 px-4 rounded-md font-bold
-                         hover:opacity-70 transition-all">
+                        class="bg-blue-400 text-gray-900 py-3 px-4 rounded-md font-bold
+                         hover:bg-blue-300 transition-all">
                     Crear startup
                 </button>
             </div>

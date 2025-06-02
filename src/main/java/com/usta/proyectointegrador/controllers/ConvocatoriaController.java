@@ -73,6 +73,7 @@ public class ConvocatoriaController {
         convoAux.setId_Convocatoria(convocatoria.getId_Convocatoria());
         convoAux.setFechaFin(convocatoria.getFechaFin());
         convoAux.setFechaInicio(convocatoria.getFechaInicio());
+        convoAux.setDescripcion(convocatoria.getDescripcion());
 
         convocatoriaServices.actualizar(convoAux);
         redirectAttributes.addFlashAttribute("mensaje", "Convocatoria actualizada");

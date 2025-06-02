@@ -13,10 +13,11 @@ import java.io.Serializable;
 @Entity
 @Table(name = "USERS")
 public class UsersEntity implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
-    private Long id_usuario;
+    private Long idUsuario;
 
     @NotNull
     @Size(min = 20, max = 50)
@@ -30,7 +31,7 @@ public class UsersEntity implements Serializable {
 
     @NotNull
     @Size(min = 1, max = 150)
-    @Column(name = "email", unique = true,  length = 150, nullable = false)
+    @Column(name = "email", unique = true, length = 150, nullable = false)
     private String email;
 
     @NotNull
@@ -48,20 +49,13 @@ public class UsersEntity implements Serializable {
 
     @NotNull
     @Size(min = 1, max = 1000000)
-    @Column(name = "foto", length = 1000000, nullable=false)
+    @Column(name = "foto", length = 1000000, nullable = false)
     private String foto;
 
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
-    public String getFoto() {
-        return foto;
-    }
-
-    @NotNull
-    @JoinColumn(name = "id_Rol", referencedColumnName = "id_Rol")
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_Rol", referencedColumnName = "id_Rol")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private RolEntity idRol;
 
 }
+

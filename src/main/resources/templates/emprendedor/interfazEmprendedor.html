@@ -2,64 +2,72 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Inicio Usuario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Innova Cloud - Inicio</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1526403227685-99b926c1dc1b');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
 </head>
-<body class="bg-white text-gray-900 min-h-screen w-screen flex flex-col">
+<body class="text-gray-800 min-h-screen">
 
-<header th:replace="~{layout/layout :: header}"></header>
+<header th:replace="~{layout/layoutSamu :: header}"></header>
+<aside th:replace="~{layout/layoutSamu :: sidebar2}"></aside>
 
-<main class="mt-24 flex-grow flex flex-row">
-
-    <!-- Sidebar -->
-    <aside class="w-64 bg-[#708C73] text-white py-10 flex flex-col gap-6 px-6">
-        <a href="#" class="hover:underline">Mis mentores</a>
-        <hr class="border-white opacity-30"/>
-        <a href="#" class="hover:underline">Mis Ingresos</a>
-        <hr class="border-white opacity-30"/>
-        <a href="#" class="hover:underline">Postulaciones</a>
-        <hr class="border-white opacity-30"/>
-        <a href="#" class="hover:underline">Editar perfil</a>
-        <hr class="border-white opacity-30"/>
-    </aside>
-
-    <!-- Main content -->
-    <section class="flex-1 px-6 py-10">
-        <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold">INNOVA CLOUD</h1>
-            <button class="bg-[#F7A072] text-white px-4 py-2 rounded-md font-semibold hover:bg-red-400 transition-all">
-                Log-out
+<main class="ml-64 p-12 bg-white bg-opacity-80 min-h-screen">
+    <div class="text-center mb-10">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="flex items-center gap-1 text-gray-600 hover:text-red-600" title="Cerrar sesión">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-9V5m0 14a9 9 0 100-18 9 9 0 000 18z"/>
+                </svg>
             </button>
-        </div>
+        </form>
+        <h1 class="text-4xl font-bold text-purple-800">Bienvenido Emprendedor</h1>
+        <p class="text-gray-600 mt-2">Postulate y haz realidad tus sueños.</p>
+    </div>
 
-        <!-- Carrusel de convocatorias -->
-        <div class="mt-10 flex justify-center items-center relative">
-            <button class="absolute left-0 text-gray-400 text-3xl font-bold hover:text-black">&lt;</button>
-            <div class="bg-gray-200 w-full max-w-4xl h-48 flex items-center justify-center">
-                <span class="text-lg italic text-black bg-orange-300 w-full text-center py-2 block">
-                    ¡Convocatorias disponibles!
-                </span>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a th:href="@{/MisPostulaciones}" class="bg-purple-200 hover:bg-purple-300 p-6 rounded-xl shadow-lg text-center transition-all">
+            <div class="text-purple-800 text-3xl mb-2">
+                <i data-lucide="briefcase"></i>
             </div>
-            <button class="absolute right-0 text-gray-400 text-3xl font-bold hover:text-black">&gt;</button>
-        </div>
+            <h2 class="text-xl font-semibold">Mis postulaciones</h2>
+            <p class="text-gray-600">Visualiza el estado de tus últimas postulaciones</p>
+        </a>
 
-        <!-- Cuadrículas de "Ingresos" y "Mis postulaciones" -->
-        <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-gray-200 h-40 flex items-end justify-center">
-                <span class="bg-orange-300 w-full text-center py-2 italic font-semibold">
-                    Ingresos
-                </span>
+        <a th:href="@{/Ingresos}" class="bg-purple-200 hover:bg-purple-300 p-6 rounded-xl shadow-lg text-center transition-all">
+            <div class="text-purple-800 text-3xl mb-2">
+                <i data-lucide="book-open"></i>
             </div>
-            <div class="bg-gray-200 h-40 flex items-end justify-center">
-                <span class="bg-orange-300 w-full text-center py-2 italic font-semibold">
-                    Mis postulaciones
-                </span>
-            </div>
-        </div>
-    </section>
+            <h2 class="text-xl font-semibold">Mis Ingresos</h2>
+            <p class="text-gray-600">Consulta tus últimas ganancias.</p>
+        </a>
 
+        <a th:href="@{/convocatoriasPostular}" class="bg-purple-200 hover:bg-purple-300 p-6 rounded-xl shadow-lg text-center transition-all">
+            <div class="text-purple-800 text-3xl mb-2">
+                <i data-lucide="users"></i>
+            </div>
+            <h2 class="text-xl font-semibold">Convocatorias disponibles</h2>
+            <p class="text-gray-600">Postulate y empieza tu propio camino</p>
+        </a>
+    </div>
 </main>
+
+<script type="module">
+    import lucide from 'https://cdn.skypack.dev/lucide';
+    document.addEventListener('DOMContentLoaded', function () {
+        lucide.createIcons();
+    });
+</script>
 
 </body>
 </html>

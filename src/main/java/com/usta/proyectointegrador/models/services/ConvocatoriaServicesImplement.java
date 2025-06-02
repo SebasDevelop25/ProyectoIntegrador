@@ -1,7 +1,9 @@
 package com.usta.proyectointegrador.models.services;
 
 import com.usta.proyectointegrador.entities.ConvocatoriaEntity;
+import com.usta.proyectointegrador.entities.StartupEntity;
 import com.usta.proyectointegrador.models.dao.ConvocatorioDAO;
+import com.usta.proyectointegrador.models.dao.StartupDAO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ public class ConvocatoriaServicesImplement implements ConvocatoriaServices {
 
     @Autowired
     private ConvocatorioDAO convocatorioDAO;
+    @Autowired
+    private StartupDAO startupDAO;
 
     @Override
     @Transactional
@@ -26,6 +30,11 @@ public class ConvocatoriaServicesImplement implements ConvocatoriaServices {
         {
             return convocatorioDAO.findById(id).orElse(null);
         }
+    }
+
+    @Override
+    public ConvocatoriaEntity findByConvo(ConvocatoriaEntity convocatoria) {
+        return null;
     }
 
     @Override
@@ -44,4 +53,11 @@ public class ConvocatoriaServicesImplement implements ConvocatoriaServices {
     public ConvocatoriaEntity actualizar(ConvocatoriaEntity convocatoria) {
         return convocatorioDAO.save(convocatoria);
     }
+
+    @Override
+    public void registrarStartupEnConvocatoria(StartupEntity startup, ConvocatoriaEntity convocatoria) {
+        startup.setConvocatoria(convocatoria);
+        startupDAO.save(startup);
+    }
+
 }

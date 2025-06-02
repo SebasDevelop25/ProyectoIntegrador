@@ -1,6 +1,7 @@
 package com.usta.proyectointegrador.controllers;
 
 import com.usta.proyectointegrador.entities.*;
+import com.usta.proyectointegrador.models.dao.NotificacionDAO;
 import com.usta.proyectointegrador.models.services.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -57,27 +58,40 @@ public class UsersController {
 
 
     private static final Long ROL_MENTOR = 3L;
+    @Autowired
+    private NotificacionDAO notificacionDAO;
 
     @GetMapping("/mentorias")
     public String listarMentorias(Model model) {
-        // 1) Buscamos todos los usuarios con rol mentor
         List<UsersEntity> mentores = usersServices.findByRol(ROL_MENTOR);
-
         List<MentoriaDTO> mentorias = new ArrayList<>();
 
+        System.out.println("Mentores encontrados: " + mentores.size());
+
         for (UsersEntity mentor : mentores) {
-            List<TransactionEntity> txs = transactionServices.findByUsuarioIdUsuario(mentor.getId_usuario());
+            List<TransactionEntity> txs = transactionServices.findByUsuarioIdUsuario(mentor.getIdUsuario());
             for (TransactionEntity tx : txs) {
                 String nombreMentor = mentor.getNombre_usu() + " " + mentor.getApellido_usu();
                 String nombreStartup = tx.getStartup().getNombre_startup();
 
-                // Asegúrate de que estas relaciones existen correctamente en StartupEntity
-                String nombreEmprendedor = tx.getNombreUsu().getNombre_usu(); // O getNombre(), depende del modelo
-                String nombreConvocatoria = tx.getStartup().getConvocatoria().getTitleConvocatoria();
+                // Extraigo el emprendedor sin cambios:
+                String nombreEmprendedor = tx.getNombreUsu().getNombre_usu();
 
-                mentorias.add(new MentoriaDTO(tx.getIdTransaction(), tx.getStartup().getId_startup(),nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria, tx.getIdTransaction()));
+                // Aquí chequeo que exista Convocatoria antes de llamar a getTitleConvocatoria()
+                ConvocatoriaEntity convocatoria = tx.getStartup().getConvocatoria();
+                String nombreConvocatoria = (convocatoria != null)
+                        ? convocatoria.getTitleConvocatoria()
+                        : "Sin Convocatoria";
+
+                mentorias.add(new MentoriaDTO(
+                        tx.getIdTransaction(),
+                        tx.getStartup().getId_startup(),
+                        nombreMentor,
+                        nombreStartup,
+                        nombreEmprendedor,
+                        nombreConvocatoria
+                ));
             }
-
         }
 
         model.addAttribute("title", "Listado de Mentorías");
@@ -85,6 +99,7 @@ public class UsersController {
         model.addAttribute("urlCreate", "/createMentoria");
         return "Usuarios/ListarMentorias";
     }
+
 
 
     @GetMapping("/createMentoria")
@@ -128,7 +143,7 @@ public class UsersController {
         }
 
         MentoriaForm mentoriaForm = new MentoriaForm();
-        mentoriaForm.setIdMentoria(transaction.getNombreUsu().getId_usuario().longValue());
+        mentoriaForm.setIdMentoria(transaction.getNombreUsu().getIdUsuario());
         mentoriaForm.setStartupId(transaction.getStartup().getId_startup());
 
         model.addAttribute("mentoriaFormEdit", mentoriaForm);
@@ -223,11 +238,13 @@ public class UsersController {
             urlImagen = "/images/default-logo.png";
         }
 
+        String pass = new BCryptPasswordEncoder().encode(usuario.getClave());
+        usuario.setClave(pass);
         usuario.setFoto(urlImagen);
         usersServices.save(usuario);
 
         redirectAttributes.addFlashAttribute("mensaje", "Usuario guardado correctamente");
-        return "Gusuarios/ListarUsuarios";
+        return "redirect:/usuarios";
     }
 
     private String guardarImagen(MultipartFile imagen, String imagenAnterior) {
@@ -280,9 +297,6 @@ public class UsersController {
         UsersEntity usuario = usersServices.findById(id);
 
         List<RolEntity> roles = rolService.findAll();
-        if (usuario == null) {
-            return "Gusuarios/ListarUsuarios";
-        }
         model.addAttribute("title", "Editar Usuario");
         model.addAttribute("usuarioEdit", usuario);
         model.addAttribute("listaRoles", roles);
@@ -419,7 +433,7 @@ public class UsersController {
         List<MentoriaDTO> mentorias = new ArrayList<>();
 
 
-            List<TransactionEntity> txs = transactionServices.findByUsuarioIdUsuario(mentor.getId_usuario());
+            List<TransactionEntity> txs = transactionServices.findByUsuarioIdUsuario(mentor.getIdUsuario());
             for (TransactionEntity tx : txs) {
                 String nombreMentor = mentor.getNombre_usu() + " " + mentor.getApellido_usu();
                 String nombreStartup = tx.getStartup().getNombre_startup();
@@ -427,8 +441,9 @@ public class UsersController {
                 // Asegúrate de que estas relaciones existen correctamente en StartupEntity
                 String nombreEmprendedor = tx.getNombreUsu().getNombre_usu(); // O getNombre(), depende del modelo
                 String nombreConvocatoria = tx.getStartup().getConvocatoria().getTitleConvocatoria();
+                System.out.println("Nombre convo: " + nombreConvocatoria);
 
-                mentorias.add(new MentoriaDTO(tx.getIdTransaction(), tx.getStartup().getId_startup(),nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria, tx.getIdTransaction()));
+                mentorias.add(new MentoriaDTO(tx.getIdTransaction(), tx.getStartup().getId_startup(),nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria));
             }
 
         model.addAttribute("title", "Listado de Mentorías");
@@ -436,8 +451,17 @@ public class UsersController {
         return "/mentor/startupsAsignadas";
     }
 
+    @Autowired
+    NotificacionService notificacionService;
+
+
+
     @GetMapping("/interfazAdministrador")
-    public String mostrarInterfazAdministrador() {
+    public String mostrarInterfazAdministrador(Model model) {
+        RolEntity rol = rolServices.findByNombre("ROLE_ADMINISTRADOR");
+        rolServices.save(rol);
+        List<NotificacionEntity> notis = notificacionService.obtenerNoLeidas(rol.getIdRol());
+        model.addAttribute("notis", notis);
         return "/administrador/interfazAdministrador";
     }
 

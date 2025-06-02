@@ -33,6 +33,7 @@ public class UsersServicesImplement implements UsersServices {
 
     @Override
     public void deleteById(Long id) {
+        usuarioDAO.deleteById(id);
 
     }
 

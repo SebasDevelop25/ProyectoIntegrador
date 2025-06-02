@@ -12,7 +12,7 @@
 
     <div th:replace="layout/layoutSamu :: header"></div>
 
-    <div class="max-w-md mx-auto mt-12 mb-12 bg-white rounded-xl p-8 shadow-lg">
+    <div class="max-w-md mx-auto mt-12 mb-12 bg-purple-200 rounded-xl p-8 shadow-lg">
         <h1 class="text-center text-2xl font-bold text-gray-900 mb-4">
             Editar mentoría
         </h1>
@@ -25,7 +25,7 @@
                         class="mt-1 block w-full p-2 border rounded-md bg-white">
                     <option value="">-- selecciona un mentor --</option>
                     <option th:each="u : ${mentores}"
-                            th:value="${u.id_usuario}"
+                            th:value="${u.idUsuario}"
                             th:text="${u.nombre_usu} + ' ' + ${u.apellido_usu}">
                     </option>
                 </select>
@@ -45,7 +45,7 @@
 
             <div class="flex items-center justify-between">
                 <button type="submit"
-                        class="bg-orange-500 text-white py-2 px-4 rounded-md font-bold hover:bg-orange-600 transition">
+                        class="bg-blue-400 text-white py-2 px-4 rounded-md font-bold hover:bg-blue-300 transition">
                     Editar Mentoría
                 </button>
                 <a th:href="@{/mentorias}" class="text-blue-600 hover:underline">

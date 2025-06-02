@@ -14,7 +14,7 @@ public interface SeguimientoDAO extends JpaRepository<SeguimientoEntity, Long> {
     @Query("""
            SELECT s
            FROM SeguimientoEntity s
-           WHERE s.mentor.id_usuario = :usuarioId
+           WHERE s.mentor.idUsuario = :usuarioId
            """)
     List<SeguimientoEntity> findByUsuarioId(@Param("usuarioId") Long usuarioId);
 }
