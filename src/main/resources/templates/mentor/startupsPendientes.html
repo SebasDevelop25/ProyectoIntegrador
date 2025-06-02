@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startups Asignadas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-900 min-h-screen w-screen flex flex-col">
+
+<header th:replace="~{layout/layout :: header}"></header>
+
+<main class="mt-24 flex-grow flex flex-col items-center">
+<!-- Título -->
+<h1 class="text-lg font-semibold mb-12 mt-8">Startups pendientes</h1>
+
+<!-- Tarjetas -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+    <div th:each="p : ${startupsPendientes}" class="border border-orange-200 shadow-md p-4 rounded-md bg-white w-72"
+         th:onclick="|window.location.href='/informacionStartup/${p.idStartup}'|">
+        <p><strong>Nombre:</strong> <span class="ml-2" th:text="${p.nombreStartup}">Nombre</span></p>
+        <p><strong>Emprendedor:</strong> <span class="ml-2" th:text="${p.nombreEmprendedor}">Emprendedor</span></p>
+        <p><strong>Convocatoria relacionada:</strong> <span class="ml-2" th:text="${p.nombreConvocatoria}">Convocatoria</span></p>
+    </div>
+</div>
+
+    </main>
+<footer class="mt-auto w-full" th:replace="~{layout/layout :: footer}"></footer>
+
+</body>
+</html>

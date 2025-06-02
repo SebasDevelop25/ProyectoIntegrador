@@ -13,5 +13,7 @@ public interface RolServices {
 
     public RolEntity findById(Integer id);
 
+    public RolEntity findByIdS(Long id);
+
     public RolEntity findByNombre(String rol);
 }

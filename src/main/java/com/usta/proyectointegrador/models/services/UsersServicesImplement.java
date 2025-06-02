@@ -28,11 +28,12 @@ public class UsersServicesImplement implements UsersServices {
 
     @Override
     public UsersEntity findById(Long id) {
-        return null;
+        return usuarioDAO.findById(id).orElse(null);
     }
 
     @Override
     public void deleteById(Long id) {
+        usuarioDAO.deleteById(id);
 
     }
 
@@ -43,7 +44,7 @@ public class UsersServicesImplement implements UsersServices {
 
     @Override
     public UsersEntity findByEmail(String email) {
-        return null;
+        return usuarioDAO.findByEmail(email);
     }
 
     @Override

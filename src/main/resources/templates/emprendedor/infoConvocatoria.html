@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layoutSamu :: head"></head>
+<body>
+<div th:replace="layout/layoutSamu :: sidebar2"></div>
+
+<div class="ml-64 p-8 bg-gray-100 min-h-screen text-gray-800">
+
+    <header th:replace="layout/layoutSamu :: header"></header>
+
+    <!-- Vista de detalle de una convocatoria -->
+    <main th:fragment="content" class="flex-1 mt-16 p-6 overflow-auto">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white rounded-xl shadow p-6">
+
+            <!-- Información de la convocatoria -->
+            <div class="space-y-4">
+                <h2 class="text-2xl font-bold text-purple-800" th:text="${convocatoria.titleConvocatoria}">Nombre de la
+                    convocatoria</h2>
+                <p class="text-gray-700 text-justify" th:text="${convocatoria.descripcion}">
+                    Descripción de la convocatoria detallada. Aquí se incluyen los objetivos, requisitos y beneficios
+                    para los postulantes.
+                </p>
+
+                <!-- Calendario con fechas -->
+                <div class="bg-gray-100 rounded-lg shadow p-4 mt-4">
+                    <h3 class="text-lg font-semibold text-purple-800 mb-2">Calendario de la Convocatoria</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-sm text-gray-600">Fecha de inicio:</p>
+                            <p class="text-md font-medium text-gray-800"
+                               th:text="${#dates.format(convocatoria.fechaInicio, 'dd/MM/yyyy')}">01/01/2025</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Fecha de cierre:</p>
+                            <p class="text-md font-medium text-gray-800"
+                               th:text="${#dates.format(convocatoria.fechaFin, 'dd/MM/yyyy')}">31/01/2025</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón centrado con animación -->
+                <div class="flex justify-center mt-10">
+                    <a th:href="@{/createPostulacion(idConvocatoria=${convocatoria.id_Convocatoria})}"
+                       class="bg-purple-700 hover:bg-purple-800 text-white px-6 py-2 rounded-md shadow transition font-medium transform hover:-translate-y-1 hover:scale-105 duration-300">
+                        ¡Postularse!
+                    </a>
+                </div>
+            </div>
+
+            <!-- Imágenes e información complementaria -->
+            <div class="grid gap-4">
+                <div class="flex gap-4 items-center bg-gray-100 rounded-lg p-4 shadow">
+                    <img th:src="@{/images/info3.jpg}" alt="Convocatoria 1"
+                         class="rounded-lg w-32 h-32 object-cover">
+                    <div>
+                        <h3 class="text-lg font-semibold text-purple-800">Impulso a startups</h3>
+                        <p class="text-sm text-gray-600">Recibe mentorías y asesorías personalizadas para crecer tu
+                            emprendimiento.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 items-center bg-gray-100 rounded-lg p-4 shadow">
+                    <img th:src="@{/images/info1.png}" alt="Convocatoria 2"
+                         class="rounded-lg w-32 h-32 object-cover">
+                    <div>
+                        <h3 class="text-lg font-semibold text-purple-800">Innovación y Tecnología</h3>
+                        <p class="text-sm text-gray-600">Acceso a espacios de coworking y laboratorios de
+                            innovación.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 items-center bg-gray-100 rounded-lg p-4 shadow">
+                    <img th:src="@{/images/info3.png}" alt="Convocatoria 3"
+                         class="rounded-lg w-32 h-32 object-cover">
+                    <div>
+                        <h3 class="text-lg font-semibold text-purple-800">Red de Mentores</h3>
+                        <p class="text-sm text-gray-600">Conecta con expertos del sector para llevar tu idea al
+                            siguiente nivel.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+</div>
+</body>
+</html>

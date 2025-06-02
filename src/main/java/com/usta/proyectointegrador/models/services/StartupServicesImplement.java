@@ -47,4 +47,9 @@ public class StartupServicesImplement implements StartupServices {
         return startupDAO.findByConvocatoria(convocatoria);
     }
 
+    @Override
+    public List<StartupEntity> findByUsuario(Integer id) {
+        return null;
+    }
+
 }

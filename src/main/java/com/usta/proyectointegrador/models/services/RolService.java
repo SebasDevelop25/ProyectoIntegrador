@@ -8,7 +8,7 @@ public interface RolService {
 
     public List<RolEntity> findAll();
 
-    public RolEntity findById(Integer id);
+    public RolEntity findById(Long id);
 
     public void save(RolEntity rol);
 

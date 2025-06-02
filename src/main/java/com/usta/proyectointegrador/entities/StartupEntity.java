@@ -57,15 +57,28 @@ public class StartupEntity implements Serializable {
         return sector;
     }
 
-    //    @NotNull
-//    @JoinColumn(name = "id_convocatoria", referencedColumnName = "id_convocatoria")
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @OnDelete(action = OnDeleteAction.NO_ACTION)
-//    private ConvocatoriaEntity id_convocatoria;
-
     /*--------------*/
     @ManyToOne
     @JoinColumn(name = "id_convocatoria")
     private ConvocatoriaEntity convocatoria;
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
+    private UsersEntity usuario;
+
+    public UsersEntity getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsersEntity usuario) {
+        this.usuario = usuario;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "id_rol")
+    private RolEntity rol;
+
+
+
 
 }

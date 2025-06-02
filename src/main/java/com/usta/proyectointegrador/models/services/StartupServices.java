@@ -18,4 +18,6 @@ public interface StartupServices {
 
     List<StartupEntity> findByConvocatoria(ConvocatoriaEntity convocatoria);
 
+    List<StartupEntity> findByUsuario(Integer id);
+
 }

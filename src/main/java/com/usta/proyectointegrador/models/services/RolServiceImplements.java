@@ -17,8 +17,8 @@ public class RolServiceImplements implements RolService  {
     }
 
     @Override
-    public RolEntity findById(Integer id) {
-        return  rolDAO.findById(id.longValue()).orElse(null);
+    public RolEntity findById(Long id) {
+        return  rolDAO.findById(id).orElse(null);
     }
 
     @Override

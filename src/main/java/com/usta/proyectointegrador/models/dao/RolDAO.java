@@ -16,4 +16,8 @@ public interface RolDAO extends JpaRepository<RolEntity, Long> {
     @Transactional
     @Query("SELECT r FROM RolEntity  r WHERE r.idRol =:rolId")
     RolEntity findById(Integer rolId);
+
+    @Transactional
+    @Query("SELECT r FROM RolEntity  r WHERE r.idRol =:rolId")
+    RolEntity findByIdV(Long rolId);
 }

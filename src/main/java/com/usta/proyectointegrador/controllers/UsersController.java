@@ -1,7 +1,10 @@
 package com.usta.proyectointegrador.controllers;
 
 import com.usta.proyectointegrador.entities.*;
+import com.usta.proyectointegrador.models.dao.NotificacionDAO;
 import com.usta.proyectointegrador.models.services.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -30,26 +33,16 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import com.usta.proyectointegrador.entities.RolEntity;
 import com.usta.proyectointegrador.entities.UsersEntity;
 import com.usta.proyectointegrador.models.services.RolServices;
 import com.usta.proyectointegrador.models.services.UsersServices;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.validation.Valid;
 
 @Controller
 public class UsersController {
@@ -65,21 +58,39 @@ public class UsersController {
 
 
     private static final Long ROL_MENTOR = 3L;
+    @Autowired
+    private NotificacionDAO notificacionDAO;
 
     @GetMapping("/mentorias")
     public String listarMentorias(Model model) {
-        // 1) Buscamos todos los usuarios con rol mentor
         List<UsersEntity> mentores = usersServices.findByRol(ROL_MENTOR);
-
         List<MentoriaDTO> mentorias = new ArrayList<>();
 
+        System.out.println("Mentores encontrados: " + mentores.size());
+
         for (UsersEntity mentor : mentores) {
-            List<TransactionEntity> txs = transactionServices.findByUsuarioIdUsuario(mentor.getId_usuario());
+            List<TransactionEntity> txs = transactionServices.findByUsuarioIdUsuario(mentor.getIdUsuario());
             for (TransactionEntity tx : txs) {
-                // Cada transacción es una mentoría: mentor + startup
                 String nombreMentor = mentor.getNombre_usu() + " " + mentor.getApellido_usu();
                 String nombreStartup = tx.getStartup().getNombre_startup();
-                mentorias.add(new MentoriaDTO(tx.getIdTransaction(), nombreMentor, nombreStartup));
+
+                // Extraigo el emprendedor sin cambios:
+                String nombreEmprendedor = tx.getNombreUsu().getNombre_usu();
+
+                // Aquí chequeo que exista Convocatoria antes de llamar a getTitleConvocatoria()
+                ConvocatoriaEntity convocatoria = tx.getStartup().getConvocatoria();
+                String nombreConvocatoria = (convocatoria != null)
+                        ? convocatoria.getTitleConvocatoria()
+                        : "Sin Convocatoria";
+
+                mentorias.add(new MentoriaDTO(
+                        tx.getIdTransaction(),
+                        tx.getStartup().getId_startup(),
+                        nombreMentor,
+                        nombreStartup,
+                        nombreEmprendedor,
+                        nombreConvocatoria
+                ));
             }
         }
 
@@ -88,6 +99,7 @@ public class UsersController {
         model.addAttribute("urlCreate", "/createMentoria");
         return "Usuarios/ListarMentorias";
     }
+
 
 
     @GetMapping("/createMentoria")
@@ -131,7 +143,7 @@ public class UsersController {
         }
 
         MentoriaForm mentoriaForm = new MentoriaForm();
-        mentoriaForm.setIdMentoria(transaction.getNombreUsu().getId_usuario().longValue());
+        mentoriaForm.setIdMentoria(transaction.getNombreUsu().getIdUsuario());
         mentoriaForm.setStartupId(transaction.getStartup().getId_startup());
 
         model.addAttribute("mentoriaFormEdit", mentoriaForm);
@@ -226,11 +238,13 @@ public class UsersController {
             urlImagen = "/images/default-logo.png";
         }
 
+        String pass = new BCryptPasswordEncoder().encode(usuario.getClave());
+        usuario.setClave(pass);
         usuario.setFoto(urlImagen);
         usersServices.save(usuario);
 
         redirectAttributes.addFlashAttribute("mensaje", "Usuario guardado correctamente");
-        return "Gusuarios/ListarUsuarios";
+        return "redirect:/usuarios";
     }
 
     private String guardarImagen(MultipartFile imagen, String imagenAnterior) {
@@ -283,9 +297,6 @@ public class UsersController {
         UsersEntity usuario = usersServices.findById(id);
 
         List<RolEntity> roles = rolService.findAll();
-        if (usuario == null) {
-            return "Gusuarios/ListarUsuarios";
-        }
         model.addAttribute("title", "Editar Usuario");
         model.addAttribute("usuarioEdit", usuario);
         model.addAttribute("listaRoles", roles);
@@ -399,18 +410,64 @@ public class UsersController {
     /*-------------------------------------------------------------------------------------------*/
 
     @GetMapping("/indexMentor")
-    public String mostrarInterfazMentor() {
+    public String mostrarInterfazMentor(HttpSession session, Model model) {
+        UsersEntity mentor = (UsersEntity) session.getAttribute("mentorActual");
+        if(mentor != null){
+            System.out.println("Mentor: " + mentor.getNombre_usu());
+            model.addAttribute("nombreMentor", mentor.getNombre_usu());
+        }else {
+            System.out.println("No hay mentor en sesión");
+        }
         return "/mentor/indexMentor";
     }
 
     @GetMapping("/startupsAsignadas")
-    public String mostrarStarupsAsignadas() {
+    public String mostrarStarupsAsignadas(HttpServletRequest request , Model model) {
+        // 1) Buscamos todos los usuarios con rol mentor
+        UsersEntity mentor = (UsersEntity) request.getSession().getAttribute("mentorActual");
+        if (mentor == null) {
+            // Si no hay mentor en sesión, redirige al login o lanza error
+            return "redirect:/login";
+        }
+
+        List<MentoriaDTO> mentorias = new ArrayList<>();
+
+
+            List<TransactionEntity> txs = transactionServices.findByUsuarioIdUsuario(mentor.getIdUsuario());
+            for (TransactionEntity tx : txs) {
+                String nombreMentor = mentor.getNombre_usu() + " " + mentor.getApellido_usu();
+                String nombreStartup = tx.getStartup().getNombre_startup();
+
+                // Asegúrate de que estas relaciones existen correctamente en StartupEntity
+                String nombreEmprendedor = tx.getNombreUsu().getNombre_usu(); // O getNombre(), depende del modelo
+                String nombreConvocatoria = tx.getStartup().getConvocatoria().getTitleConvocatoria();
+                System.out.println("Nombre convo: " + nombreConvocatoria);
+
+                mentorias.add(new MentoriaDTO(tx.getIdTransaction(), tx.getStartup().getId_startup(),nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria));
+            }
+
+        model.addAttribute("title", "Listado de Mentorías");
+        model.addAttribute("mentorias", mentorias);
         return "/mentor/startupsAsignadas";
     }
 
+    @Autowired
+    NotificacionService notificacionService;
+
+
+
     @GetMapping("/interfazAdministrador")
-    public String mostrarInterfazAdministrador() {
+    public String mostrarInterfazAdministrador(Model model) {
+        RolEntity rol = rolServices.findByNombre("ROLE_ADMINISTRADOR");
+        rolServices.save(rol);
+        List<NotificacionEntity> notis = notificacionService.obtenerNoLeidas(rol.getIdRol());
+        model.addAttribute("notis", notis);
         return "/administrador/interfazAdministrador";
+    }
+
+    @GetMapping("/interfazInversor")
+    public String mostrarInterfazInversor() {
+        return "/inversor/interfazInversor";
     }
 
 }

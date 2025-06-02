@@ -10,10 +10,17 @@ import java.util.List;
 public interface TransactionDAO extends JpaRepository<TransactionEntity, Long> {
 
     @Query("""
-           SELECT t
-           FROM TransactionEntity t
-           WHERE t.nombreUsu.id_usuario = :usuarioId
-           """)
+            SELECT t
+            FROM TransactionEntity t
+            WHERE t.nombreUsu.idUsuario = :usuarioId
+            """)
     List<TransactionEntity> findByUsuarioId(@Param("usuarioId") Long usuarioId);
+
+    @Query("""
+            SELECT t
+            FROM TransactionEntity t
+            WHERE t.startup.id_startup = :startupId
+    """)
+    List<TransactionEntity> findByStartupId(@Param("startupId") Long startupId);
 
 }

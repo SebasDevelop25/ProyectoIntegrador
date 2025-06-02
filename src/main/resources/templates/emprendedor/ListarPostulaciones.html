@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layoutSamu :: head"></head>
+<body>
+<div th:replace="layout/layoutSamu :: sidebar2"></div>
+<div class="ml-64 p-8 bg-gray-100 text-gray-800 min-h-screen">
+    <header th:replace="layout/layoutSamu :: header"></header>
+
+    <div class="mt-10 mb-6 text-center">
+        <h1 class="text-3xl font-bold text-purple-800">Mis Postulaciones</h1>
+        <p class="text-gray-600">Aquí encuentras todas tus postulaciones y su estado</p>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full table-auto bg-white shadow-md rounded-lg">
+            <thead>
+            <tr class="bg-purple-800 text-white">
+                <th class="px-4 py-2">#</th>
+                <th class="px-4 py-2">Startup</th>
+                <th class="px-4 py-2">Convocatoria</th>
+                <th class="px-4 py-2">Fecha de Postulación</th>
+                <th class="px-4 py-2">Estado</th>
+                <th class="px-4 py-2">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post, iterStat : ${postulaciones}"
+                class="text-center hover:bg-gray-50">
+                <td class="border px-4 py-2" th:text="${iterStat.count}">1</td>
+                <td class="border px-4 py-2" th:text="${post.startup.nombre_startup}">
+                    Nombre Startup
+                </td>
+                <td class="border px-4 py-2" th:text="${post.convocatoria.titleConvocatoria}">
+                    Nombre Convocatoria
+                </td>
+                <td class="border px-4 py-2"
+                    th:text="${#temporals.format(post.fechaPostulacion, 'dd/MM/yyyy')}">
+                    01/06/2025
+                </td>
+                <td class="border px-4 py-2">
+                            <span th:switch="${post.estado}">
+                                <span th:case="'pendiente'" class="text-yellow-600 font-semibold">Pendiente</span>
+                                <span th:case="'aprobado'" class="text-green-600 font-semibold">Aprobado</span>
+                                <span th:case="'rechazada'" class="text-red-600 font-semibold">Rechazado</span>
+                                <span th:case="*">[[${post.estado}]]</span>
+                            </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-center border p-2">
+                    <!-- Formulario que envía el ID de la postulación al endpoint /postulaciones/eliminar -->
+                        <form th:action="@{/eliminarPostulacion/{id}(id=${post.id})}"
+                              method="post" style="display:inline;"
+                              onsubmit="return confirm('¿Eliminar esta postulación?');">
+                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded">Eliminar</button>
+                        </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(postulaciones)}">
+                <td class="py-4" colspan="5">No tienes postulaciones registradas.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

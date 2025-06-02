@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comentarios de Seguimiento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-900 min-h-screen w-screen flex flex-col">
+
+<header th:replace="~{layout/layout :: header}"></header>
+
+<main class="mt-24 flex-grow flex flex-col items-center">
+    <!-- Título -->
+    <h1 class="text-lg font-semibold mb-12 mt-8">Ultimos Seguimientos</h1>
+
+    <!-- Tarjetas de comentarios -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div th:each="comentario : ${seguimientosFinalizados}" class="border border-blue-200 shadow-md p-4 rounded-md bg-white w-80">
+            <p><strong>Startup:</strong> <span class="ml-2" th:text="${comentario.nombreStartup}">Nombre de la startup</span></p>
+            <p><strong>Fecha del comentario:</strong> <span th:text="${comentario.fecha?.toString()}"></span></p>
+            <p class="mt-2"><strong>Comentario:</strong></p>
+            <p class="ml-2 mt-1 text-gray-700 whitespace-pre-line" th:text="${comentario.comentario}">Texto del comentario</p>
+        </div>
+    </div>
+</main>
+
+<footer class="mt-auto w-full" th:replace="~{layout/layout :: footer}"></footer>
+
+</body>
+</html>
