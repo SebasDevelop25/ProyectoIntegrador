@@ -441,4 +441,9 @@ public class UsersController {
         return "/administrador/interfazAdministrador";
     }
 
+    @GetMapping("/interfazInversor")
+    public String mostrarInterfazInversor() {
+        return "/inversor/interfazInversor";
+    }
+
 }

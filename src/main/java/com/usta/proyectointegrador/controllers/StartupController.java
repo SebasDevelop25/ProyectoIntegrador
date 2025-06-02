@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -266,7 +267,7 @@ public class StartupController {
             return "redirect:/login";
         }
 
-        List<StartupEntity> pendientes = startupDAO.findStartupsSinSeguimientoPorMentor(mentor.getId_usuario());
+        List<StartupEntity> pendientes = startupDAO.findStartupsSinSeguimientoPorMentor(mentor.getIdUsuario());
         System.out.println("Cantidad de startups sin seguimiento: " + pendientes.size());
 
         List<MentoriaDTO> pendientesDTO = new ArrayList<>();
@@ -286,7 +287,7 @@ public class StartupController {
                 String nombreEmprendedor = tx.getNombreUsu().getNombre_usu() + " " + tx.getNombreUsu().getApellido_usu();
                 String nombreConvocatoria = startup.getConvocatoria().getTitleConvocatoria();
 
-                pendientesDTO.add(new MentoriaDTO(tx.getIdTransaction(), startup.getId_startup(), nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria, tx.getIdTransaction()));
+                pendientesDTO.add(new MentoriaDTO(tx.getIdTransaction(), startup.getId_startup(), nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria));
             }
         }
 
@@ -303,7 +304,7 @@ public class StartupController {
         }
 
         List<MentoriaDTO2> mentoriasFinalizadas = new ArrayList<>();
-        List<SeguimientoEntity> seguimiento =  seguimientoService.findByUsuario(mentor.getId_usuario());
+        List<SeguimientoEntity> seguimiento =  seguimientoService.findByUsuario(mentor.getIdUsuario());
         for (SeguimientoEntity seguimientoEntity : seguimiento) {
             SeguimientoEntity sg = seguimiento.get(0);
 
@@ -319,6 +320,47 @@ public class StartupController {
         model.addAttribute("seguimientosFinalizados", mentoriasFinalizadas);
 
         return "/mentor/historialSeguimiento";
+    }
+
+
+    @GetMapping(value = "/startups")
+    public String ListarStartups(Model model) {
+        model.addAttribute("title", "Startups");
+        model.addAttribute("urlCreate", "/VerStartups");
+        List<StartupEntity> lista = startupServices.findAll();
+        lista.sort(Comparator.comparing(StartupEntity::getId_startup));
+        model.addAttribute("startups", lista);
+        return "Startups/VerStartups";
+    }
+
+    @GetMapping(value = "/infoStartups")
+    public String VisualizarStartups(Model model) {
+        model.addAttribute("title", "Startups");
+        model.addAttribute("urlCreate", "/informacionStartups");
+        List<StartupEntity> lista = startupServices.findAll();
+        lista.sort(Comparator.comparing(StartupEntity::getId_startup));
+        model.addAttribute("startups", lista);
+        return "Startups/informacionStartups";
+    }
+
+    @GetMapping(value = "/invertirStartup")
+    public String InvertirStartups(Model model) {
+        model.addAttribute("title", "Startups");
+        model.addAttribute("urlCreate", "/invertirStartups");
+        List<StartupEntity> lista = startupServices.findAll();
+        lista.sort(Comparator.comparing(StartupEntity::getId_startup));
+        model.addAttribute("startups", lista);
+        return "Startups/invertirStartups";
+    }
+
+    @GetMapping(value = "/inversiones")
+    public String Inversiones(Model model) {
+        model.addAttribute("title", "Inversiones");
+        model.addAttribute("urlCreate", "/inversionesInversor");
+        List<StartupEntity> lista = startupServices.findAll();
+        lista.sort(Comparator.comparing(StartupEntity::getId_startup));
+        model.addAttribute("startups", lista);
+        return "inversor/inversionesInversor";
     }
 
 }

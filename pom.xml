@@ -106,11 +106,13 @@
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
             <version>3.1.2.RELEASE</version>
         </dependency>
+
         <dependency>
             <groupId>net.coobird</groupId>
             <artifactId>thumbnailator</artifactId>
             <version>0.4.8</version>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>
