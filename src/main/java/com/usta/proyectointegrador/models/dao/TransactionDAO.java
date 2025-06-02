@@ -16,4 +16,11 @@ public interface TransactionDAO extends JpaRepository<TransactionEntity, Long> {
            """)
     List<TransactionEntity> findByUsuarioId(@Param("usuarioId") Long usuarioId);
 
+    @Query("""
+            SELECT t
+            FROM TransactionEntity t
+            WHERE t.startup.id_startup = :startupId
+    """)
+    List<TransactionEntity> findByStartupId(@Param("startupId") Long startupId);
+
 }

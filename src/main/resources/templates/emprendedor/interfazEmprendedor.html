@@ -1,10 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Inicio Usuario</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-white text-gray-900 min-h-screen w-screen flex flex-col">
+
+<header th:replace="~{layout/layout :: header}"></header>
+
+<main class="mt-24 flex-grow flex flex-row">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-[#708C73] text-white py-10 flex flex-col gap-6 px-6">
+        <a href="#" class="hover:underline">Mis mentores</a>
+        <hr class="border-white opacity-30"/>
+        <a href="#" class="hover:underline">Mis Ingresos</a>
+        <hr class="border-white opacity-30"/>
+        <a href="#" class="hover:underline">Postulaciones</a>
+        <hr class="border-white opacity-30"/>
+        <a href="#" class="hover:underline">Editar perfil</a>
+        <hr class="border-white opacity-30"/>
+    </aside>
+
+    <!-- Main content -->
+    <section class="flex-1 px-6 py-10">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-bold">INNOVA CLOUD</h1>
+            <button class="bg-[#F7A072] text-white px-4 py-2 rounded-md font-semibold hover:bg-red-400 transition-all">
+                Log-out
+            </button>
+        </div>
+
+        <!-- Carrusel de convocatorias -->
+        <div class="mt-10 flex justify-center items-center relative">
+            <button class="absolute left-0 text-gray-400 text-3xl font-bold hover:text-black">&lt;</button>
+            <div class="bg-gray-200 w-full max-w-4xl h-48 flex items-center justify-center">
+                <span class="text-lg italic text-black bg-orange-300 w-full text-center py-2 block">
+                    ¡Convocatorias disponibles!
+                </span>
+            </div>
+            <button class="absolute right-0 text-gray-400 text-3xl font-bold hover:text-black">&gt;</button>
+        </div>
+
+        <!-- Cuadrículas de "Ingresos" y "Mis postulaciones" -->
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-200 h-40 flex items-end justify-center">
+                <span class="bg-orange-300 w-full text-center py-2 italic font-semibold">
+                    Ingresos
+                </span>
+            </div>
+            <div class="bg-gray-200 h-40 flex items-end justify-center">
+                <span class="bg-orange-300 w-full text-center py-2 italic font-semibold">
+                    Mis postulaciones
+                </span>
+            </div>
+        </div>
+    </section>
+
+</main>
 
 </body>
 </html>

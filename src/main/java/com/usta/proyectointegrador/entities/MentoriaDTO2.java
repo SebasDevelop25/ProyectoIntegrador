@@ -1,22 +1,24 @@
 package com.usta.proyectointegrador.entities;
 
-public class MentoriaDTO {
+import java.time.LocalDate;
+
+public class MentoriaDTO2 {
 
     private Long idTransaccion;
     private Integer idStartup;
     private String nombreMentor;
     private String nombreStartup;
-    private String nombreEmprendedor;
-    private String nombreConvocatoria;
+    private LocalDate fecha;
+    private String comentario;
 
-    public MentoriaDTO(Long idTransaccion, Integer idStartup ,String nombreMentor, String nombreStartup,
-                       String nombreEmprendedor, String nombreConvocatoria, Long idSeguimiento) {
+    public MentoriaDTO2(Long idTransaccion, Integer idStartup , String nombreMentor, String nombreStartup,
+                        LocalDate fecha, String comentario) {
         this.idTransaccion = idTransaccion;
         this.idStartup = idStartup;
         this.nombreMentor = nombreMentor;
         this.nombreStartup = nombreStartup;
-        this.nombreEmprendedor = nombreEmprendedor;
-        this.nombreConvocatoria = nombreConvocatoria;
+        this.fecha = fecha;
+        this.comentario = comentario;
     }
 
     // Getters y Setters
@@ -52,20 +54,20 @@ public class MentoriaDTO {
         this.nombreStartup = nombreStartup;
     }
 
-    public String getNombreEmprendedor() {
-        return nombreEmprendedor;
+    public LocalDate getFecha() {
+        return fecha;
     }
 
-    public void setNombreEmprendedor(String nombreEmprendedor) {
-        this.nombreEmprendedor = nombreEmprendedor;
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 
-    public String getNombreConvocatoria() {
-        return nombreConvocatoria;
+    public String getComentario() {
+        return comentario;
     }
 
-    public void setNombreConvocatoria(String nombreConvocatoria) {
-        this.nombreConvocatoria = nombreConvocatoria;
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
     }
 
 }

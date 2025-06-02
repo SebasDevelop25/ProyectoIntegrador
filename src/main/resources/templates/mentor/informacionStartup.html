@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Innova Cloud - Detalle Startup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-900 min-h-screen w-screen flex flex-col">
+
+<!-- Header -->
+<header th:replace="~{layout/layout :: header}" class="bg-[#7A9273] flex justify-between items-center px-6 py-4"></header>
+
+<!-- Contenido -->
+<main class="flex-grow flex flex-col md:flex-row pt-28 px-6 md:px-16 gap-10">
+
+    <!-- Sección Izquierda -->
+    <div class="w-full md:w-1/2">
+        <h2 class="text-xl font-semibold mb-4" th:text="${startup.nombre_startup}">Startup</h2>
+        <div class="border-t-2 border-black w-32 mb-6"></div>
+
+        <div class="mb-8 space-y-2">
+            <span th:text="${startup.descripción}">Descripción Startup</span>
+        </div>
+
+        <a class="bg-[#FBBF9B] text-black font-semibold px-6 py-2 rounded hover:bg-[#f9a673] transition-all"
+           th:href="@{/seguimiento/{id}(id=${startup.id_startup})}">
+            Hacer seguimiento
+        </a>
+    </div>
+
+    <!-- Sección Derecha -->
+    <div class="w-full md:w-1/2 bg-[#FBBF9B] p-4 rounded-md flex justify-center items-center h-64">
+        <img th:src="@{${startup.logo}}" alt="Imagen de la Startup" class="max-h-48 w-auto object-contain rounded shadow-md"/>
+    </div>
+
+</main>
+
+</body>
+</html>

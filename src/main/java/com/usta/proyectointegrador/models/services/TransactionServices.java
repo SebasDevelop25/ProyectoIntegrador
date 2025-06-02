@@ -10,6 +10,8 @@ public interface TransactionServices {
 
     TransactionEntity findById(Integer id);
 
+    List<TransactionEntity> findByIdStartup(Integer idStartup);
+
     public void save(TransactionEntity transaction);
 
     public void deleteById(Integer idTransaction);
