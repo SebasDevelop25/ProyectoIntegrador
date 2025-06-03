@@ -289,7 +289,7 @@ public class StartupController {
 
                 String nombreMentor = mentor.getNombre_usu() + " " + mentor.getApellido_usu();
                 String nombreStartup = startup.getNombre_startup();
-                String nombreEmprendedor = tx.getNombreUsu().getNombre_usu() + " " + tx.getNombreUsu().getApellido_usu();
+                String nombreEmprendedor = tx.getUsuario().getNombre_usu() + " " + tx.getUsuario().getApellido_usu();
                 String nombreConvocatoria = startup.getConvocatoria().getTitleConvocatoria();
                 String logo = startup.getLogo();
 
@@ -349,16 +349,6 @@ public class StartupController {
         return "Startups/informacionStartups";
     }
 
-    @GetMapping(value = "/invertirStartup")
-    public String InvertirStartups(Model model) {
-        model.addAttribute("title", "Startups");
-        model.addAttribute("urlCreate", "/invertirStartups");
-        List<StartupEntity> lista = startupServices.findAll();
-        lista.sort(Comparator.comparing(StartupEntity::getId_startup));
-        model.addAttribute("startups", lista);
-        return "Startups/invertirStartups";
-    }
-
     @GetMapping(value = "/inversiones")
     public String Inversiones(Model model) {
         model.addAttribute("title", "Inversiones");
@@ -368,6 +358,29 @@ public class StartupController {
         model.addAttribute("startups", lista);
         return "inversor/inversionesInversor";
     }
+
+    @GetMapping(value = "/startupPostular")
+    public String ListarStartup(Model model) {
+        model.addAttribute("title", "Startups");
+        model.addAttribute("urlCreate", "/ListarConvoDis");
+        List<StartupEntity> lista = startupServices.findAll();
+        lista.sort(Comparator.comparing(StartupEntity::getId_startup));
+        model.addAttribute("startups", lista);
+        return "inversor/ListarStartupsDis";
+    }
+
+
+
+    @GetMapping(value = "/infoInvStartups")
+    public String ListarStartupprueba(Model model) {
+        model.addAttribute("title", "Startups");
+        model.addAttribute("urlCreate", "/ListarConvoDis2");
+        List<StartupEntity> lista = startupServices.findAll();
+        lista.sort(Comparator.comparing(StartupEntity::getId_startup));
+        model.addAttribute("startups", lista);
+        return "inversor/informacionInvStartups";
+    }
+
 
 }
 
