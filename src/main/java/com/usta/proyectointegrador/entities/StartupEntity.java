@@ -74,7 +74,7 @@ public class StartupEntity implements Serializable {
         this.usuario = usuario;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_rol")
     private RolEntity rol;
 

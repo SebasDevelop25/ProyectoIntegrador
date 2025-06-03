@@ -104,6 +104,144 @@
     </nav>
 </aside>
 
+<aside th:fragment="sidebar-indexMentor"
+       class="w-64 bg-purple-900 shadow-lg fixed inset-y-0 left-0 flex flex-col justify-between">
+    <div>
+        <div class="h-16 flex items-center px-6 bg-purple-800">
+            <a th:href="@{/indexMentor}" class="text-2xl font-extrabold text-purple-100 tracking-wide">InnovaCloud</a>
+        </div>
+    </div>
+
+    <!-- Botón de logout al final del sidebar -->
+    <div class="px-4 py-4">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="flex items-center gap-1 text-white hover:text-red-600" title="Cerrar sesión">
+                Cerrar Sesión
+            </button>
+        </form>
+    </div>
+</aside>
+
+<aside th:fragment="sidebar-startupsAsignadas"
+       class="w-64 bg-purple-900 shadow-lg fixed inset-y-0 left-0 flex flex-col justify-between">
+    <div>
+        <div class="h-16 flex items-center px-6 bg-purple-800">
+            <a th:href="@{/indexMentor}" class="text-2xl font-extrabold text-purple-100 tracking-wide">InnovaCloud</a>
+        </div>
+    </div>
+    <nav class="flex-1 px-4 py-6 space-y-3">
+        <a th:href="@{/seguimientos/pendientes}"
+           class="flex items-center gap-2 px-4 py-2 text-purple-100 rounded-md hover:bg-purple-700 transition">
+            <!-- Heroicon: Chat -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.85L3 20l1.85-5A8.98 8.98 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            Seguimientos pendientes
+        </a>
+        <a th:href="@{/seguimientos/finalizados}"
+           class="flex items-center gap-2 px-4 py-2 text-purple-100 rounded-md hover:bg-purple-700 transition">
+            <!-- Heroicon: Chat -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.85L3 20l1.85-5A8.98 8.98 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            Últimos comentarios realizados
+        </a>
+
+    </nav>
+    <!-- Botón de logout al final del sidebar -->
+    <div class="px-4 py-4">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="flex items-center gap-1 text-white hover:text-red-600" title="Cerrar sesión">
+                Cerrar Sesión
+            </button>
+        </form>
+    </div>
+</aside>
+
+<aside th:fragment="sidebar-startupsPendientes"
+       class="w-64 bg-purple-900 shadow-lg fixed inset-y-0 left-0 flex flex-col justify-between">
+    <div>
+        <div class="h-16 flex items-center px-6 bg-purple-800">
+            <a th:href="@{/indexMentor}" class="text-2xl font-extrabold text-purple-100 tracking-wide">InnovaCloud</a>
+        </div>
+    </div>
+    <nav class="flex-1 px-4 py-6 space-y-3">
+        <a th:href="@{/startupsAsignadas}"
+           class="flex items-center gap-2 px-4 py-2 text-purple-100 rounded-md hover:bg-purple-700 transition">
+            <!-- Heroicon: Chat -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.85L3 20l1.85-5A8.98 8.98 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            Startups Asignadas
+        </a>
+        <a th:href="@{/seguimientos/finalizados}"
+           class="flex items-center gap-2 px-4 py-2 text-purple-100 rounded-md hover:bg-purple-700 transition">
+            <!-- Heroicon: Chat -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.85L3 20l1.85-5A8.98 8.98 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            Últimos comentarios realizados
+        </a>
+
+    </nav>
+    <!-- Botón de logout al final del sidebar -->
+    <div class="px-4 py-4">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="flex items-center gap-1 text-white hover:text-red-600" title="Cerrar sesión">
+                Cerrar Sesión
+            </button>
+        </form>
+    </div>
+</aside>
+
+<aside th:fragment="sidebar-historialSeguimientos"
+       class="w-64 bg-purple-900 shadow-lg fixed inset-y-0 left-0 flex flex-col justify-between">
+    <div>
+        <div class="h-16 flex items-center px-6 bg-purple-800">
+            <a th:href="@{/indexMentor}" class="text-2xl font-extrabold text-purple-100 tracking-wide">InnovaCloud</a>
+        </div>
+    </div>
+    <nav class="flex-1 px-4 py-6 space-y-3">
+        <a th:href="@{/startupsAsignadas}"
+           class="flex items-center gap-2 px-4 py-2 text-purple-100 rounded-md hover:bg-purple-700 transition">
+            <!-- Heroicon: Chat -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.85L3 20l1.85-5A8.98 8.98 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            Startups Asignadas
+        </a>
+        <a th:href="@{/seguimientos/pendientes}"
+           class="flex items-center gap-2 px-4 py-2 text-purple-100 rounded-md hover:bg-purple-700 transition">
+            <!-- Heroicon: Chat -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.85L3 20l1.85-5A8.98 8.98 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            Startups Pendientes
+        </a>
+
+    </nav>
+    <!-- Botón de logout al final del sidebar -->
+    <div class="px-4 py-4">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="flex items-center gap-1 text-white hover:text-red-600" title="Cerrar sesión">
+                Cerrar Sesión
+            </button>
+        </form>
+    </div>
+</aside>
+
 <!-- CONTENIDO PRINCIPAL -->
 <div class="flex-1 ml-64 flex flex-col bg-gray-50">
 

@@ -3,29 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comentarios de Seguimiento</title>
+    <title>Historial de Seguimientos</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-white text-gray-900 min-h-screen w-screen flex flex-col">
+<body class="bg-gray-50 text-gray-900 min-h-screen w-screen flex flex-col">
 
-<header th:replace="~{layout/layout :: header}"></header>
+<header th:replace="~{layout/layoutSamu :: sidebar-historialSeguimientos}"></header>
 
-<main class="mt-24 flex-grow flex flex-col items-center">
-    <!-- Título -->
-    <h1 class="text-lg font-semibold mb-12 mt-8">Ultimos Seguimientos</h1>
+<main class="mt-24 flex-grow flex flex-col items-center px-4">
 
-    <!-- Tarjetas de comentarios -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <div th:each="comentario : ${seguimientosFinalizados}" class="border border-blue-200 shadow-md p-4 rounded-md bg-white w-80">
-            <p><strong>Startup:</strong> <span class="ml-2" th:text="${comentario.nombreStartup}">Nombre de la startup</span></p>
-            <p><strong>Fecha del comentario:</strong> <span th:text="${comentario.fecha?.toString()}"></span></p>
-            <p class="mt-2"><strong>Comentario:</strong></p>
-            <p class="ml-2 mt-1 text-gray-700 whitespace-pre-line" th:text="${comentario.comentario}">Texto del comentario</p>
+    <section class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-4xl">
+        <h2 class="text-2xl font-bold text-purple-800 mb-6">Historial de Seguimientos del Mentor</h2>
+
+        <div class="flex flex-col gap-6">
+
+            <!-- Iterar sobre cada seguimiento -->
+            <div th:each="comentario : ${seguimientosFinalizados}" class="bg-gray-100 p-6 rounded-xl shadow-md">
+                <div class="flex items-start gap-4">
+                    <div class="bg-purple-700 text-white w-12 h-12 flex items-center justify-center rounded-full text-lg font-bold">
+                        <span th:text="${#strings.substring(comentario.getNombreMentor(), 0, 1)}">M</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <p class="font-semibold text-lg text-gray-800" th:text="${comentario.getNombreMentor()}">Nombre del Mentor</p>
+                        <p class="text-sm text-gray-600 italic" th:text="${#temporals.format(comentario.fecha, 'dd MMM yyyy')}">Fecha</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 pl-16">
+                    <p><span class="font-semibold text-gray-700">Startup:</span> <span th:text="${comentario.getNombreStartup()}">Nombre Startup</span></p>
+                    <p class="mt-2 text-gray-800" th:text="${comentario.comentario}">Contenido del comentario...</p>
+                </div>
+            </div>
+
+            <!-- Si no hay comentarios -->
+            <div th:if="${#lists.isEmpty(seguimientosFinalizados)}" class="text-gray-500 italic text-center">
+                No hay seguimientos registrados para este mentor.
+            </div>
+
         </div>
-    </div>
-</main>
+    </section>
 
-<footer class="mt-auto w-full" th:replace="~{layout/layout :: footer}"></footer>
+</main>
 
 </body>
 </html>
+

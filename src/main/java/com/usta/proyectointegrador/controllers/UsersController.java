@@ -69,7 +69,8 @@ public class UsersController {
         System.out.println("Mentores encontrados: " + mentores.size());
 
         for (UsersEntity mentor : mentores) {
-            List<TransactionEntity> txs = transactionServices.findByUsuarioIdUsuario(mentor.getIdUsuario());
+            List<TransactionEntity> txs = transactionServices.findByUsuarioIdUsuario
+                    (mentor.getIdUsuario());
             for (TransactionEntity tx : txs) {
                 String nombreMentor = mentor.getNombre_usu() + " " + mentor.getApellido_usu();
                 String nombreStartup = tx.getStartup().getNombre_startup();
@@ -82,14 +83,15 @@ public class UsersController {
                 String nombreConvocatoria = (convocatoria != null)
                         ? convocatoria.getTitleConvocatoria()
                         : "Sin Convocatoria";
-
+                String logo =  tx.getStartup().getLogo();
                 mentorias.add(new MentoriaDTO(
                         tx.getIdTransaction(),
                         tx.getStartup().getId_startup(),
                         nombreMentor,
                         nombreStartup,
                         nombreEmprendedor,
-                        nombreConvocatoria
+                        nombreConvocatoria,
+                        logo
                 ));
             }
         }
@@ -243,7 +245,8 @@ public class UsersController {
         usuario.setFoto(urlImagen);
         usersServices.save(usuario);
 
-        redirectAttributes.addFlashAttribute("mensaje", "Usuario guardado correctamente");
+        redirectAttributes.addFlashAttribute("mensaje",
+                "Usuario guardado correctamente");
         return "redirect:/usuarios";
     }
 
@@ -253,14 +256,11 @@ public class UsersController {
             if (imagen == null || imagen.isEmpty()) {
                 return imagenAnterior != null ? imagenAnterior : "/images/default-logo.png";
             }
-
-
             BufferedImage original = ImageIO.read(imagen.getInputStream());
             if (original == null) {
 
                 return imagenAnterior;
             }
-
 
             BufferedImage thumbnail = Thumbnails.of(original)
                     .size(800, 800)
@@ -337,9 +337,11 @@ public class UsersController {
         if (id > 0){
             UsersEntity usuario = usersServices.findById(id);
             usersServices.deleteById(id);
-            redirectAttributes.addFlashAttribute("mensaje", "Usuario eliminado correctamente");
+            redirectAttributes.addFlashAttribute("mensaje",
+                    "Usuario eliminado correctamente");
         } else {
-            redirectAttributes.addFlashAttribute("mensaje", "El usuario no existe");
+            redirectAttributes.addFlashAttribute("mensaje",
+                    "El usuario no existe");
         }
 
         return "redirect:/usuarios";
@@ -403,6 +405,13 @@ public class UsersController {
         usuario.setFoto(urlImagen);
         usersServices.save(usuario);
         status.setComplete();
+        UsersEntity usuarioExistente = usersServices.findByEmail(usuario.getEmail());
+        if (usuarioExistente != null) {
+            result.rejectValue("email", "error.usuario", "Este correo ya está registrado.");
+            model.addAttribute("title", "Register a new User");
+            return "registro/registro";
+        }
+
         redirectAttributes.addFlashAttribute("success", "User registered successfully!");
         return "/registro/login";
     }
@@ -442,8 +451,9 @@ public class UsersController {
                 String nombreEmprendedor = tx.getNombreUsu().getNombre_usu(); // O getNombre(), depende del modelo
                 String nombreConvocatoria = tx.getStartup().getConvocatoria().getTitleConvocatoria();
                 System.out.println("Nombre convo: " + nombreConvocatoria);
+                String logo = tx.getStartup().getLogo();
 
-                mentorias.add(new MentoriaDTO(tx.getIdTransaction(), tx.getStartup().getId_startup(),nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria));
+                mentorias.add(new MentoriaDTO(tx.getIdTransaction(), tx.getStartup().getId_startup(),nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria, logo));
             }
 
         model.addAttribute("title", "Listado de Mentorías");

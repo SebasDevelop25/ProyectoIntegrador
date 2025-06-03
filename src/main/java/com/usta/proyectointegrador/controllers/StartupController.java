@@ -222,11 +222,16 @@ public class StartupController {
     /*----------- Mentor ------------------*/
     @GetMapping("/informacionStartup/{id}")
     public String mostrarInformacionStartup(@PathVariable Integer id, Model model) {
+
         StartupEntity startup = startupServices.findById(id);
         if (startup == null) {
             return "redirect:/startupsAsignadas";
         }
+
+        List<SeguimientoEntity> comentarios =  seguimientoService.findByIdStartup(id);
+
         model.addAttribute("startup", startup);
+        model.addAttribute("seguimientos", comentarios);
         return "/mentor/informacionStartup";
     }
 
@@ -248,12 +253,12 @@ public class StartupController {
                                   @ModelAttribute SeguimientoEntity seguimiento,
                                   HttpSession session) {
         UsersEntity mentor = (UsersEntity) session.getAttribute("mentorActual");
+        System.out.println("Mentor desde sesión: " + mentor);
         seguimiento.setStartup(startupServices.findById(id.intValue()));
         seguimiento.setFechaSeguimiento(LocalDate.now());
         seguimiento.setMentor(mentor);
         System.out.println("Comentario: " + seguimiento.getComentario());
         System.out.println("Startup: " + seguimiento.getStartup());
-        System.out.println("Mentor: " + seguimiento.getMentor());
         System.out.println("Fecha: " + seguimiento.getFechaSeguimiento());
         seguimientoService.save(seguimiento);
         return "redirect:/informacionStartup/" + id;
@@ -286,8 +291,9 @@ public class StartupController {
                 String nombreStartup = startup.getNombre_startup();
                 String nombreEmprendedor = tx.getNombreUsu().getNombre_usu() + " " + tx.getNombreUsu().getApellido_usu();
                 String nombreConvocatoria = startup.getConvocatoria().getTitleConvocatoria();
+                String logo = startup.getLogo();
 
-                pendientesDTO.add(new MentoriaDTO(tx.getIdTransaction(), startup.getId_startup(), nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria));
+                pendientesDTO.add(new MentoriaDTO(tx.getIdTransaction(), startup.getId_startup(), nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria, logo));
             }
         }
 

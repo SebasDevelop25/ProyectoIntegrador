@@ -31,14 +31,14 @@ public class SeguimientoEntity implements Serializable {
     // Relación con usuario (mentor)
     @NotNull
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private UsersEntity mentor;
 
     // Relación con startup
     @NotNull
     @JoinColumn(name = "id_startup", referencedColumnName = "id_startup")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private StartupEntity startup;
 }

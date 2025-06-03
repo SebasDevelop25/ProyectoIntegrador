@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -34,8 +35,9 @@ public class RolEntity implements Serializable {
     }
 
 
-    @OneToMany(mappedBy = "rol")
-    private List<StartupEntity> startup;
+    @OneToMany(mappedBy = "rol", fetch = FetchType.EAGER)
+    private Set<StartupEntity> startup;
+
 
 
 

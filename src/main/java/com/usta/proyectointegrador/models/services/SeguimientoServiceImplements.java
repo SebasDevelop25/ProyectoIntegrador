@@ -30,6 +30,11 @@ public class SeguimientoServiceImplements implements SeguimientoService{
     }
 
     @Override
+    public List<SeguimientoEntity> findByIdStartup(Integer idStartup) {
+        return seguimientoDAO.findByStartupId(idStartup);
+    }
+
+    @Override
     public void save(SeguimientoEntity seguimiento) {
         seguimientoDAO.save(seguimiento);
     }
