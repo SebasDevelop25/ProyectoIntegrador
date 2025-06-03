@@ -75,7 +75,7 @@ public class UsersController {
                 String nombreStartup = tx.getStartup().getNombre_startup();
 
                 // Extraigo el emprendedor sin cambios:
-                String nombreEmprendedor = tx.getNombreUsu().getNombre_usu();
+                String nombreEmprendedor = tx.getUsuario().getNombre_usu();
 
                 // Aquí chequeo que exista Convocatoria antes de llamar a getTitleConvocatoria()
                 ConvocatoriaEntity convocatoria = tx.getStartup().getConvocatoria();
@@ -125,7 +125,7 @@ public class UsersController {
         StartupEntity startup = startupServices.findById(mentoria.getStartupId());
 
         TransactionEntity transaction = new TransactionEntity();
-        transaction.setNombreUsu(mentor);
+        transaction.setUsuario(mentor);
         transaction.setStartup(startup);
         transaction.setTransactionDate(LocalDate.now());
         transaction.setAmount(BigDecimal.ZERO);
@@ -143,7 +143,7 @@ public class UsersController {
         }
 
         MentoriaForm mentoriaForm = new MentoriaForm();
-        mentoriaForm.setIdMentoria(transaction.getNombreUsu().getIdUsuario());
+        mentoriaForm.setIdMentoria(transaction.getUsuario().getIdUsuario());
         mentoriaForm.setStartupId(transaction.getStartup().getId_startup());
 
         model.addAttribute("mentoriaFormEdit", mentoriaForm);
@@ -166,7 +166,7 @@ public class UsersController {
 
         UsersEntity mentor = usersServices.findById(form.getIdMentoria().longValue());
         StartupEntity startup = startupServices.findById(form.getStartupId().intValue());
-        tx.setNombreUsu(mentor);
+        tx.setUsuario(mentor);
         tx.setStartup(startup);
 
         transactionServices.save(tx);
@@ -439,7 +439,7 @@ public class UsersController {
                 String nombreStartup = tx.getStartup().getNombre_startup();
 
                 // Asegúrate de que estas relaciones existen correctamente en StartupEntity
-                String nombreEmprendedor = tx.getNombreUsu().getNombre_usu(); // O getNombre(), depende del modelo
+                String nombreEmprendedor = tx.getUsuario().getNombre_usu(); // O getNombre(), depende del modelo
                 String nombreConvocatoria = tx.getStartup().getConvocatoria().getTitleConvocatoria();
                 System.out.println("Nombre convo: " + nombreConvocatoria);
 
