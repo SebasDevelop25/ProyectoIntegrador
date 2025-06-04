@@ -26,7 +26,13 @@ public class SeguimientoServiceImplements implements SeguimientoService{
 
     @Override
     public List<SeguimientoEntity> findByUsuario(Long idUsuario) {
+
         return seguimientoDAO.findByUsuarioId(idUsuario);
+    }
+
+    @Override
+    public List<SeguimientoEntity> findByStartupUsuarioId(Long idEmprendedor) {
+        return seguimientoDAO.findByStartupUsuarioId(idEmprendedor);
     }
 
     @Override
@@ -43,4 +49,11 @@ public class SeguimientoServiceImplements implements SeguimientoService{
     public void deleteById(Long seguimiento) {
 
     }
+
+    @Override
+    public SeguimientoEntity findByIds(Integer id) {
+        return seguimientoDAO.findByIdSE(id);
+    }
+
+
 }

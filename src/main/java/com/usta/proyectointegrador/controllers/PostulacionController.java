@@ -2,6 +2,8 @@ package com.usta.proyectointegrador.controllers;
 
 import com.usta.proyectointegrador.entities.*;
 import com.usta.proyectointegrador.models.dao.NotificacionDAO;
+import com.usta.proyectointegrador.models.dao.PostulacionDAO;
+import com.usta.proyectointegrador.models.dao.StartupDAO;
 import com.usta.proyectointegrador.models.services.*;
 import jakarta.servlet.http.HttpSession;
 import net.coobird.thumbnailator.Thumbnails;
@@ -28,6 +30,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -52,6 +56,15 @@ public class PostulacionController {
 
     @Autowired
     private RolServices rolServices;
+
+    @Autowired
+    private SeguimientoService seguimientoServices;
+    @Autowired
+    private PostulacionDAO postulacionDAO;
+    @Autowired
+    private StartupDAO startupDAO;
+    @Autowired
+    private NotificacionDAO notificacionDAO;
 
     @GetMapping("/MisPostulaciones")
     public String listarMisPostulaciones(Model model, Principal principal) {
@@ -232,17 +245,94 @@ public class PostulacionController {
         return imagenAnterior;
     }
 
-    @PostMapping("/postulaciones/aprobar")
-    public String aprobarDesdeNotificacion(@RequestParam Long notificacionId) {
-        notificacionService.aprobarStartupDesdeNotificacion(notificacionId);
-        return "redirect:/interfazAdministrador";
+    public void aprobarStartupDesdeNotificacion(Long notiId) {
+        NotificacionEntity noti = notificacionDAO.findById(notiId).orElseThrow();
+
+        String mensaje = noti.getMensaje(); // "La startup FC startup ha enviado una postulación."
+        String nombreStartup = mensaje.replace("La startup ", "")
+                .replace(" ha enviado una postulación.", "")
+                .trim();
+
+        PostulacionEntity postulacion = postulacionDAO.findByStartupNombreExtraido(nombreStartup);
+        if (postulacion != null) {
+            StartupEntity startup = postulacion.getStartup();
+            UsersEntity creador = postulacion.getUsuario(); // Asegúrate que esté seteado en la postulación
+
+            if (creador != null) {
+                startup.setUsuario(creador); // Aquí se soluciona tu problema
+            } else {
+                System.out.println("⚠ La postulación no tiene usuario asociado.");
+            }
+
+            postulacion.setEstado("aprobado");
+            postulacionDAO.save(postulacion);
+
+            startupDAO.save(startup); // Guardar la startup con el usuario asignado
+
+            convocatoriaServices.registrarStartupEnConvocatoria(startup, postulacion.getConvocatoria());
+        } else {
+            System.out.println("No se encontró la postulación para: " + noti.getMensaje());
+        }
+
+        noti.setLeido(true);
+        notificacionDAO.save(noti);
     }
+
 
     @PostMapping("/postulaciones/rechazar")
     public String rechazarDesdeNotificacion(@RequestParam Long notificacionId) {
         notificacionService.rechazarStartupDesdeNotificacion(notificacionId);
         return "redirect:/interfazAdministrador";
     }
+
+
+    @PostMapping("/seguimientos/recibir")
+    public String marcarComoRecibido(@RequestParam("idSeguimiento") Integer idSeguimiento, Principal principal) {
+        SeguimientoEntity seguimiento = seguimientoServices.findByIds(idSeguimiento);
+        if (seguimiento != null && !seguimiento.isRecibido()) {
+            seguimiento.setRecibido(true);
+            seguimientoServices.save(seguimiento);
+
+            String nombreStartup = seguimiento.getStartup().getNombre_startup();
+
+            // Crear notificación al mentor que dio la mentoría
+            notificacionService.crearNotificacionParaUsuario(
+                    "Mentoría recibida",
+                    "La startup " + nombreStartup + " ha marcado como recibida tu mentoría.",
+                    seguimiento.getMentor().getIdRol().getIdRol()
+            );
+        }
+        return "redirect:/seguimientos"; // Redirige a donde desees
+    }
+
+    @GetMapping("/seguimientos")
+    public String listarMisMentorias(Model model, Principal principal) {
+        // 1) Sacamos el email del usuario autenticado
+        String emailUsuario = principal.getName();
+
+        // 2) Obtenemos el objeto UsersEntity
+        UsersEntity usuario = usersServices.findByEmail(emailUsuario);
+        if (usuario == null) {
+            // Si no existe usuario, redirige a la página de login o de inicio de emprendedor
+            return "redirect:/login"; // (o la ruta que uses para “home emprendedor”)
+        }
+
+        Long idEmprendedor = usuario.getIdUsuario();
+
+        // 3) Llamamos al service para traer todas las mentorías de las startups de este emprendedor
+        List<SeguimientoEntity> mentorias = seguimientoServices.findByStartupUsuarioId(idEmprendedor);
+
+        // 4) Enviamos la lista al modelo
+        model.addAttribute("seguimientos", mentorias);
+
+        // 5) Devolvemos nombre de la plantilla Thymeleaf
+        //    (por ejemplo: src/main/resources/templates/emprendedor/ListarMentorias.html)
+        return "emprendedor/ListarMentorias";
+    }
+
+
+
+
 
 
 

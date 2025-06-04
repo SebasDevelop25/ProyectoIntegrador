@@ -13,9 +13,15 @@ public interface SeguimientoService {
 
     public List<SeguimientoEntity> findByUsuario(Long idUsuario);
 
+    List<SeguimientoEntity> findByStartupUsuarioId(Long idEmprendedor);
+
     public List<SeguimientoEntity> findByIdStartup(Integer idStartup);
 
     public void save(SeguimientoEntity seguimiento);
 
     public void deleteById(Long seguimiento);
+
+    public SeguimientoEntity findByIds(Integer id);
+
+
 }

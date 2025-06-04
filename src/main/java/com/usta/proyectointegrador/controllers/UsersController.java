@@ -31,6 +31,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,8 @@ public class UsersController {
     private StartupServices startupServices;
     @Autowired
     private RolService rolService;
+    @Autowired
+    private SeguimientoService seguimientoService;
 
 
     private static final Long ROL_MENTOR = 3L;
@@ -101,6 +104,55 @@ public class UsersController {
         model.addAttribute("urlCreate", "/createMentoria");
         return "Usuarios/ListarMentorias";
     }
+
+    @GetMapping("/MisMentoriass")
+    public String listarMisMentorias(Model model, Principal principal) {
+        List<UsersEntity> mentores = usersServices.findByRol(ROL_MENTOR);
+        List<MentoriaDTO3> mentorias = new ArrayList<>();
+
+        for (UsersEntity mentor : mentores) {
+            List<TransactionEntity> txs = transactionServices.findByUsuarioIdUsuario(mentor.getIdUsuario());
+            for (TransactionEntity tx : txs) {
+                String nombreMentor = mentor.getNombre_usu() + " " + mentor.getApellido_usu();
+                String nombreStartup = tx.getStartup().getNombre_startup();
+                String nombreEmprendedor = tx.getNombreUsu().getNombre_usu();
+
+                // Convocatoria (si existe)
+                ConvocatoriaEntity convocatoria = tx.getStartup().getConvocatoria();
+                String nombreConvocatoria = (convocatoria != null)
+                        ? convocatoria.getTitleConvocatoria()
+                        : "Sin Convocatoria";
+
+                // URL de la foto del mentor
+                // Si mentor.getFoto() puede ser null o vacío, pones un default:
+                String fotoMentor = (mentor.getFoto() != null && !mentor.getFoto().isBlank())
+                        ? mentor.getFoto()
+                        : "/img/default-user.png";
+
+                // URL del logo/foto de la startup
+                String fotoStartup = (tx.getStartup().getLogo() != null && !tx.getStartup().getLogo().isBlank())
+                        ? tx.getStartup().getLogo()
+                        : "/img/default-startup.png";
+
+                mentorias.add(new MentoriaDTO3(
+                        tx.getIdTransaction(),
+                        tx.getStartup().getId_startup(),
+                        nombreMentor,
+                        nombreStartup,
+                        nombreEmprendedor,
+                        nombreConvocatoria,
+                        fotoMentor,
+                        fotoStartup
+                ));
+            }
+        }
+
+        model.addAttribute("title", "Listado de Mentorías");
+        model.addAttribute("mentorias", mentorias);
+        model.addAttribute("urlCreate", "/createMentoria");
+        return "Usuarios/ListarMentorias";
+    }
+
 
 
 
@@ -479,5 +531,7 @@ public class UsersController {
     public String mostrarInterfazInversor() {
         return "/inversor/interfazInversor";
     }
+
+
 
 }

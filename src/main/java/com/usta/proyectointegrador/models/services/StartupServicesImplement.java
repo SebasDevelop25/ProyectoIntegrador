@@ -48,8 +48,8 @@ public class StartupServicesImplement implements StartupServices {
     }
 
     @Override
-    public List<StartupEntity> findByUsuario(Integer id) {
-        return null;
+    public List<StartupEntity> findByUsuario(Long id) {
+        return startupDAO.findByUsuario(id);
     }
 
 }

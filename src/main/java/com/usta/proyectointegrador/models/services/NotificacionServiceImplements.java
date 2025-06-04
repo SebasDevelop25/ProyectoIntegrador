@@ -1,14 +1,14 @@
 package com.usta.proyectointegrador.models.services;
 
-import com.usta.proyectointegrador.entities.NotificacionEntity;
-import com.usta.proyectointegrador.entities.PostulacionEntity;
-import com.usta.proyectointegrador.entities.RolEntity;
+import com.usta.proyectointegrador.entities.*;
 import com.usta.proyectointegrador.models.dao.NotificacionDAO;
 import com.usta.proyectointegrador.models.dao.PostulacionDAO;
 import com.usta.proyectointegrador.models.dao.RolDAO;
+import com.usta.proyectointegrador.models.dao.StartupDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +24,8 @@ public class NotificacionServiceImplements implements NotificacionService {
     private PostulacionDAO postulacionDAO;
     @Autowired
     private ConvocatoriaServices convocatoriaServices;
+    @Autowired
+    private StartupDAO startupDAO;
 
     @Override
     public void crearNotificacion(String titulo, String mensaje, Long rolDestino) {
@@ -66,25 +68,36 @@ public class NotificacionServiceImplements implements NotificacionService {
                 .replace(" ha enviado una postulación.", "")
                 .trim();
 
-
         PostulacionEntity postulacion = postulacionDAO.findByStartupNombreExtraido(nombreStartup);
         if (postulacion != null) {
-            System.out.println("Startup: " + postulacion.getStartup().getNombre_startup());
-            System.out.println("Convocatoria: " + (postulacion.getConvocatoria() != null ? postulacion.getConvocatoria().getTitleConvocatoria() : "null"));
+            StartupEntity startup = postulacion.getStartup();
+            UsersEntity creador = postulacion.getUsuario(); // Asegúrate que esté seteado en la postulación
+
+            if (creador != null) {
+                startup.setUsuario(creador); // Aquí se soluciona tu problema
+            } else {
+                System.out.println("⚠ La postulación no tiene usuario asociado.");
+            }
+
             postulacion.setEstado("aprobado");
             postulacionDAO.save(postulacion);
-            convocatoriaServices.registrarStartupEnConvocatoria(postulacion.getStartup(), postulacion.getConvocatoria());
+
+            startupDAO.save(startup); // Guardar la startup con el usuario asignado
+
+            convocatoriaServices.registrarStartupEnConvocatoria(startup, postulacion.getConvocatoria());
         } else {
             System.out.println("No se encontró la postulación para: " + noti.getMensaje());
-            // Opcional: lanzar una excepción personalizada o mostrar mensaje al usuario
         }
 
         noti.setLeido(true);
         notificacionDAO.save(noti);
-
-        // Registrar la startup en la convocatoria automáticamente, si aplica
-        convocatoriaServices.registrarStartupEnConvocatoria(postulacion.getStartup(), postulacion.getConvocatoria());
     }
+
+    @Override
+    public void crearNotificacionParaUsuario(String titulo, String mensaje, Long idRol) {
+
+    }
+
 
     @Override
     public void rechazarStartupDesdeNotificacion(Long notiId) {
@@ -103,6 +116,7 @@ public class NotificacionServiceImplements implements NotificacionService {
         noti.setLeido(true);
         notificacionDAO.save(noti);
     }
+
 
 
 }

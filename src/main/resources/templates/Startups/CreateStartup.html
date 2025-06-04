@@ -1,58 +1,174 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layoutSamu :: head"></head>
-<body>
+<head th:replace="layout/layoutSamu :: head">
+    <meta charset="UTF-8">
+    <title>[[${title}]]</title>
+    <!-- Tailwind se carga en layout/layoutSamu -->
+</head>
+<body class="bg-gray-100">
+
 <!-- Sidebar fijo -->
 <div th:replace="layout/layoutSamu :: sidebar"></div>
-<div class="ml-64 p-8 bg-gray-100 text-gray-800 min-h-screen">
+
+<div class="ml-64 p-8 text-gray-800 min-h-screen">
+    <!-- Header -->
     <div th:replace="layout/layoutSamu :: header"></div>
-    <div class="max-w-md mx-auto mt-24 mb-12 bg-purple-200 rounded-xl p-8 shadow-2xl">
-        <h1 class="text-center text-2xl font-bold text-gray-900 mb-4">Crear nuevo startup</h1>
-        <form th:action="@{/crearStartup}" method="post" enctype="multipart/form-data"
-              th:object="${Startup}">
-            <div class="flex flex-col gap-4">
-                <label class="text-stone-900 font-bold">Nombre del Startup</label>
-                <input type="text" th:field="*{nombre_startup}"
-                       required class="p-2 rounded-md border border-gray-300"/>
 
-                <label class="text-stone-900 font-bold">Descripción</label>
-                <input type="text" th:field="*{descripción}"
-                       required class="p-2 rounded-md border border-gray-300"/>
+    <!-- Contenedor centralizado -->
+    <div class="max-w-lg mx-auto mt-24 mb-12 bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <!-- Cabecera púrpura -->
+        <div class="bg-purple-700 px-6 py-5">
+            <h1 class="text-center text-2xl font-bold text-white">Crear Nuevo Startup</h1>
+        </div>
 
-                <label class="text-stone-900 font-bold">Sector</label>
-                <input type="text" th:field="*{sector}"
-                       required class="p-2 rounded-md border border-gray-300"/>
+        <!-- Formulario -->
+        <form th:action="@{/crearStartup}"
+              method="post"
+              enctype="multipart/form-data"
+              th:object="${Startup}"
+              class="px-8 py-8 space-y-6">
 
-                <label class="text-stone-900 font-bold">Logo</label>
-                <input type="file" id="foto" name="foto" accept="image/*" class="border-0"/>
+            <!-- Nombre del Startup -->
+            <div class="relative">
+                <label for="nombre_startup" class="block text-gray-700 font-semibold mb-2">Nombre del Startup</label>
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 class="h-5 w-5"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke="currentColor"
+                 stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 7h18M3 12h18M3 17h18" />
+            </svg>
+          </span>
+                <input type="text"
+                       id="nombre_startup"
+                       th:field="*{nombre_startup}"
+                       required
+                       class="appearance-none w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition" />
+            </div>
 
-                <!-- Vista previa -->
-                <div class="flex justify-center mt-4">
-                    <img id="preview"
-                         class="w-48 h-48 object-cover rounded-xl border-4 border-stone-300 shadow-xl
-                        bg-white/70 hidden"/>
-                </div>
+            <!-- Descripción -->
+            <div class="relative">
+                <label for="descripción" class="block text-gray-700 font-semibold mb-2">Descripción</label>
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 class="h-5 w-5"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke="currentColor"
+                 stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15 12H9m6 4H9m6-8H9m-3 4h.01M3 3h18v18H3V3z" />
+            </svg>
+          </span>
+                <input type="text"
+                       id="descripción"
+                       th:field="*{descripción}"
+                       required
+                       class="appearance-none w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition" />
+            </div>
 
-                <label class="text-stone-900 font-bold">Convocatoria</label>
-                <select th:field="*{convocatoria}" required
-                        class="mt-1 block w-full p-2 border rounded-md bg-white text-gray-900">
-                    <option value="">-- Seleccione una convocatoria --</option>
+            <!-- Sector -->
+            <div class="relative">
+                <label for="sector" class="block text-gray-700 font-semibold mb-2">Sector</label>
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 class="h-5 w-5"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke="currentColor"
+                 stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 3v18m9-9H3" />
+            </svg>
+          </span>
+                <input type="text"
+                       id="sector"
+                       th:field="*{sector}"
+                       required
+                       class="appearance-none w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition" />
+            </div>
+
+            <!-- Logo (file input) -->
+            <div>
+                <label for="foto" class="block text-gray-700 font-semibold mb-2">Logo</label>
+                <input type="file"
+                       id="foto"
+                       name="foto"
+                       accept="image/*"
+                       class="block w-full text-gray-700 px-3 py-2 border border-gray-300 rounded-lg bg-white hover:border-purple-500 transition" />
+            </div>
+
+            <!-- Vista previa del logo -->
+            <div class="flex justify-center mt-4">
+                <img id="preview"
+                     class="w-48 h-48 object-cover rounded-xl border-4 border-gray-300 shadow-xl bg-white/70 hidden" />
+            </div>
+
+            <!-- Divisor -->
+            <div class="h-px bg-gray-200"></div>
+
+            <!-- Convocatoria select -->
+            <div class="relative">
+                <label for="convocatoria" class="block text-gray-700 font-semibold mb-2">Convocatoria</label>
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 class="h-5 w-5"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke="currentColor"
+                 stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2v-8H3v8a2 2 0 002 2z" />
+            </svg>
+          </span>
+                <select id="convocatoria"
+                        th:field="*{convocatoria}"
+                        required
+                        class="appearance-none w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
+                    <option value="" disabled hidden>Selecciona una convocatoria…</option>
                     <option th:each="conv : ${convocatorias}"
                             th:value="${conv.id_Convocatoria}"
                             th:text="${conv.titleConvocatoria}">
                     </option>
                 </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="h-5 w-5 text-gray-400"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
+            </div>
 
+            <!-- Botón “Crear startup” -->
+            <div class="flex justify-end">
                 <button type="submit"
-                        class="bg-blue-400 text-gray-900 py-3 px-4 rounded-md font-bold
-                         hover:bg-blue-300 transition-all">
-                    Crear startup
+                        class="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg shadow transform hover:scale-105 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="h-5 w-5"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M5 13l4 4L19 7M12 5v6m0 0v6m0-6H6m6 0h6" />
+                    </svg>
+                    Crear Startup
                 </button>
             </div>
+
         </form>
     </div>
 </div>
 
+<!-- Script de vista previa del logo -->
 <script>
     const inputFoto = document.getElementById("foto");
     const preview = document.getElementById("preview");
@@ -75,6 +191,7 @@
                 canvas.height = SIZE;
                 const ctx = canvas.getContext("2d");
 
+                // Mantener proporción y centrar
                 const ratio = Math.min(SIZE / img.width, SIZE / img.height);
                 const w = img.width * ratio, h = img.height * ratio;
                 const x = (SIZE - w) / 2, y = (SIZE - h) / 2;
@@ -83,8 +200,9 @@
                 preview.src = canvas.toDataURL("image/png");
                 preview.classList.remove("hidden");
 
+                // Reemplazar el archivo original por el PNG redimensionado
                 canvas.toBlob(blob => {
-                    const newFile = new File([blob], file.name, {type: "image/png"});
+                    const newFile = new File([blob], file.name, { type: "image/png" });
                     const dataTransfer = new DataTransfer();
                     dataTransfer.items.add(newFile);
                     inputFoto.files = dataTransfer.files;

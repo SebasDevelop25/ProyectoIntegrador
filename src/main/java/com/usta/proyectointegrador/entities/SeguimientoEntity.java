@@ -28,6 +28,11 @@ public class SeguimientoEntity implements Serializable {
     @Column(name = "fecha_seguimiento")
     private LocalDate fechaSeguimiento;
 
+    @Column(nullable = false)
+    private boolean recibido = false;
+
+
+
     // Relación con usuario (mentor)
     @NotNull
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
