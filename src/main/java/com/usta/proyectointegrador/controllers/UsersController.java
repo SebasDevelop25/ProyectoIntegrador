@@ -406,12 +406,6 @@ public class UsersController {
         usersServices.save(usuario);
         status.setComplete();
         UsersEntity usuarioExistente = usersServices.findByEmail(usuario.getEmail());
-        if (usuarioExistente != null) {
-            result.rejectValue("email", "error.usuario", "Este correo ya está registrado.");
-            model.addAttribute("title", "Register a new User");
-            return "registro/registro";
-        }
-
         redirectAttributes.addFlashAttribute("success", "User registered successfully!");
         return "/registro/login";
     }
