@@ -115,7 +115,7 @@ public class UsersController {
             for (TransactionEntity tx : txs) {
                 String nombreMentor = mentor.getNombre_usu() + " " + mentor.getApellido_usu();
                 String nombreStartup = tx.getStartup().getNombre_startup();
-                String nombreEmprendedor = tx.getNombreUsu().getNombre_usu();
+                String nombreEmprendedor = tx.getUsuario().getNombre_usu();
 
                 // Convocatoria (si existe)
                 ConvocatoriaEntity convocatoria = tx.getStartup().getConvocatoria();
@@ -184,7 +184,7 @@ public class UsersController {
         transaction.setTransactionDate(LocalDate.now());
         transaction.setAmount(BigDecimal.ZERO);
         transactionServices.save(transaction);
-        return "redirect:/mentorias";
+        return "redirect:/MisMentoriass";
     }
 
     @GetMapping("/editarMentoria/{id}")
@@ -526,6 +526,21 @@ public class UsersController {
         return "/inversor/interfazInversor";
     }
 
+    @GetMapping("/menu")
+    public String mostrarMenu(Model model, Principal principal) {
+        // Suponiendo que estás usando Spring Security y tienes acceso al usuario autenticado:
+        String username = principal.getName(); // Esto da el nombre de usuario autenticado
 
+        // Buscar el usuario en la base de datos (ajusta esto según tu servicio/repositorio)
+        UsersEntity usuario = usersServices.findByEmail(username);
+
+        // Asegúrate de que el usuario no sea null y tenga su ID
+        if (usuario != null) {
+            model.addAttribute("idUsuario", usuario.getIdUsuario());
+        }
+
+        // Devuelve la vista donde está el botón "Ingresos"
+        return "menu";
+    }
 
 }

@@ -242,7 +242,7 @@ public class StartupController {
             return "redirect:/startupsAsignadas";
         }
 
-        model.addAttribute("startup", startup); // ✅ necesario
+        model.addAttribute("startup", startup);
         model.addAttribute("seguimiento", new SeguimientoEntity());
 
         return "/mentor/seguimiento";
@@ -291,6 +291,7 @@ public class StartupController {
                 String nombreStartup = startup.getNombre_startup();
                 String nombreEmprendedor = tx.getUsuario().getNombre_usu() + " " + tx.getUsuario().getApellido_usu();
                 String nombreConvocatoria = startup.getConvocatoria().getTitleConvocatoria();
+                System.out.println("Nombre Mentor: " + nombreConvocatoria);
                 String logo = startup.getLogo();
 
                 pendientesDTO.add(new MentoriaDTO(tx.getIdTransaction(), startup.getId_startup(), nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria, logo));

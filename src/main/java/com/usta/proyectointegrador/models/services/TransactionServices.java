@@ -18,4 +18,6 @@ public interface TransactionServices {
 
     public List<TransactionEntity> findAll();
 
+    List<TransactionEntity> findByStartupUsuarioId(Long idEmprendedor);
+
 }

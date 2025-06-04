@@ -45,5 +45,10 @@ public class TransactionServicesImplement implements TransactionServices {
         return transactionDAO.findAll();
     }
 
+    @Override
+    public List<TransactionEntity> findByStartupUsuarioId(Long idEmprendedor) {
+        return transactionDAO.findByStartupUsuarioId(idEmprendedor);
+    }
+
 
 }

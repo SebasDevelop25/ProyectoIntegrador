@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -74,5 +75,45 @@ public class TransactionController {
         List<TransactionEntity> transacciones = transactionRepository.findAll();
         model.addAttribute("transacciones", transacciones);
         return "inversor/listarInversiones"; // Apunta a templates/transacciones/list.html
+    }
+
+    @PostMapping("/transacciones/eliminar/{id}")
+    public String eliminarTransaccion(@PathVariable("id") Integer idTransaction,
+                                      RedirectAttributes redirectAttrs) {
+        // 1) Intentamos borrar la transacción
+        transactionRepository.deleteById(idTransaction);
+
+        // 2) Opcional: podemos agregar un mensaje flash para notificar al usuario
+        redirectAttrs.addFlashAttribute("mensajeExito", "Transacción eliminada correctamente.");
+
+        // 3) Redirigimos de vuelta al listado de transacciones
+        return "redirect:/transacciones";
+    }
+
+    @GetMapping("/inv")
+    public String listarInversionesDeMisStartups(Model model, Principal principal) {
+        // 1) Obtenemos el email del usuario autenticado
+        String emailUsuario = principal.getName();
+
+        // 2) Buscamos el objeto UsersEntity correspondiente a ese email
+        UsersEntity usuario = usersServices.findByEmail(emailUsuario);
+        if (usuario == null) {
+            // Si por algún motivo no existe, redirige al login (o a otra página de “home”)
+            return "redirect:/login";
+        }
+
+        // 3) Sacamos el idUsuario del emprendedor
+        Long idEmprendedor = usuario.getIdUsuario();
+
+        // 4) Llamamos al servicio para traer todas las transacciones de sus startups
+        List<TransactionEntity> inversiones = transactionRepository.findByStartupUsuarioId(idEmprendedor);
+
+        // 5) Enviamos la lista al modelo
+        model.addAttribute("transacciones", inversiones);
+        model.addAttribute("titulo", "Inversiones en Mis Startups");
+
+        // 6) Devolvemos la plantilla Thymeleaf
+        //    (asegúrate de tener src/main/resources/templates/emprendedor/ListarInversiones.html)
+        return "emprendedor/ListarInversiones";
     }
 }
