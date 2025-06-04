@@ -7,44 +7,119 @@
 <div th:replace="layout/layoutSamu :: sidebar"></div>
 
 <div class="ml-64 p-8 bg-gray-100 text-gray-800 min-h-screen">
-
     <div th:replace="layout/layoutSamu :: header"></div>
 
-
-    <div class="mb-4 mt-10 text-center">
+    <!-- Botón “Asignar Mentoría” -->
+    <div class="mb-6 mt-10 text-center">
         <a th:href="@{${urlCreate}}"
-           class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800 transition">
+           class="inline-block bg-purple-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-purple-700 transform hover:scale-105 transition">
             Asignar Mentoría
         </a>
     </div>
 
-    <div class="overflow-x-auto">
-        <table class="w-full bg-white shadow rounded-lg overflow-hidden">
-            <thead class="bg-blue-500 text-white">
-            <tr>
-                <th class="p-3 border">Mentor</th>
-                <th class="p-3 border">Startup asignada</th>
-                <th class="p-3 border">Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="m : ${mentorias}" class="hover:bg-gray-50">
-                <td class="p-2 text-center" th:text="${m.nombreMentor}"></td>
-                <td class="p-2 text-center" th:text="${m.nombreStartup}"></td>
-                <td class="p-2 text-center space-x-2">
+    <!-- Grid de tarjetas de mentorías -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div th:each="m : ${mentorias}"
+             class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col">
+
+            <!-- Encabezado con foto del mentor, flecha, y logo de la startup -->
+            <div class="flex items-center justify-center p-4 bg-gray-50 space-x-4">
+                <!-- Foto del mentor -->
+                <div class="w-16 h-16">
+                    <img th:src="@{${m.fotoMentor}}"
+                         alt="Foto Mentor"
+                         class="w-full h-full object-cover rounded-full border-2 border-purple-600" />
+                </div>
+
+                <!-- Flecha indicando la relación -->
+                <div class="text-gray-500">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="h-6 w-6"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M9 5l7 7-7 7" />
+                    </svg>
+                </div>
+
+                <!-- Logo de la startup -->
+                <div class="w-16 h-16">
+                    <img th:src="@{${m.fotoStartup}}"
+                         alt="Logo Startup"
+                         class="w-full h-full object-contain rounded-lg border-2 border-green-600" />
+                </div>
+            </div>
+
+            <!-- Cuerpo con datos: Nombre del mentor, Startup asignada, Emprendedor y Convocatoria -->
+            <div class="p-4 flex-1 flex flex-col justify-between">
+                <div class="mb-4">
+                    <!-- Nombre del mentor -->
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2" th:text="${m.nombreMentor}">
+                        Nombre Mentor
+                    </h3>
+
+                    <!-- Leyenda “Startup asignada: …” en lugar de mostrar solo el nombre -->
+                    <p class="text-gray-700 text-sm mb-1">
+                        <span class="font-medium">Startup asignada:</span>
+                        <span th:text="${m.nombreStartup}">Nombre Startup</span>
+                    </p>
+
+                    <!-- Emprendedor -->
+                    <p class="text-gray-500 text-xs mb-1"
+                       th:text="'Emprendedor: ' + ${m.nombreEmprendedor}">
+                        Emprendedor: Fulano
+                    </p>
+
+                    <!-- Convocatoria -->
+                    <p class="text-gray-500 text-xs"
+                       th:text="'Convocatoria: ' + ${m.nombreConvocatoria}">
+                        Convocatoria: Tech 2025
+                    </p>
+                </div>
+
+                <!-- Botones de acción (Editar / Eliminar) -->
+                <div class="flex gap-2">
                     <a th:href="@{/editarMentoria/{id}(id=${m.idTransaccion})}"
-                       class="text-yellow-600 hover:underline">Editar</a>
-                    |
+                       class="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg shadow transform hover:scale-105 transition">
+                        <!-- Icono editar -->
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="h-5 w-5"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-5-5l5 5m0 0l-5 5m5-5H9" />
+                        </svg>
+                        Editar
+                    </a>
                     <form th:action="@{/eliminarMentoria/{id}(id=${m.idTransaccion})}"
-                          method="post" class="inline"
+                          method="post"
+                          class="flex-1"
                           onsubmit="return confirm('¿Eliminar esta mentoría?');">
-                        <button type="submit" class="text-red-600 hover:underline">Eliminar</button>
+                        <button type="submit"
+                                class="w-full flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-lg shadow transform hover:scale-105 transition">
+                            <!-- Icono eliminar -->
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-5 w-5"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4a2 2 0 012 2v1H8V5a2 2 0 012-2z" />
+                            </svg>
+                            Eliminar
+                        </button>
                     </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                </div>
+            </div>
+
+        </div>
     </div>
+    <!-- /Grid de tarjetas -->
 
 </div>
 </body>

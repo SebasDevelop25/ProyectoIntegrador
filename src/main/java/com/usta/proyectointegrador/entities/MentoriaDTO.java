@@ -11,16 +11,22 @@ public class MentoriaDTO {
     private String nombreStartup;
     private String nombreEmprendedor;
     private String nombreConvocatoria;
+    private String logoStartup;
+    private String fotoMentor;
+    private String fotoStartup;
+
 
     public MentoriaDTO(Long idTransaccion, Integer idStartup ,String nombreMentor, String nombreStartup,
-                       String nombreEmprendedor, String nombreConvocatoria) {
+                       String nombreEmprendedor, String nombreConvocatoria, String logoStartup) {
         this.idTransaccion = idTransaccion;
         this.idStartup = idStartup;
         this.nombreMentor = nombreMentor;
         this.nombreStartup = nombreStartup;
         this.nombreEmprendedor = nombreEmprendedor;
         this.nombreConvocatoria = nombreConvocatoria;
+        this.logoStartup = logoStartup;
     }
+
 
     // Getters y Setters
     public Long getIdTransaccion() {
@@ -70,6 +76,10 @@ public class MentoriaDTO {
     public void setNombreConvocatoria(String nombreConvocatoria) {
         this.nombreConvocatoria = nombreConvocatoria;
     }
+
+    public String getLogoStartup() { return logoStartup; }
+
+    public void setLogoStartup(String logoStartup) { this.logoStartup = logoStartup; }
 
 }
 

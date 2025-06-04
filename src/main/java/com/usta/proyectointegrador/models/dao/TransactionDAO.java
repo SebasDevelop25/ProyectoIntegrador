@@ -12,7 +12,7 @@ public interface TransactionDAO extends JpaRepository<TransactionEntity, Long> {
     @Query("""
             SELECT t
             FROM TransactionEntity t
-            WHERE t.nombreUsu.idUsuario = :usuarioId
+            WHERE t.usuario.idUsuario = :usuarioId
             """)
     List<TransactionEntity> findByUsuarioId(@Param("usuarioId") Long usuarioId);
 
@@ -22,5 +22,10 @@ public interface TransactionDAO extends JpaRepository<TransactionEntity, Long> {
             WHERE t.startup.id_startup = :startupId
     """)
     List<TransactionEntity> findByStartupId(@Param("startupId") Long startupId);
+
+    @Query("SELECT t " +
+            "FROM TransactionEntity t " +
+            "WHERE t.startup.usuario.idUsuario = :idEmprendedor")
+    List<TransactionEntity> findByStartupUsuarioId(@Param("idEmprendedor") Long idEmprendedor);
 
 }

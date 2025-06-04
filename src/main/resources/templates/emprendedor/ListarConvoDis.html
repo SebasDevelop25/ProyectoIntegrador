@@ -8,32 +8,56 @@
 
     <header th:replace="layout/layoutSamu :: header"></header>
 
-    <table class="w-full mt-6 table-auto border-collapse bg-white shadow-md">
-        <thead>
-        <tr class="bg-blue-500 text-white">
-            <th class="p-2 border">ID</th>
-            <th class="p-2 border">Título</th>
-            <th class="p-2 border">Inicio</th>
-            <th class="p-2 border">Fin</th>
-            <th class="p-2 border">Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="convocatoria : ${convocatorias}"
-            class="text-center hover:bg-blue-50">
-            <td th:text="${convocatoria.id_Convocatoria}" class="border p-2"></td>
-            <td th:text="${convocatoria.titleConvocatoria}" class="border p-2"></td>
-            <td th:text="${#dates.format(convocatoria.fechaInicio, 'yyyy-MM-dd')}"
-                class="border p-2"></td>
-            <td th:text="${#dates.format(convocatoria.fechaFin,   'yyyy-MM-dd')}"
-                class="border p-2"></td>
-            <td class="border p-2 space-x-2">
-                <a th:href="@{/infoConvocatoria/{id}(id=${convocatoria.id_Convocatoria})}"
-                   class="text-yellow-600 hover:underline">Info</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <!-- GRID DE TARJETAS DE CONVOCATORIAS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <div th:each="convocatoria : ${convocatorias}"
+             class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col">
+
+            <!-- IMAGEN LOCAL DE LA CONVOCATORIA -->
+            <img th:src="@{/images/info3.jpg}"
+                 alt="Imagen Convocatoria"
+                 class="h-40 w-full object-cover" />
+
+            <!-- CONTENIDO DE LA TARJETA -->
+            <div class="p-4 flex-1 flex flex-col justify-between">
+                <!-- NOMBRE DE LA CONVOCATORIA -->
+                <h2 class="text-xl font-semibold text-purple-800 text-center mb-2"
+                    th:text="${convocatoria.titleConvocatoria}">
+                    Título Convocatoria
+                </h2>
+
+                <!-- FECHA DE INICIO Y FIN (usando #dates.format) -->
+                <div class="text-gray-600 text-sm text-center mb-4">
+                    <p th:text="${#dates.format(convocatoria.fechaInicio, 'dd/MM/yyyy')}">
+                        01/06/2025
+                    </p>
+                    <p th:text="${#dates.format(convocatoria.fechaFin, 'dd/MM/yyyy')}">
+                        30/06/2025
+                    </p>
+                </div>
+
+                <!-- BOTÓN INFO CON ICONO -->
+                <div class="text-center">
+                    <a th:href="@{/infoConvocatoria/{id}(id=${convocatoria.id_Convocatoria})}"
+                       class="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-full transition">
+                        <!-- ICONO (Heroicon) -->
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="h-5 w-5"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="2">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M9 5l7 7-7 7"/>
+                        </svg>
+                        Info
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /GRID DE TARJETAS -->
 
 </div>
 </body>

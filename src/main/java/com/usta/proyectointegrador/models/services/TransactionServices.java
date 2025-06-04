@@ -16,4 +16,8 @@ public interface TransactionServices {
 
     public void deleteById(Integer idTransaction);
 
+    public List<TransactionEntity> findAll();
+
+    List<TransactionEntity> findByStartupUsuarioId(Long idEmprendedor);
+
 }

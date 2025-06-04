@@ -31,6 +31,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,8 @@ public class UsersController {
     private StartupServices startupServices;
     @Autowired
     private RolService rolService;
+    @Autowired
+    private SeguimientoService seguimientoService;
 
 
     private static final Long ROL_MENTOR = 3L;
@@ -69,27 +72,29 @@ public class UsersController {
         System.out.println("Mentores encontrados: " + mentores.size());
 
         for (UsersEntity mentor : mentores) {
-            List<TransactionEntity> txs = transactionServices.findByUsuarioIdUsuario(mentor.getIdUsuario());
+            List<TransactionEntity> txs = transactionServices.findByUsuarioIdUsuario
+                    (mentor.getIdUsuario());
             for (TransactionEntity tx : txs) {
                 String nombreMentor = mentor.getNombre_usu() + " " + mentor.getApellido_usu();
                 String nombreStartup = tx.getStartup().getNombre_startup();
 
                 // Extraigo el emprendedor sin cambios:
-                String nombreEmprendedor = tx.getNombreUsu().getNombre_usu();
+                String nombreEmprendedor = tx.getUsuario().getNombre_usu();
 
                 // Aquí chequeo que exista Convocatoria antes de llamar a getTitleConvocatoria()
                 ConvocatoriaEntity convocatoria = tx.getStartup().getConvocatoria();
                 String nombreConvocatoria = (convocatoria != null)
                         ? convocatoria.getTitleConvocatoria()
                         : "Sin Convocatoria";
-
+                String logo =  tx.getStartup().getLogo();
                 mentorias.add(new MentoriaDTO(
                         tx.getIdTransaction(),
                         tx.getStartup().getId_startup(),
                         nombreMentor,
                         nombreStartup,
                         nombreEmprendedor,
-                        nombreConvocatoria
+                        nombreConvocatoria,
+                        logo
                 ));
             }
         }
@@ -99,6 +104,55 @@ public class UsersController {
         model.addAttribute("urlCreate", "/createMentoria");
         return "Usuarios/ListarMentorias";
     }
+
+    @GetMapping("/MisMentoriass")
+    public String listarMisMentorias(Model model, Principal principal) {
+        List<UsersEntity> mentores = usersServices.findByRol(ROL_MENTOR);
+        List<MentoriaDTO3> mentorias = new ArrayList<>();
+
+        for (UsersEntity mentor : mentores) {
+            List<TransactionEntity> txs = transactionServices.findByUsuarioIdUsuario(mentor.getIdUsuario());
+            for (TransactionEntity tx : txs) {
+                String nombreMentor = mentor.getNombre_usu() + " " + mentor.getApellido_usu();
+                String nombreStartup = tx.getStartup().getNombre_startup();
+                String nombreEmprendedor = tx.getUsuario().getNombre_usu();
+
+                // Convocatoria (si existe)
+                ConvocatoriaEntity convocatoria = tx.getStartup().getConvocatoria();
+                String nombreConvocatoria = (convocatoria != null)
+                        ? convocatoria.getTitleConvocatoria()
+                        : "Sin Convocatoria";
+
+                // URL de la foto del mentor
+                // Si mentor.getFoto() puede ser null o vacío, pones un default:
+                String fotoMentor = (mentor.getFoto() != null && !mentor.getFoto().isBlank())
+                        ? mentor.getFoto()
+                        : "/img/default-user.png";
+
+                // URL del logo/foto de la startup
+                String fotoStartup = (tx.getStartup().getLogo() != null && !tx.getStartup().getLogo().isBlank())
+                        ? tx.getStartup().getLogo()
+                        : "/img/default-startup.png";
+
+                mentorias.add(new MentoriaDTO3(
+                        tx.getIdTransaction(),
+                        tx.getStartup().getId_startup(),
+                        nombreMentor,
+                        nombreStartup,
+                        nombreEmprendedor,
+                        nombreConvocatoria,
+                        fotoMentor,
+                        fotoStartup
+                ));
+            }
+        }
+
+        model.addAttribute("title", "Listado de Mentorías");
+        model.addAttribute("mentorias", mentorias);
+        model.addAttribute("urlCreate", "/createMentoria");
+        return "Usuarios/ListarMentorias";
+    }
+
 
 
 
@@ -125,12 +179,12 @@ public class UsersController {
         StartupEntity startup = startupServices.findById(mentoria.getStartupId());
 
         TransactionEntity transaction = new TransactionEntity();
-        transaction.setNombreUsu(mentor);
+        transaction.setUsuario(mentor);
         transaction.setStartup(startup);
         transaction.setTransactionDate(LocalDate.now());
         transaction.setAmount(BigDecimal.ZERO);
         transactionServices.save(transaction);
-        return "redirect:/mentorias";
+        return "redirect:/MisMentoriass";
     }
 
     @GetMapping("/editarMentoria/{id}")
@@ -143,7 +197,7 @@ public class UsersController {
         }
 
         MentoriaForm mentoriaForm = new MentoriaForm();
-        mentoriaForm.setIdMentoria(transaction.getNombreUsu().getIdUsuario());
+        mentoriaForm.setIdMentoria(transaction.getUsuario().getIdUsuario());
         mentoriaForm.setStartupId(transaction.getStartup().getId_startup());
 
         model.addAttribute("mentoriaFormEdit", mentoriaForm);
@@ -166,7 +220,7 @@ public class UsersController {
 
         UsersEntity mentor = usersServices.findById(form.getIdMentoria().longValue());
         StartupEntity startup = startupServices.findById(form.getStartupId().intValue());
-        tx.setNombreUsu(mentor);
+        tx.setUsuario(mentor);
         tx.setStartup(startup);
 
         transactionServices.save(tx);
@@ -243,7 +297,8 @@ public class UsersController {
         usuario.setFoto(urlImagen);
         usersServices.save(usuario);
 
-        redirectAttributes.addFlashAttribute("mensaje", "Usuario guardado correctamente");
+        redirectAttributes.addFlashAttribute("mensaje",
+                "Usuario guardado correctamente");
         return "redirect:/usuarios";
     }
 
@@ -253,14 +308,11 @@ public class UsersController {
             if (imagen == null || imagen.isEmpty()) {
                 return imagenAnterior != null ? imagenAnterior : "/images/default-logo.png";
             }
-
-
             BufferedImage original = ImageIO.read(imagen.getInputStream());
             if (original == null) {
 
                 return imagenAnterior;
             }
-
 
             BufferedImage thumbnail = Thumbnails.of(original)
                     .size(800, 800)
@@ -337,9 +389,11 @@ public class UsersController {
         if (id > 0){
             UsersEntity usuario = usersServices.findById(id);
             usersServices.deleteById(id);
-            redirectAttributes.addFlashAttribute("mensaje", "Usuario eliminado correctamente");
+            redirectAttributes.addFlashAttribute("mensaje",
+                    "Usuario eliminado correctamente");
         } else {
-            redirectAttributes.addFlashAttribute("mensaje", "El usuario no existe");
+            redirectAttributes.addFlashAttribute("mensaje",
+                    "El usuario no existe");
         }
 
         return "redirect:/usuarios";
@@ -403,6 +457,7 @@ public class UsersController {
         usuario.setFoto(urlImagen);
         usersServices.save(usuario);
         status.setComplete();
+        UsersEntity usuarioExistente = usersServices.findByEmail(usuario.getEmail());
         redirectAttributes.addFlashAttribute("success", "User registered successfully!");
         return "/registro/login";
     }
@@ -439,11 +494,12 @@ public class UsersController {
                 String nombreStartup = tx.getStartup().getNombre_startup();
 
                 // Asegúrate de que estas relaciones existen correctamente en StartupEntity
-                String nombreEmprendedor = tx.getNombreUsu().getNombre_usu(); // O getNombre(), depende del modelo
+                String nombreEmprendedor = tx.getUsuario().getNombre_usu(); // O getNombre(), depende del modelo
                 String nombreConvocatoria = tx.getStartup().getConvocatoria().getTitleConvocatoria();
                 System.out.println("Nombre convo: " + nombreConvocatoria);
+                String logo = tx.getStartup().getLogo();
 
-                mentorias.add(new MentoriaDTO(tx.getIdTransaction(), tx.getStartup().getId_startup(),nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria));
+                mentorias.add(new MentoriaDTO(tx.getIdTransaction(), tx.getStartup().getId_startup(),nombreMentor, nombreStartup, nombreEmprendedor, nombreConvocatoria, logo));
             }
 
         model.addAttribute("title", "Listado de Mentorías");
@@ -468,6 +524,23 @@ public class UsersController {
     @GetMapping("/interfazInversor")
     public String mostrarInterfazInversor() {
         return "/inversor/interfazInversor";
+    }
+
+    @GetMapping("/menu")
+    public String mostrarMenu(Model model, Principal principal) {
+        // Suponiendo que estás usando Spring Security y tienes acceso al usuario autenticado:
+        String username = principal.getName(); // Esto da el nombre de usuario autenticado
+
+        // Buscar el usuario en la base de datos (ajusta esto según tu servicio/repositorio)
+        UsersEntity usuario = usersServices.findByEmail(username);
+
+        // Asegúrate de que el usuario no sea null y tenga su ID
+        if (usuario != null) {
+            model.addAttribute("idUsuario", usuario.getIdUsuario());
+        }
+
+        // Devuelve la vista donde está el botón "Ingresos"
+        return "menu";
     }
 
 }

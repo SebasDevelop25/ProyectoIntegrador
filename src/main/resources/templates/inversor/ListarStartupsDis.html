@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layoutSamu :: head">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+<div th:replace="layout/layoutSamu :: sidebar3"></div>
+
+<div class="ml-64 p-10">
+    <header th:replace="layout/layoutSamu :: header"></header>
+
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Startups disponibles</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hover:border-purple-600">
+        <div th:each="Startup : ${startups}"
+             class="bg-white rounded-xl border border-transparent shadow-md hover:shadow-xl hover:border-purple-600 transition duration-300 ease-in-out transform hover:-translate-y-1">
+
+        <div class="p-5 flex flex-col items-center text-center">
+                <img th:src="${Startup.logo != null && !Startup.logo.isEmpty()} ? ${Startup.logo} : '@{/img/default-logo.png}'"
+                     alt="Logo de la startup"
+                     class="w-28 h-28 object-contain rounded-full border border-gray-300 shadow-sm mb-4 transition duration-300 hover:scale-105" />
+
+                <h2 class="text-xl font-semibold text-blue-600 mb-1" th:text="${Startup.nombre_startup}"></h2>
+                <p class="text-sm text-gray-600 mb-3" th:text="${Startup.sector}"></p>
+                <div class="w-full flex justify-between items-center text-sm text-gray-500 mb-3">
+                    <span>ID: </span>
+                    <span th:text="${Startup.id_startup}"></span>
+                </div>
+
+                <a th:href="@{/infoInvStartups}"
+                   class="inline-block bg-purple-600 text-white px-4 py-2 rounded-lg shadow hover:bg-purple-700 hover:shadow-lg transition duration-300">
+                    Info
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

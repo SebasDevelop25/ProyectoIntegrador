@@ -1,87 +1,226 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layoutSamu :: head"></head>
-<body>
+<head th:replace="layout/layoutSamu :: head">
+    <meta charset="UTF-8">
+    <title>[[${title}]]</title>
+    <!-- Asumo que Tailwind ya está incluido en layout/layoutSamu -->
+</head>
+<body class="bg-gray-100">
+
+<!-- Sidebar fijo -->
 <div th:replace="layout/layoutSamu :: sidebar"></div>
 
-<div class="ml-64 p-8 bg-gray-100 text-gray-800 min-h-screen">
-
-
+<div class="ml-64 p-8 min-h-screen text-gray-800">
+    <!-- Header -->
     <div th:replace="layout/layoutSamu :: header"></div>
 
-    <div class="max-w-md mx-auto mt-12 mb-12 bg-purple-200 rounded-xl p-8 shadow-lg">
-        <h1 class="text-center text-2xl font-bold text-gray-900 mb-4">
-            Editar startup
-        </h1>
+    <!-- Contenedor principal -->
+    <div class="max-w-lg mx-auto mt-12 mb-12 bg-white rounded-2xl shadow-lg overflow-hidden">
+        <!-- Encabezado púrpura -->
+        <div class="bg-purple-700 px-6 py-5">
+            <h1 class="text-center text-2xl font-bold text-white">Editar Startup</h1>
+        </div>
+
+        <!-- Formulario -->
         <form th:action="@{/editarStartup/{id}(id=${startupEdit.id_startup})}"
-              method="post" enctype="multipart/form-data"
-              th:object="${startupEdit}">
-            <div class="flex flex-col gap-4">
+              method="post"
+              enctype="multipart/form-data"
+              th:object="${startupEdit}"
+              class="px-8 py-8 space-y-6">
 
-                <label class="text-stone-900 font-bold">Nombre del Startup</label>
-                <input type="text" th:field="*{nombre_startup}"
-                       required class="p-2 rounded-md border border-gray-300"/>
-
-                <label class="text-stone-900 font-bold">Descripción</label>
-                <input type="text" th:field="*{descripción}"
-                       required class="p-2 rounded-md border border-gray-300"/>
-
-                <label class="text-stone-900 font-bold">Sector</label>
-                <input type="text" th:field="*{sector}"
-                       required class="p-2 rounded-md border border-gray-300"/>
-
-                <label class="text-stone-900 font-bold">Logo</label>
-                <input type="file" id="foto" name="foto" accept="image/*" class="hidden"
-                       onchange="updateFileName(this)"/>
-                <label for="foto"
-                       class="cursor-pointer bg-slate-600 text-white px-4 py-1 rounded hover:bg-slate-800">
-                    Select File
+            <!-- 1) Nombre del Startup -->
+            <div class="relative">
+                <label for="nombre_startup" class="block text-gray-700 font-semibold mb-2">
+                    Nombre del Startup
                 </label>
-                <span id="file-name" class="text-sm text-gray-600 truncate max-w-xs"
-                      th:text="${startupEdit.logo}">Ningún archivo Seleccionado</span>
-                <p id="error" class="text-red-600 text-sm mt-2"></p>
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400 pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 class="h-5 w-5"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke="currentColor"
+                 stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 7h18M3 12h18M3 17h18"/>
+            </svg>
+          </span>
+                <input type="text"
+                       id="nombre_startup"
+                       th:field="*{nombre_startup}"
+                       required
+                       class="appearance-none h-10 w-full pl-10 pr-4 border border-gray-300 rounded-lg bg-white
+                        focus:outline-none focus:ring-2 focus:ring-purple-500 transition" />
+            </div>
 
-                <!-- Vista previa -->
-                <div class="flex justify-center mt-4">
-                    <img id="preview"
-                         th:src="${startupEdit.logo != null ? startupEdit.logo : '/images/default-logo.png'}"
-                         alt="Image Preview"
-                         class="w-48 h-48 object-cover rounded-xl border-4 border-stone-300 shadow-xl bg-white/70"/>
+            <!-- 2) Descripción -->
+            <div class="relative">
+                <label for="descripción" class="block text-gray-700 font-semibold mb-2">
+                    Descripción
+                </label>
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400 pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 class="h-5 w-5"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke="currentColor"
+                 stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15 12H9m6 4H9m6-8H9m-3 4h.01M3 3h18v18H3V3z"/>
+            </svg>
+          </span>
+                <input type="text"
+                       id="descripción"
+                       th:field="*{descripción}"
+                       required
+                       class="appearance-none h-10 w-full pl-10 pr-4 border border-gray-300 rounded-lg bg-white
+                        focus:outline-none focus:ring-2 focus:ring-purple-500 transition" />
+            </div>
+
+            <!-- 3) Sector -->
+            <div class="relative">
+                <label for="sector" class="block text-gray-700 font-semibold mb-2">
+                    Sector
+                </label>
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400 pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 class="h-5 w-5"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke="currentColor"
+                 stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 3v18m9-9H3"/>
+            </svg>
+          </span>
+                <input type="text"
+                       id="sector"
+                       th:field="*{sector}"
+                       required
+                       class="appearance-none h-10 w-full pl-10 pr-4 border border-gray-300 rounded-lg bg-white
+                        focus:outline-none focus:ring-2 focus:ring-purple-500 transition" />
+            </div>
+
+            <!-- 4) Logo (file input) -->
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">Logo</label>
+
+                <!-- Campo file oculto + etiqueta personalizada -->
+                <div class="flex items-center gap-3">
+                    <input type="file"
+                           id="foto"
+                           name="foto"
+                           accept="image/*"
+                           class="hidden"
+                           onchange="updateFileName(this)" />
+                    <label for="foto"
+                           class="cursor-pointer inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white
+                          font-medium px-4 py-2 rounded-lg shadow transition transform hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="h-5 w-5"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M3 7h18M3 12h18M3 17h18"/>
+                        </svg>
+                        Seleccionar Archivo
+                    </label>
+                    <span id="file-name" class="flex-1 text-gray-600 text-sm truncate max-w-xs"
+                          th:text="${startupEdit.logo} ?: 'Ningún archivo seleccionado'">
+              Ningún archivo seleccionado
+            </span>
                 </div>
+                <p id="error" class="text-red-600 text-sm mt-1"></p>
+            </div>
 
-                <input type="hidden" name="imagenAnterior" th:value="${startupEdit.logo}"/>
+            <!-- 5) Vista previa del logo -->
+            <div class="flex justify-center mt-4">
+                <img id="preview"
+                     th:src="${startupEdit.logo != null ? startupEdit.logo : '/images/default-logo.png'}"
+                     alt="Vista previa del logo"
+                     class="w-40 h-40 object-cover rounded-xl border-4 border-gray-300 shadow-lg bg-white/70" />
+            </div>
 
-                <label class="text-stone-900 font-bold">Convocatoria</label>
-                <select id="convocatoriaId" name="convocatoriaId" required
-                        class="mt-1 block w-full p-2 border rounded-md bg-white text-gray-900">
-                    <option value="">-- Seleccione una convocatoria --</option>
+            <input type="hidden" name="imagenAnterior" th:value="${startupEdit.logo}" />
+
+            <!-- Separador -->
+            <div class="h-px bg-gray-200 my-6"></div>
+
+            <!-- 6) Convocatoria -->
+            <div class="relative">
+                <label for="convocatoriaId" class="block text-gray-700 font-semibold mb-2">
+                    Convocatoria
+                </label>
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400 pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 class="h-5 w-5"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke="currentColor"
+                 stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2v-8H3v8a2 2 0 002 2z"/>
+            </svg>
+          </span>
+                <select id="convocatoriaId"
+                        name="convocatoriaId"
+                        required
+                        class="appearance-none h-10 w-full pl-10 pr-8 border border-gray-300 rounded-lg bg-white
+                         focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
+                    <option value="" disabled hidden>Selecciona una convocatoria…</option>
                     <option th:each="conv : ${convocatorias}"
                             th:value="${conv.id_Convocatoria}"
                             th:text="${conv.titleConvocatoria}"
                             th:selected="${conv.id_Convocatoria} == ${startupEdit.convocatoria.id_Convocatoria}">
                     </option>
                 </select>
+                <!-- Flecha del select -->
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="h-5 w-5 text-gray-400"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
+            </div>
 
+            <!-- 7) Botón “Editar Startup” -->
+            <div class="flex justify-end">
                 <button type="submit"
-                        class="bg-blue-400 text-gray-900 py-3 px-4 rounded-md font-bold hover:bg-blue-300 transition-all">
-                    Editar startup
+                        class="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold
+                         px-6 py-2 rounded-lg shadow transform hover:scale-105 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="h-5 w-5"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-5-5l5 5m0 0l-5 5m5-5H9" />
+                    </svg>
+                    Guardar Cambios
                 </button>
             </div>
         </form>
     </div>
 </div>
 
+<!-- Script para vista previa de la imagen y mostrar nombre de archivo -->
 <script>
     const inputFoto = document.getElementById("foto");
     const preview = document.getElementById("preview");
-    const label = document.getElementById("file-name");
+    const label   = document.getElementById("file-name");
 
     inputFoto.addEventListener("change", e => {
         const file = e.target.files[0];
         if (!file || !file.type.startsWith("image/")) {
             preview.src = "#";
             preview.classList.add("hidden");
-            label.textContent = "Ningún archivo Seleccionado";
+            label.textContent = "Ningún archivo seleccionado";
             return;
         }
 
@@ -91,7 +230,7 @@
         reader.onload = ev => {
             const img = new Image();
             img.onload = () => {
-                const SIZE = 200;
+                const SIZE = 160; // 160x160 px
                 const canvas = document.createElement("canvas");
                 canvas.width = SIZE;
                 canvas.height = SIZE;
@@ -106,7 +245,7 @@
                 preview.classList.remove("hidden");
 
                 canvas.toBlob(blob => {
-                    const newFile = new File([blob], file.name, {type: "image/png"});
+                    const newFile = new File([blob], file.name, { type: "image/png" });
                     const dt = new DataTransfer();
                     dt.items.add(newFile);
                     inputFoto.files = dt.files;
@@ -121,9 +260,10 @@
         if (input.files && input.files.length > 0) {
             label.textContent = input.files[0].name;
         } else {
-            label.textContent = "Ningún archivo Seleccionado";
+            label.textContent = "Ningún archivo seleccionado";
         }
     }
 </script>
+
 </body>
 </html>

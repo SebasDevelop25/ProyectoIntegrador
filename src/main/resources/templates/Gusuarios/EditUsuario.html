@@ -1,85 +1,156 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layoutSamu :: head"></head>
-<body>
+<head th:replace="layout/layoutSamu :: head">
+    <!-- Asegúrate de que TailwindCSS ya esté disponible en tu layout -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+
 <!-- Sidebar fijo -->
 <div th:replace="layout/layoutSamu :: sidebar"></div>
-<div class="ml-64 p-8 bg-gray-100 text-gray-800 min-h-screen">
+
+<div class="ml-64 p-8 min-h-screen">
+    <!-- Header -->
     <div th:replace="layout/layoutSamu :: header"></div>
-    <div class="max-w-md mx-auto mt-24 mb-12 bg-purple-200 rounded-xl p-8 shadow-2xl">
-        <h1 class="text-center text-2xl font-bold text-gray-900 mb-4">Editar usuario</h1>
-        <form th:action="@{/editarUsuario/{id}(id=${usuarioEdit.idUsuario})}" method="post"
-              enctype="multipart/form-data"
-              th:object="${usuarioEdit}">
-            <div class="flex flex-col gap-4">
-                <label class="text-stone-900 font-bold">Nombre:</label>
-                <input type="text" th:field="*{nombre_usu}"
-                       required class="p-2 rounded-md border border-gray-300"/>
 
-                <label class="text-stone-900 font-bold">Apellido:</label>
-                <input type="text" th:field="*{apellido_usu}"
-                       required class="p-2 rounded-md border border-gray-300"/>
-                <label class="text-stone-900 font-bold">Contraseña:</label>
-                <input type="text" th:field="*{clave}"
-                       required class="p-2 rounded-md border border-gray-300"/>
-                <label class="text-stone-900 font-bold">Email:</label>
-                <input type="text" th:field="*{email}"
-                       required class="p-2 rounded-md border border-gray-300"/>
-                <label class="text-stone-900 font-bold">Ciudad</label>
-                <input type="text" th:field="*{ciudad}"
-                       required class="p-2 rounded-md border border-gray-300"/>
-                <label class="text-stone-900 font-bold">Telefono:</label>
-                <input type="text" th:field="*{telefono}">
+    <div class="max-w-lg mx-auto mt-20 bg-gradient-to-r from-purple-300 to-purple-400 rounded-2xl shadow-2xl overflow-hidden">
+        <div class="bg-white p-8 rounded-b-2xl">
+            <h1 class="text-center text-3xl font-extrabold text-purple-800 mb-6">Editar Usuario</h1>
+            <form th:action="@{/editarUsuario/{id}(id=${usuarioEdit.idUsuario})}" method="post"
+                  enctype="multipart/form-data" th:object="${usuarioEdit}"
+                  class="space-y-6">
 
-                <label class="text-stone-900 font-bold">Foto:</label>
-                <input type="file" id="archivofoto" name="archivofoto" accept="image/*" class="border-0"/>
-                <input type="hidden" name="imagenAnterior" th:value="${usuarioEdit.foto}"/>
+                <!-- Nombre y Apellido -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex flex-col">
+                        <label for="nombre" class="text-gray-700 font-semibold mb-1">Nombre</label>
+                        <input id="nombre" type="text" th:field="*{nombre_usu}" required
+                               class="p-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:outline-none transition" />
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="apellido" class="text-gray-700 font-semibold mb-1">Apellido</label>
+                        <input id="apellido" type="text" th:field="*{apellido_usu}" required
+                               class="p-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:outline-none transition" />
+                    </div>
+                </div>
+
+                <!-- Contraseña y Email -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex flex-col">
+                        <label for="clave" class="text-gray-700 font-semibold mb-1">Contraseña</label>
+                        <div class="relative">
+                            <input id="clave" type="password" th:field="*{clave}" required
+                                   class="w-full p-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:outline-none transition" />
+                            <button type="button" id="togglePassword"
+                                    class="absolute right-3 top-3 text-gray-400 hover:text-purple-600 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="email" class="text-gray-700 font-semibold mb-1">Email</label>
+                        <input id="email" type="email" th:field="*{email}" required
+                               class="p-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:outline-none transition" />
+                    </div>
+                </div>
+
+                <!-- Ciudad y Teléfono -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex flex-col">
+                        <label for="ciudad" class="text-gray-700 font-semibold mb-1">Ciudad</label>
+                        <input id="ciudad" type="text" th:field="*{ciudad}" required
+                               class="p-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:outline-none transition" />
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="telefono" class="text-gray-700 font-semibold mb-1">Teléfono</label>
+                        <input id="telefono" type="text" th:field="*{telefono}" required
+                               class="p-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:outline-none transition" />
+                    </div>
+                </div>
+
+                <!-- Foto -->
+                <div class="flex flex-col">
+                    <label for="archivofoto" class="text-gray-700 font-semibold mb-1">Foto de Perfil</label>
+                    <div class="flex items-center gap-4">
+                        <label for="archivofoto"
+                               class="cursor-pointer flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded-lg
+                            hover:bg-purple-700 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M3 7v4a1 1 0 001 1h3m10 0h3a1 1 0 001-1V7M4 3h16a1 1 0 011 1v2H3V4a1 1 0 011-1zM5 8h14M8 12h8m4 0v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8" />
+                            </svg>
+                            Seleccionar
+                        </label>
+                        <span id="file-name" class="text-gray-600 text-sm truncate max-w-xs"
+                              th:text="${usuarioEdit.foto}">Ningún archivo seleccionado</span>
+                        <input id="archivofoto" type="file" name="archivofoto" accept="image/*" class="hidden" />
+                    </div>
+                    <input type="hidden" name="imagenAnterior" th:value="${usuarioEdit.foto}" />
+                </div>
 
                 <!-- Vista previa -->
                 <div class="flex justify-center mt-4">
                     <img id="preview"
-                         class="w-48 h-48 object-cover rounded-xl border-4 border-stone-300 shadow-xl
-                        bg-white/70 hidden"/>
+                         th:src="${usuarioEdit.foto != null ? usuarioEdit.foto : '/img/default-avatar.png'}"
+                         alt="Vista previa"
+                         class="w-32 h-32 object-cover rounded-full border-4 border-purple-500 shadow-md" />
                 </div>
 
-                <label class="text-stone-900 font-bold">Rol:</label>
-                <select th:field="*{idRol.idRol}"
-                        class="p-2 rounded-md border border-gray-300 bg-white text-gray-900"
-                        required>
-                    <option value="">-- Seleccione un rol --</option>
-                    <option th:each="rol : ${listaRoles}"
-                            th:value="${rol.idRol}"
-                            th:text="${rol.rol}">
-                    </option>
-                </select>
+                <!-- Rol -->
+                <div class="flex flex-col">
+                    <label for="rol" class="text-gray-700 font-semibold mb-1">Rol</label>
+                    <select id="rol" th:field="*{idRol.idRol}" required
+                            class="p-3 rounded-lg border border-gray-300 bg-white focus:border-purple-500 focus:outline-none transition">
+                        <option value="">-- Seleccione un rol --</option>
+                        <option th:each="rol : ${listaRoles}"
+                                th:value="${rol.idRol}"
+                                th:text="${rol.rol}"
+                                th:selected="${rol.idRol} == ${usuarioEdit.idRol.idRol}">
+                        </option>
+                    </select>
+                </div>
 
-                <button type="submit"
-                        class="bg-blue-400 text-gray-900 py-3 px-4 rounded-md font-bold
-                         hover:bg-blue-300 transition-all">
-                    Editar Usuario
-                </button>
-            </div>
-        </form>
+                <!-- Botón Guardar -->
+                <div class="flex justify-center">
+                    <button type="submit"
+                            class="w-full md:w-auto bg-purple-600 text-white py-3 px-6 rounded-full font-bold
+                           hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
+<!-- Scripts -->
 <script>
+    // Mostrar nombre de archivo y vista previa
     const inputFoto = document.getElementById("archivofoto");
     const preview = document.getElementById("preview");
+    const fileNameLabel = document.getElementById("file-name");
 
     inputFoto.addEventListener("change", e => {
         const file = e.target.files[0];
         if (!file || !file.type.startsWith("image/")) {
             preview.src = "#";
-            preview.classList.add("hidden");
+            fileNameLabel.textContent = "Ningún archivo seleccionado";
             return;
         }
+        fileNameLabel.textContent = file.name;
 
         const reader = new FileReader();
         reader.onload = ev => {
             const img = new Image();
             img.onload = () => {
-                const SIZE = 200;
+                const SIZE = 150;
                 const canvas = document.createElement("canvas");
                 canvas.width = SIZE;
                 canvas.height = SIZE;
@@ -91,18 +162,21 @@
                 ctx.drawImage(img, x, y, w, h);
 
                 preview.src = canvas.toDataURL("image/png");
-                preview.classList.remove("hidden");
-
-                canvas.toBlob(blob => {
-                    const newFile = new File([blob], file.name, {type: "image/png"});
-                    const dataTransfer = new DataTransfer();
-                    dataTransfer.items.add(newFile);
-                    inputFoto.files = dataTransfer.files;
-                }, "image/png");
             };
             img.src = ev.target.result;
         };
         reader.readAsDataURL(file);
+    });
+
+    // Alternar visibilidad de contraseña
+    const togglePasswordBtn = document.getElementById("togglePassword");
+    const passwordInput = document.getElementById("clave");
+    togglePasswordBtn?.addEventListener("click", () => {
+        const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+        passwordInput.setAttribute("type", type);
+        togglePasswordBtn.innerHTML = type === "password"
+            ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 hover:text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`
+            : `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 hover:text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.269-2.944-9.542-7a9.965 9.965 0 012.277-4.49M6.17 6.17A9.965 9.965 0 0112 5c4.478 0 8.269 2.944 9.542 7a10.05 10.05 0 01-.07 1.3M6.223 14.417l-3.1 3.1M1 1l22 22"/></svg>`;
     });
 </script>
 </body>

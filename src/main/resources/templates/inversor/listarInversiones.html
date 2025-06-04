@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layoutSamu :: head">
+    <!-- Tailwind CSS 2.x o superior -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>[[${title}]]</title>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<!-- Sidebar fijo -->
+<div th:replace="layout/layoutSamu :: sidebar3"></div>
+
+<div class="ml-64 p-8 min-h-screen">
+    <!-- Header -->
+    <header th:replace="layout/layoutSamu :: header"></header>
+
+    <!-- Título y buscador -->
+    <div class="mt-10 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-bold text-purple-800">Mis Transacciones</h1>
+            <p class="text-gray-600">Aquí encuentras todas tus transacciones registradas</p>
+        </div>
+        <!-- Campo de búsqueda (opcional) -->
+        <div class="w-full sm:w-1/3">
+            <input id="searchInput"
+                   type="text"
+                   placeholder="🔍 Buscar por banco o método de pago..."
+                   class="w-full px-4 py-2 rounded-lg border border-gray-300 shadow-sm
+                      focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+                   onkeyup="filterCards()" />
+        </div>
+    </div>
+
+    <!-- Grid de tarjetas -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="cardsContainer">
+
+        <!-- Si no hay transacciones -->
+        <div th:if="${#lists.isEmpty(transacciones)}" class="col-span-full">
+            <div class="bg-white rounded-xl shadow-md p-8 text-center text-gray-500">
+                No tienes transacciones registradas.
+            </div>
+        </div>
+
+        <!-- Iteración de cada transacción -->
+        <div th:each="tran : ${transacciones}"
+             class="card-item bg-white rounded-xl shadow-lg overflow-hidden border
+                  border-purple-50 hover:shadow-xl transform hover:scale-105 transition duration-200">
+
+            <!-- Encabezado de la tarjeta -->
+            <div class="flex items-center justify-between bg-purple-50 p-4 border-b border-purple-100">
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-800" th:text="${tran.bank}">Banco/Entidad</h2>
+                    <p class="text-sm text-gray-600 mt-1" th:text="${tran.paymentMethod}">Método de Pago</p>
+                </div>
+                <!-- Monto -->
+                <div class="text-right">
+                    <p class="text-xl font-bold text-purple-800"
+                       th:text="${#numbers.formatDecimal(tran.amount, 1, 'COMMA', 2, 'POINT')}">
+                        0.00
+                    </p>
+                </div>
+            </div>
+
+            <!-- Cuerpo de la tarjeta -->
+            <div class="p-4 flex flex-col space-y-3">
+                <!-- Fecha de transacción -->
+                <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M8 7V3m8 4V3m-9 8h10m-10 4h10M5 21h14a2 2 0 002-2V7a2 2
+                         0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <p class="text-gray-500 text-sm"
+                       th:text="${#temporals.format(tran.transactionDate, 'dd/MM/yyyy')}">
+                        01/01/2025
+                    </p>
+                </div>
+
+                <!-- Nombre del titular -->
+                <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M5.121 17.804A13.937 13.937 0 0112 15c2.5
+                         0 4.847.69 6.879 1.804M15 11a3 3 0 11-6
+                         0 3 3 0 016 0z" />
+                    </svg>
+                    <p class="text-gray-700 text-sm" th:text="${tran.cardholderName}">Titular Tarjeta</p>
+                </div>
+
+                <!-- Email -->
+                <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M16 12H8m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                    <p class="text-gray-700 text-sm" th:text="${tran.email}">usuario@correo.com</p>
+                </div>
+
+                <!-- CVV (por seguridad quizá no quieras mostrarlo íntegro, esto es sólo un ejemplo) -->
+                <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M12 11c0 .667.333 1 1 1h2m-3
+                         0h.01M12 11a1 1 0 11-2 0 1 1 0
+                         012 0zM4.5 20h15a2.5 2.5 0 002.5-2.5V9.5A2.5
+                         2.5 0 0019.5 7h-15A2.5 2.5 0 002 9.5v8a2.5
+                         2.5 0 002.5 2.5z" />
+                    </svg>
+                    <p class="text-gray-700 text-sm" th:text="${tran.cvv}">*</p>
+                </div>
+
+                <!-- Botón Eliminar -->
+                <form th:action="@{/transacciones/eliminar/{id}(id=${tran.idTransaction})}"
+                      method="post" class="mt-auto">
+                    <button type="submit"
+                            class="w-full inline-flex items-center justify-center gap-2 bg-red-500
+                           hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg
+                           shadow transform hover:scale-105 transition duration-200">
+                        <!-- Icono basurero -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M19 7l-.867 12.142A2 2 0 0116.138
+                                 21H7.862a2 2 0 01-1.995-1.858L5
+                                 7m5-4h4a2 2 0 012 2v1H8V5a2
+                                 2 0 012-2z" />
+                        </svg>
+                        Eliminar
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- /Cada tarjeta -->
+    </div>
+    <!-- /Grid de tarjetas -->
+</div>
+
+<!-- JS para filtrar tarjetas por texto -->
+<script>
+    function filterCards() {
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const cards = document.querySelectorAll('.card-item');
+
+        cards.forEach(card => {
+            const bankText = card.querySelector('h2')?.textContent.toLowerCase() || '';
+            const methodText = card.querySelector('p.text-gray-600')?.textContent.toLowerCase() || '';
+            if (bankText.includes(input) || methodText.includes(input)) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

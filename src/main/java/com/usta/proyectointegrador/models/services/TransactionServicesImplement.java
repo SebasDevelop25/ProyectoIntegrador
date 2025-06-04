@@ -39,4 +39,16 @@ public class TransactionServicesImplement implements TransactionServices {
         transactionDAO.deleteById(idTransaction.longValue());
 
     }
+
+    @Override
+    public List<TransactionEntity> findAll() {
+        return transactionDAO.findAll();
+    }
+
+    @Override
+    public List<TransactionEntity> findByStartupUsuarioId(Long idEmprendedor) {
+        return transactionDAO.findByStartupUsuarioId(idEmprendedor);
+    }
+
+
 }

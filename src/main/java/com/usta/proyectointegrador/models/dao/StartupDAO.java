@@ -25,7 +25,7 @@ public interface StartupDAO extends JpaRepository<StartupEntity, Long> {
     List<StartupEntity> findStartupsSinSeguimientoPorMentor(@Param("mentorId") Long mentorId);
 
 
+    @Query("SELECT s FROM StartupEntity s WHERE s.usuario.idUsuario = :idUsuario")
+    List<StartupEntity> findByUsuario(@Param("idUsuario") Long idUsuario);
 
-    @Query("SELECT s FROM StartupEntity s WHERE s.usuario = :usuario")
-    List<StartupEntity> findByUsuario(@Param("usuario")UsersEntity usuario);
 }
