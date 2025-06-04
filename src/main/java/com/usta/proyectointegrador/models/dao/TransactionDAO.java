@@ -12,7 +12,7 @@ public interface TransactionDAO extends JpaRepository<TransactionEntity, Long> {
     @Query("""
             SELECT t
             FROM TransactionEntity t
-            WHERE t.nombreUsu.idUsuario = :usuarioId
+            WHERE t.usuario.idUsuario = :usuarioId
             """)
     List<TransactionEntity> findByUsuarioId(@Param("usuarioId") Long usuarioId);
 
